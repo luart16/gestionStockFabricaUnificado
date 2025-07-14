@@ -1,0 +1,14 @@
+/* ejemplo básico */
+.Vue-Toastification__toast--success {
+     background: #f3e8ff; /* Lila muy claro como fondo */
+  color: #6d3ea3; /* Violeta intenso para el texto */
+  border-left: 6px solid #9d50bb; /* Borde en lila fuerte */
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.Vue-Toastification__toast--error {
+  background: #f8d7da;
+  color: #842029;
+  border-left: 6px solid #dc3545;
+}
