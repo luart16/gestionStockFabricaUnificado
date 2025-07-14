@@ -87,6 +87,7 @@ const traerTodos = async () => {
     try {
         const respuesta = await servicioMaterial.traerNombreMateriales()
         nombresDeMateriales.value = respuesta;
+      
     }
     catch (error) {
         console.error("Error al traer los nombres de materiales:", error)

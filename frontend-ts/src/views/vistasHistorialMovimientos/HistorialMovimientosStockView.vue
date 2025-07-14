@@ -4,74 +4,90 @@
       <NavBar />
       <div class="container py-4">
 
-        <h1 class="text-center text-primary fw-bold mb-4">Historial de Movimientos de Stock</h1>
-
-        <div class="row g-3 align-items-end mb-4">
-          <div class="col-md-4">
-            <label class="form-label fw-semibold">Filtrar por nombre</label>
-            <input type="text" class="form-control" v-model="datoAFiltar" placeholder="Buscar producto..." />
-          </div>
-
-          <div class="col-md-3">
-            <label class="form-label fw-semibold">Fecha inicial</label>
-            <input type="date" class="form-control" v-model="fechaInicial" />
-          </div>
-
-          <div class="col-md-3">
-            <label class="form-label fw-semibold">Fecha final</label>
-            <input type="date" class="form-control" v-model="fechaFinal" />
-          </div>
-
-          <div class="col-md-2 d-grid">
-            <button class="btn btn-primary" @click="traerStock">Buscar</button>
-          </div>
+        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+          <h1 class="titulo">Historial de Movimientos de Stock</h1>
         </div>
 
-        <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
-          <button class="btn btn-secondary" @click="limpiarFechas">Limpiar Fechas</button>
-          <div class="d-flex gap-2">
-            <button class="btn btn-success" @click="exportarAExcel">Exportar Página a Excel</button>
-            <button class="btn btn-warning text-white" @click="exportarHistorialCompletoAExcel">Exportar Todo</button>
+        <!-- Cargando -->
+        <div v-if="cargando" class="text-center my-4">
+          <div class="spinner-border" role="status" style="color: rgb(70, 40, 110); vertical-align: middle;"></div>
+          <span style="margin-left: 8px; vertical-align: middle;">Cargando...</span>
+        </div>
+
+        <div v-else>
+
+          <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+
+            <div class="d-flex flex-column flex-grow-1">
+              <label class="form-label fw-semibold">Filtrar por nombre</label>
+              <input type="text" class="form-control" v-model="datoAFiltar" placeholder="Buscar producto..." />
+            </div>
+
+            <div class="d-flex flex-column">
+              <label class="form-label fw-semibold">Fecha inicial</label>
+              <input type="date" class="form-control" v-model="fechaInicial" />
+            </div>
+
+            <div class="d-flex flex-column">
+              <label class="form-label fw-semibold">Fecha final</label>
+              <input type="date" class="form-control" v-model="fechaFinal" />
+            </div>
+
+            <div class="d-flex align-items-end">
+              <button class="btn btn-secondary" @click="traerStock">Buscar</button>
+            </div>
+
           </div>
-        </div>
 
-        <div class="table-responsive">
-          <table class="table table-striped table-hover align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Fecha</th>
-                <th>Tipo Producto</th>
-                <th>Producto</th>
-                <th>Color</th>
-                <th>Tipo Movimiento</th>
-                <th>Cantidad</th>
-                <th>Stock Final</th>
-                <th>Observación</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(stock, index) in listaStock" :key="index">
-                <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
-                <td>{{ stock.tipoProducto }}</td>
-                <td>{{ stock.nombre }}</td>
-                <td>{{ stock.color }}</td>
-                <td>{{ stock.tipoMovimiento }}</td>
-                <td>{{ stock.cantidad }}</td>
-                <td>{{ stock.stockFinal }}</td>
-                <td>{{ stock.observacion }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+          <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
 
-        <div class="d-flex justify-content-center mt-4">
-          <nav>
+            <button class="btn btn-secondary" @click="limpiarFechas">Limpiar Fechas</button>
+
+            <div class="d-flex gap-2">
+              <button class="btn btn-success" @click="exportarAExcel">Exportar Página a Excel</button>
+              <button class="btn btn-warning text-white" @click="exportarHistorialCompletoAExcel">Exportar Todo</button>
+            </div>
+
+          </div>
+
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Fecha</th>
+                  <th>Tipo Producto</th>
+                  <th>Producto</th>
+                  <th>Color</th>
+                  <th>Tipo Movimiento</th>
+                  <th>Cantidad</th>
+                  <th>Stock Final</th>
+                  <th>Observación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(stock, index) in listaStock" :key="index">
+                  <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
+                  <td>{{ stock.tipoProducto }}</td>
+                  <td>{{ stock.nombre }}</td>
+                  <td>{{ stock.color }}</td>
+                  <td>{{ stock.tipoMovimiento }}</td>
+                  <td>{{ stock.cantidad }}</td>
+                  <td>{{ stock.stockFinal }}</td>
+                  <td>{{ stock.observacion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Paginación -->
+          <nav class="d-flex justify-content-center mt-4">
             <ul class="pagination">
               <li class="page-item" :class="{ disabled: paginaActual === 1 }">
                 <button class="page-link" @click="cambiarPagina(paginaActual - 1)">«</button>
               </li>
 
-              <li class="page-item" v-for="pagina in paginasTotales" :key="pagina" :class="{ active: pagina === paginaActual }">
+              <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
+                :class="{ active: pagina === paginaActual }">
                 <button class="page-link" @click="cambiarPagina(pagina)">{{ pagina }}</button>
               </li>
 
@@ -114,6 +130,8 @@ const totalPorpagina = 10
 const fechaInicial = ref('')
 const fechaFinal = ref('')
 
+const cargando = ref(false)
+
 // Limpiar filtros de fecha
 const limpiarFechas = () => {
   fechaInicial.value = ''
@@ -121,104 +139,107 @@ const limpiarFechas = () => {
   traerStock()
 }
 
-
-//Paginación:
+// Paginación:
 const cambiarPagina = (newPage: number) => {
-
-  if (newPage < 1 || newPage > paginasTotales.value) return;
-  paginaActual.value = newPage;
+  if (newPage < 1 || newPage > paginasTotales.value) return
+  paginaActual.value = newPage
   traerStock()
 }
 
 const listaStock = ref<DatosHistorialMovimientosStock[]>([])
 const traerStock = async () => {
   try {
+    cargando.value = true
     // Convertir fechas a formato ISO sin ajustes de zona horaria
     const fechaInicioISO = fechaInicial.value
       ? new Date(fechaInicial.value).toISOString().split('T')[0]
-      : '';
+      : ''
 
     const fechaFinISO = fechaFinal.value
       ? new Date(fechaFinal.value).toISOString().split('T')[0]
-      : '';
+      : ''
 
     const respuesta = await servicioMovimientoStock.traerTodos(
       paginaActual.value,
       totalPorpagina,
       datoAFiltar.value,
-      fechaInicioISO,  // Enviar fechas en formato YYYY-MM-DD
-      fechaFinISO      // sin información de zona horaria
-    );
+      fechaInicioISO,
+      fechaFinISO
+    )
 
-    listaStock.value = respuesta.resultados;
-    paginasTotales.value = respuesta.paginasTotales;
+    listaStock.value = respuesta.resultados
+    paginasTotales.value = respuesta.paginasTotales
+
     listaStock.value.sort((a, b) =>
-      a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' }))
-    console.log(listaStock.value)
+      a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' })
+    )
   } catch (error) {
     console.error('Error al traer stock:', error)
+  } finally {
+    cargando.value = false
   }
 }
 
-// Función debounce genérica (para filtar mientras se escribe)
+// Función debounce genérica (para filtrar mientras se escribe)
 function debounce<T extends (...args: unknown[]) => void>(func: T, delay: number) {
-  let timeout: number | undefined;
+  let timeout: number | undefined
   return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
+    clearTimeout(timeout)
     timeout = window.setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
+      func(...args)
+    }, delay)
+  }
 }
 
 // Versión con debounce de traerStock
 const traerStockDebounce = debounce(() => {
   paginaActual.value = 1 // Siempre vuelve a la primera página al buscar
   traerStock()
-}, 500) // 500 ms de espera
+}, 500)
 
 // Watch que llama traerStockDebounce al escribir
 watch(datoAFiltar, () => {
   traerStockDebounce()
 })
 
-//para exportar a excel por página: 
+// para exportar a excel por página:
 const exportarAExcel = () => {
   if (listaStock.value.length === 0) {
-    alert('No hay datos para exportar');
-    return;
+    alert('No hay datos para exportar')
+    return
   }
 
-  const datosPlanos = listaStock.value.map(stock => ({
+  const datosPlanos = listaStock.value.map((stock) => ({
     Fecha: stock.fecha,
-    "Tipo Producto": stock.tipoProducto,
+    'Tipo Producto': stock.tipoProducto,
     Producto: stock.nombre,
     Color: stock.color,
-    "Tipo de Movimiento": stock.tipoMovimiento,
+    'Tipo de Movimiento': stock.tipoMovimiento,
     Cantidad: stock.cantidad,
-    "Stock Final": stock.stockFinal,
+    'Stock Final': stock.stockFinal,
     Observación: stock.observacion
-  }));
+  }))
 
-  const hoja = XLSX.utils.json_to_sheet(datosPlanos);
-  const libro = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(libro, hoja, 'HistorialStock');
+  const hoja = XLSX.utils.json_to_sheet(datosPlanos)
+  const libro = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(libro, hoja, 'HistorialStock')
 
-  XLSX.writeFile(libro, 'Historial_Movimientos_Stock.xlsx');
+  XLSX.writeFile(libro, 'Historial_Movimientos_Stock.xlsx')
 }
 
-//para exportar a excel todo sin paginación:
+// para exportar a excel todo sin paginación:
 const exportarHistorialCompletoAExcel = async () => {
   try {
-    const todosLosMovimientos: DatosHistorialMovimientosStock[] = await servicioMovimientoStock.traerTodosMovimientosSinPaginacion();
-    console.log('Movimientos traidos', todosLosMovimientos)
+    const todosLosMovimientos: DatosHistorialMovimientosStock[] =
+      await servicioMovimientoStock.traerTodosMovimientosSinPaginacion()
+
     if (!todosLosMovimientos || todosLosMovimientos.length === 0) {
-      alert('No hay datos para exportar');
-      return;
+      alert('No hay datos para exportar')
+      return
     }
 
     // Mapear para exportar solo las columnas que quieras
-    const datosPlanos = todosLosMovimientos.map(mov => ({
+    const datosPlanos = todosLosMovimientos.map((mov) => ({
       Fecha: mov.fecha,
       'Tipo Producto': mov.tipoProducto,
       Producto: mov.nombre,
@@ -227,28 +248,44 @@ const exportarHistorialCompletoAExcel = async () => {
       Cantidad: mov.cantidad,
       'Stock Final': mov.stockFinal,
       Observación: mov.observacion
-    }));
+    }))
 
-    const hoja = XLSX.utils.json_to_sheet(datosPlanos);
-    const libro = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(libro, hoja, 'HistorialCompleto');
+    const hoja = XLSX.utils.json_to_sheet(datosPlanos)
+    const libro = XLSX.utils.book_new()
+    XLSX.utils.book_append_sheet(libro, hoja, 'HistorialCompleto')
 
-    XLSX.writeFile(libro, 'Historial_Movimientos_Completo.xlsx');
+    XLSX.writeFile(libro, 'Historial_Movimientos_Completo.xlsx')
   } catch (error) {
-    console.error('Error al exportar historial completo:', error);
-    alert('Error al exportar el historial completo.');
+    console.error('Error al exportar historial completo:', error)
+    alert('Error al exportar el historial completo.')
   }
-};
-
+}
 
 onMounted(() => {
   traerStock()
 })
 </script>
 
-
 <style scoped>
-h1 {
-  font-size: 2.5rem;
+.titulo {
+  font-size: 36px;
+  color: #ff6b8a;
+  font-weight: 600;
+}
+
+/* Color de numeración paginación */
+.pagination .page-link {
+  color: rgb(70, 40, 110);
+}
+
+/* Paginación activa con fondo violeta y texto blanco */
+.pagination .page-item.active .page-link {
+  background-color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
+  color: white;
+}
+.pagination .page-link:focus {
+  outline: none;
+  box-shadow: none;
 }
 </style>

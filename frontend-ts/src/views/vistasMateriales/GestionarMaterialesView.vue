@@ -205,6 +205,8 @@ const traerTodos = async () => {
 
     materialesExistentes.value = respuesta.resultados;
     paginasTotales.value = respuesta.paginasTotales;
+      materialesExistentes.value.sort((a, b) =>
+      a.nombreMaterial.localeCompare(b.nombreMaterial, 'es', { sensitivity: 'base' }))
   }
   catch (error) {
     console.error("Error al traer los materiales:", error)

@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h1 class="titulo">Stock Actual de Productos</h1>
           <router-link to="/historialMovimientosDeStock">
-            <button class="btn btn-outline-primary">Historial de Movimientos</button>
+            <button class="btn btn-secondary">Historial de Movimientos</button>
           </router-link>
         </div>
 
@@ -80,20 +80,20 @@
           </table>
         </div>
         <!-- Paginacion-->
-        <nav class="d-flex justify-content-center mt-4">
-          <ul class="pagination">
-            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
-            </li>
-            <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
-              :class="{ active: pagina === paginaActual }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
-            </li>
-            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
-            </li>
-          </ul>
-        </nav>
+         <nav class="d-flex justify-content-center mt-4">
+            <ul class="pagination">
+              <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+              </li>
+              <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
+                :class="{ active: pagina === paginaActual }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+              </li>
+              <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+              </li>
+            </ul>
+          </nav>
 
         <div v-if="mostrarModal" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
@@ -184,7 +184,7 @@ const traerStock = async () => {
     paginasTotales.value = respuesta.paginasTotales;
     listaStock.value.sort((a, b) =>
       a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' }))
-    console.log(listaStock.value)
+    
   } catch (error) {
     console.error('Error al traer stock:', error)
   }
@@ -328,4 +328,16 @@ onMounted(() => {
   color: #ff6b8a;
   font-weight: 600;
 }
+/* Color de numeración paginación */
+.pagination .page-link {
+  color: rgb(70, 40, 110);
+}
+
+/* Paginación activa con fondo violeta y texto blanco */
+.pagination .page-item.active .page-link {
+  background-color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
+  color: white;
+}
+
 </style>

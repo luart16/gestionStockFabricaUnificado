@@ -7,7 +7,6 @@ import traerTodosLosUsuariosView from '@/views/vistasUsuarios/traerTodosLosUsuar
 import traerTodasLasSucursalesView from '@/views/vistasSucursales/traerTodasLasSucursalesView.vue'
 import CrearProductoView from '@/views/vistasProducto/CrearProductoView.vue'
 import GestionarProductosView from '@/views/vistasProducto/GestionarProductosView.vue'
-import traerTodoslosProductosView from '@/views/vistasProducto/traerTodoslosProductosView.vue'
 import TraerProductosPorTipoView from '@/views/vistasProducto/TraerProductosPorTipoView.vue'
 import TraerTodosLosMaterialesView from '@/views/vistasMateriales/TraerTodosLosMaterialesView.vue'
 import GestionarMaterialesView from '@/views/vistasMateriales/GestionarMaterialesView.vue'
@@ -67,11 +66,6 @@ const routes = [
     component: CrearProductoView
   },
 
-  {
-    path: '/traerTodosLosProductos',
-    name: 'traerTodosLosProductos',
-    component: traerTodoslosProductosView
-  },
 
   {
     path: '/traerProductosPorTipo/:tipo',

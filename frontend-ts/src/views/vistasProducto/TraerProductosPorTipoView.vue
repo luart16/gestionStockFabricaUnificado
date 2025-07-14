@@ -95,6 +95,8 @@ const traerTodosPorTipo = async () => {
     );
     productosExistentes.value = respuesta.resultados;
     paginasTotales.value = respuesta.paginasTotales;
+    productosExistentes.value.sort(((a, b) =>
+      a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })))
   } catch (error) {
     console.error('Error al traer los productos:', error);
   }

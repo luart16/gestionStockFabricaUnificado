@@ -259,7 +259,8 @@ const traerTodos = async () => {
 
         productosExistentes.value = respuesta.resultados;
             paginasTotales.value = respuesta.paginasTotales;
-
+productosExistentes.value.sort(((a, b) =>
+      a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' })))
         console.log(respuesta)
     }
     catch (error) {
