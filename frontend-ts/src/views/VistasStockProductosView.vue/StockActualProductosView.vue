@@ -15,7 +15,8 @@
 
           <!-- Filtro -->
           <label class="form-label fw-semibold">Filtro:</label>
-          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por tipo producto, nombre o color" style="max-width: 280px;" />
+          <input type="text" v-model="datoAFiltar" class="form-control"
+            placeholder="Buscar por tipo producto, nombre o color" style="max-width: 280px;" />
 
           <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
@@ -39,39 +40,65 @@
 
         </div>
 
+        <!-- Botones mostrar/ocultar -->
+        <div class="d-flex align-items-end gap-2">
+          <button class="btn btn-outline-primary" @click="mostrarCapacidadProduccion = !mostrarCapacidadProduccion">
+            {{ mostrarCapacidadProduccion ? 'Ocultar' : 'Mostrar' }} Capacidad de Producción
+          </button>
+          <button class="btn btn-outline-primary" @click="mostrarEmbalaje = !mostrarEmbalaje">
+            {{ mostrarEmbalaje ? 'Ocultar' : 'Mostrar' }} Embalaje
+          </button>
+        </div>
+
+        <!--Tabla de stock:-->
         <div class="table-responsive">
           <table class="table table-hover table-bordered align-middle">
             <thead class="table-light">
               <tr>
-                <th>Tipo Producto</th>
-                <th>Producto</th>
-                <th>Color</th>
-                <th>Moldes</th>
-                <th>M2 por Molde</th>
-                <th>M2 totales</th>
-                <th>Unidades por paquete</th>
-                <th>M2 por paquete</th>
-                <th>Kg por paquete</th>
-                <th>Stock Sin Comprometer</th>
-                <th>Stock Comprometido</th>
-                <th>Stock Final</th>
-                <th>Acciones</th>
+                <th rowspan="2">Tipo Producto</th>
+                <th rowspan="2">Producto</th>
+                <th rowspan="2">Color</th>
+
+                <th v-if="mostrarCapacidadProduccion" colspan="3" class="text-center">Capacidad de Producción</th>
+                <th v-if="mostrarEmbalaje" colspan="3" class="text-center">Embalaje</th>
+
+                <th rowspan="2">Stock Sin Comprometer</th>
+                <th rowspan="2">Stock Comprometido</th>
+                <th rowspan="2">Stock Final</th>
+                <th rowspan="2">Acciones</th>
+              </tr>
+              <tr>
+                <template v-if="mostrarCapacidadProduccion">
+                  <th>Moldes</th>
+                  <th>M2 por Molde</th>
+                  <th>M2 totales</th>
+                </template>
+                <template v-if="mostrarEmbalaje">
+                  <th>Unidades por paquete</th>
+                  <th>M2 por paquete</th>
+                  <th>Kg por paquete</th>
+                </template>
               </tr>
             </thead>
+
+            <!--cuerpo de la tabla:-->
             <tbody>
               <tr v-for="stock in listaStock" :key="stock._id">
-                <td>{{ stock.tipoProducto }}</td>
-                <td>{{ stock.nombre }}</td>
-                <td>{{ stock.color }}</td>
-                <td>{{ stock.moldes }}</td>
-                <td>{{ stock.m2PorMolde }}</td>
-                <td>{{ stock.capacidadTotal }}</td>
-                <td>{{ stock.unidadesPorPaquete }}</td>
-                <td>{{ stock.m2PorPaquete }}</td>
-                <td>{{ stock.kgPorPaquete }}</td>
-                <td>{{ stock.stockSinCompromiso }}</td>
-                <td>{{ stock.comprometido }}</td>
-                <td>{{ stock.stockFinal }}</td>
+  <td>{{ stock.tipoProducto }}</td>
+  <td>{{ stock.nombre }}</td>
+  <td>{{ stock.color }}</td>
+
+  <td v-if="mostrarCapacidadProduccion">{{ stock.moldes }}</td>
+  <td v-if="mostrarCapacidadProduccion">{{ stock.m2PorMolde }}</td>
+  <td v-if="mostrarCapacidadProduccion">{{ stock.capacidadTotal }}</td>
+
+  <td v-if="mostrarEmbalaje">{{ stock.unidadesPorPaquete }}</td>
+  <td v-if="mostrarEmbalaje">{{ stock.m2PorPaquete }}</td>
+  <td v-if="mostrarEmbalaje">{{ stock.kgPorPaquete }}</td>
+
+  <td>{{ stock.stockSinCompromiso }}</td>
+  <td>{{ stock.comprometido }}</td>
+  <td>{{ stock.stockFinal }}</td>
                 <td>
                   <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -85,7 +112,8 @@
                       <li><a class="dropdown-item" href="#"
                           @click.prevent="abrirModal(stock, 'COMPROMETIDO')">Comprometer</a></li>
                       <li><a class="dropdown-item" href="#"
-                          @click.prevent="abrirModal(stock, 'DESCOMPROMETIDO')">Descomprometer</a></li>
+                          @click.prevent="abrirModal(stock, 'DESCOMPROMETIDO')">Descomprometer</a>
+                      </li>
                     </ul>
                   </div>
                 </td>
@@ -161,6 +189,10 @@ import { servicioProducto } from '@/services/producto.service'
 import type { DatosProductos } from '@/modelos/producto'
 
 const store = userStore()
+
+const mostrarCapacidadProduccion = ref(true)
+const mostrarEmbalaje = ref(true)
+
 
 const datoAFiltar = ref('')
 const paginaActual = ref(1)
@@ -347,6 +379,14 @@ onMounted(() => {
   font-weight: 600;
 }
 
+/*centrar texto de tabla: */
+.table-light th[colspan="3"] {
+  background-color: #f3f3ff;
+  font-weight: bold;
+  border-bottom: 2px solid #dee2e6;
+}
+
+
 /* Color de numeración paginación */
 .pagination .page-link {
   color: rgb(70, 40, 110);
@@ -369,14 +409,16 @@ onMounted(() => {
 .btn-exportar-pagina {
   background-color: rgb(70, 40, 110);
   border-color: rgb(70, 40, 110);
-  color: white !important; /* fuerza a que no cambie color  del texto al pasar por arriba */
+  color: white !important;
+  /* fuerza a que no cambie color  del texto al pasar por arriba */
   transition: background-color 0.3s ease;
 }
 
 .btn-exportar-pagina:hover {
   background-color: rgb(90, 60, 130);
   border-color: rgb(90, 60, 130);
-  color: white !important; /* fuerza a que no cambie color  del texto al pasar por arriba */
+  color: white !important;
+  /* fuerza a que no cambie color  del texto al pasar por arriba */
 }
 
 .btn-exportar-todo {
