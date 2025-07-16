@@ -11,9 +11,21 @@
 
 
       <!-- Filtro -->
-      <div class="d-flex mb-4 flex-wrap gap-3">
+      <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+
         <label class="form-label fw-semibold">Filtro:</label>
-        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color">
+        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color" style="max-width: 280px;" />
+
+        <!-- Selector de cantidad por página -->
+        <div class="d-flex align-items-end">
+          <label class="form-label me-2">Mostrar:</label>
+          <select class="form-select" style="width: auto;" v-model="totalPorPagina" @change="cambiarCantidadPorPagina">
+            <option :value="10">10 por página</option>
+            <option :value="20">20 por página</option>
+            <option :value="50">50 por página</option>
+          </select>
+        </div>
+
       </div>
 
       <!-- Tabla -->
@@ -83,14 +95,14 @@ const productosExistentes = ref<DatosProductos[]>([]);
 const datoAFiltar = ref('');
 const paginaActual = ref(1);
 const paginasTotales = ref(1);
-const totalPorPagina = 10;
+const totalPorPagina = ref(10);
 
 const traerTodosPorTipo = async () => {
   try {
     const respuesta = await servicioProducto.traerPorTipo(
       tipo.value,
       paginaActual.value,
-      totalPorPagina,
+      totalPorPagina.value,
       datoAFiltar.value
     );
     productosExistentes.value = respuesta.resultados;
@@ -107,6 +119,12 @@ const cambiarPagina = (nuevaPagina: number) => {
   paginaActual.value = nuevaPagina;
   traerTodosPorTipo();
 };
+
+//Cambiar la cantidad por página:
+const cambiarCantidadPorPagina = () => {
+  paginaActual.value = 1
+  traerTodosPorTipo()
+}
 
 function debounce<T extends (...args: unknown[]) => void>(func: T, delay: number) {
   let timeout: number | undefined;
@@ -137,6 +155,7 @@ onMounted(() => {
   font-size: 36px;
   color: #ff6b8a;
   font-weight: 600;
+  text-align: left !important;
 }
 
 .subtitulo {
@@ -145,10 +164,24 @@ onMounted(() => {
   margin-bottom: 20px;
   font-weight: 300;
   letter-spacing: -0.5px;
-}
-.titulo,
-.subtitulo {
   text-align: left !important;
 }
 
+/* Color de numeración paginación */
+.pagination .page-link {
+  color: rgb(70, 40, 110);
+}
+
+/* Paginación activa con fondo violeta y texto blanco */
+.pagination .page-item.active .page-link {
+  background-color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
+  color: white;
+}
+
+/* Eliminar el borde celeste en la paginación */
+.pagination .page-link:focus {
+  outline: none;
+  box-shadow: none;
+}
 </style>

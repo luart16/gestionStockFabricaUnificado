@@ -18,37 +18,53 @@
 
           <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
-            <div class="d-flex flex-column flex-grow-1">
-              <label class="form-label fw-semibold">Filtrar por nombre</label>
-              <input type="text" class="form-control" v-model="datoAFiltar" placeholder="Buscar producto..." />
-            </div>
+            <label class="form-label fw-semibold">Filtro:</label>
 
-            <div class="d-flex flex-column">
-              <label class="form-label fw-semibold">Fecha inicial</label>
+            <input type="text" v-model="datoAFiltar" class="form-control"
+              placeholder="Buscar por tipo producto, nombre o color" style="max-width: 650px;" />
+
+            <div>
+              <label class="form-label fw-semibold">Fecha inicial:</label>
               <input type="date" class="form-control" v-model="fechaInicial" />
             </div>
 
-            <div class="d-flex flex-column">
-              <label class="form-label fw-semibold">Fecha final</label>
+            <div>
+              <label class="form-label fw-semibold">Fecha final:</label>
               <input type="date" class="form-control" v-model="fechaFinal" />
             </div>
 
-            <div class="d-flex align-items-end">
-              <button class="btn btn-secondary" @click="traerStock">Buscar</button>
-            </div>
-
-          </div>
-
-          <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
-
-            <button class="btn btn-secondary" @click="limpiarFechas">Limpiar Fechas</button>
-
             <div class="d-flex gap-2">
-              <button class="btn btn-success" @click="exportarAExcel">Exportar Página a Excel</button>
-              <button class="btn btn-warning text-white" @click="exportarHistorialCompletoAExcel">Exportar Todo</button>
+              <button class="btn btn-secondary" @click="traerStock">Buscar</button>
+              <button class="btn btn-secondary" @click="limpiarFechas">Limpiar Fechas</button>
             </div>
 
           </div>
+
+
+          <div class="d-flex mb-4 flex-wrap gap-3">
+
+            <!-- Selector de cantidad por página -->
+            <div class="d-flex align-items-end">
+              <label class="form-label me-2">Mostrar:</label>
+              <select class="form-select" style="width: auto;" v-model="totalPorpagina"
+                @change="cambiarCantidadPorPagina">
+                <option :value="10">10 por página</option>
+                <option :value="20">20 por página</option>
+                <option :value="50">50 por página</option>
+              </select>
+            </div>
+
+            <!-- Botón exportar página -->
+            <div class="d-flex align-items-end">
+              <button class="btn btn-exportar-pagina" @click="exportarAExcel">Exportar Página</button>
+            </div>
+
+            <!-- Botón exportar todo -->
+            <div class="d-flex align-items-end">
+              <button class="btn btn-exportar-todo" @click="exportarHistorialCompletoAExcel">Exportar Todo</button>
+            </div>
+          </div>
+
 
           <div class="table-responsive">
             <table class="table table-hover table-bordered align-middle">
@@ -125,7 +141,7 @@ const store = userStore()
 const datoAFiltar = ref('')
 const paginaActual = ref(1)
 const paginasTotales = ref(10)
-const totalPorpagina = 10
+const totalPorpagina = ref(10)
 
 const fechaInicial = ref('')
 const fechaFinal = ref('')
@@ -146,6 +162,12 @@ const cambiarPagina = (newPage: number) => {
   traerStock()
 }
 
+//Cambiar la cantidad por página:
+const cambiarCantidadPorPagina = () => {
+  paginaActual.value = 1
+  traerStock()
+}
+
 const listaStock = ref<DatosHistorialMovimientosStock[]>([])
 const traerStock = async () => {
   try {
@@ -161,7 +183,7 @@ const traerStock = async () => {
 
     const respuesta = await servicioMovimientoStock.traerTodos(
       paginaActual.value,
-      totalPorpagina,
+      totalPorpagina.value,
       datoAFiltar.value,
       fechaInicioISO,
       fechaFinISO
@@ -284,8 +306,37 @@ onMounted(() => {
   border-color: rgb(70, 40, 110);
   color: white;
 }
+
+/* Eliminar el borde celeste en la paginación */
 .pagination .page-link:focus {
   outline: none;
   box-shadow: none;
 }
+/*Botones para exportar a excel:*/
+.btn-exportar-pagina {
+  background-color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
+  color: white !important; /* fuerza a que no cambie color  del texto al pasar por arriba */
+  transition: background-color 0.3s ease;
+}
+
+.btn-exportar-pagina:hover {
+  background-color: rgb(90, 60, 130);
+  border-color: rgb(90, 60, 130);
+  color: white !important; /* fuerza a que no cambie color  del texto al pasar por arriba */
+}
+
+.btn-exportar-todo {
+  background-color: #ff6b8a;
+  border-color: #ff6b8a;
+  color: white !important;
+  transition: background-color 0.3s ease;
+}
+
+.btn-exportar-todo:hover {
+  background-color: #ff89a1;
+  border-color: #ff89a1;
+  color: white !important;
+}
+
 </style>

@@ -12,11 +12,23 @@
           </router-link>
         </div>
 
-        <div class="d-flex mb-4 flex-wrap gap-3">
-            <label class="form-label fw-semibold">Filtro:</label>
-            <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por tipo producto, nombre o color">
-          
+        <!-- Filtro -->
+      <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+
+        <label class="form-label fw-semibold">Filtro:</label>
+        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por tipo producto, nombre o color" style="max-width: 280px;" />
+
+        <!-- Selector de cantidad por página -->
+        <div class="d-flex align-items-end">
+          <label class="form-label me-2">Mostrar:</label>
+          <select class="form-select" style="width: auto;" v-model="totalPorpagina" @change="cambiarCantidadPorPagina">
+            <option :value="10">10 por página</option>
+            <option :value="20">20 por página</option>
+            <option :value="50">50 por página</option>
+          </select>
         </div>
+
+      </div>
 
         <div class="table-responsive">
           <table class="table table-hover table-bordered align-middle">
@@ -230,7 +242,7 @@ const mostrarModalConfirmarEdicion = ref(false)
 const datoAFiltar = ref('')
 const paginaActual = ref(1)
 const paginasTotales = ref(10)
-const totalPorpagina = 10
+const totalPorpagina = ref (10)
 
 const productoAEditar = ref<DatosProductosEditar>({
     _id: '',
@@ -253,7 +265,7 @@ const traerTodos = async () => {
     try {
          const respuesta = await servicioProducto.traerTodos(
       paginaActual.value,
-      totalPorpagina,
+      totalPorpagina.value,
       datoAFiltar.value
     );
 
@@ -308,13 +320,15 @@ const confirmarEdicion = async () => {
 };
 
 const cambiarPagina = (newPage: number) => {
-
   if (newPage < 1 || newPage > paginasTotales.value) return;
-
   paginaActual.value = newPage;
-
   traerTodos()
+}
 
+//Cambiar la cantidad por página:
+const cambiarCantidadPorPagina = () => {
+  paginaActual.value = 1
+  traerTodos()
 }
 
 // Función debounce genérica (para filtar mientras se escribe)
@@ -352,5 +366,22 @@ onMounted(() => {
   color: #ff6b8a;
   font-weight: 600;
 }
+/* Color de numeración paginación */
+.pagination .page-link {
+  color: rgb(70, 40, 110);
+}
+
+/* Paginación activa con fondo violeta y texto blanco */
+.pagination .page-item.active .page-link {
+  background-color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
+  color: white;
+}
+/* Eliminar el borde celeste en la paginación */
+.pagination .page-link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
 
 </style>

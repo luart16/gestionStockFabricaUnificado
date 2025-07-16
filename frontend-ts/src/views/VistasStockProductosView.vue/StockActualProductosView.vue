@@ -11,19 +11,33 @@
           </router-link>
         </div>
 
-        <div class="d-flex mb-4 flex-wrap gap-3">
+        <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
+          <!-- Filtro -->
           <label class="form-label fw-semibold">Filtro:</label>
-          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por tipo producto, nombre o color" />
+          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por tipo producto, nombre o color" style="max-width: 280px;" />
 
+          <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
-            <button class="btn btn-success" @click="exportarAExcel">Exportar Página</button>
+            <label class="form-label me-2">Mostrar:</label>
+            <select class="form-select" style="width: auto;" v-model="totalPorpagina"
+              @change="cambiarCantidadPorPagina">
+              <option :value="10">10 por página</option>
+              <option :value="20">20 por página</option>
+              <option :value="50">50 por página</option>
+            </select>
           </div>
+
+          <!-- Botón exportar página -->
           <div class="d-flex align-items-end">
-            <button class="btn btn-warning" @click="exportarStockCompletoAExcel">Exportar Todo</button>
+            <button class="btn btn-exportar-pagina" @click="exportarAExcel">Exportar Página</button>
           </div>
+          <!-- Botón exportar todo -->
+          <div class="d-flex align-items-end">
+            <button class="btn btn-exportar-todo" @click="exportarStockCompletoAExcel">Exportar Todo</button>
+          </div>
+
         </div>
-
 
         <div class="table-responsive">
           <table class="table table-hover table-bordered align-middle">
@@ -80,20 +94,20 @@
           </table>
         </div>
         <!-- Paginacion-->
-         <nav class="d-flex justify-content-center mt-4">
-            <ul class="pagination">
-              <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
-              </li>
-              <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
-                :class="{ active: pagina === paginaActual }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
-              </li>
-              <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
-              </li>
-            </ul>
-          </nav>
+        <nav class="d-flex justify-content-center mt-4">
+          <ul class="pagination">
+            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+            </li>
+            <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
+              :class="{ active: pagina === paginaActual }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
 
         <div v-if="mostrarModal" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
@@ -106,7 +120,7 @@
               </div>
               <div class="modal-body">
                 <p>Producto: <strong>{{ stockSeleccionado?.nombre }}</strong> - Color: <strong>{{
-                    stockSeleccionado?.color }}</strong></p>
+                  stockSeleccionado?.color }}</strong></p>
                 <div class="mb-3">
                   <label class="form-label">Cantidad:</label>
                   <input type="number" class="form-control" v-model.number="cantidadMovimiento" min="1">
@@ -151,7 +165,7 @@ const store = userStore()
 const datoAFiltar = ref('')
 const paginaActual = ref(1)
 const paginasTotales = ref(10)
-const totalPorpagina = 10
+const totalPorpagina = ref(10)
 
 //Paginación:
 const cambiarPagina = (newPage: number) => {
@@ -163,6 +177,13 @@ const cambiarPagina = (newPage: number) => {
   traerStock()
 
 }
+
+//Cambiar la cantidad por página:
+const cambiarCantidadPorPagina = () => {
+  paginaActual.value = 1
+  traerStock()
+}
+
 
 const stockSeleccionado = ref<DatosProductos>()
 const listaStock = ref<DatosProductos[]>([])
@@ -176,7 +197,7 @@ const traerStock = async () => {
   try {
     const respuesta = await servicioProducto.traerTodos(
       paginaActual.value,
-      totalPorpagina,
+      totalPorpagina.value,
       datoAFiltar.value
     );
 
@@ -184,7 +205,7 @@ const traerStock = async () => {
     paginasTotales.value = respuesta.paginasTotales;
     listaStock.value.sort((a, b) =>
       a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' }))
-    
+
   } catch (error) {
     console.error('Error al traer stock:', error)
   }
@@ -313,9 +334,6 @@ const exportarStockCompletoAExcel = async () => {
   }
 };
 
-
-
-
 onMounted(() => {
   traerStock()
 })
@@ -328,6 +346,7 @@ onMounted(() => {
   color: #ff6b8a;
   font-weight: 600;
 }
+
 /* Color de numeración paginación */
 .pagination .page-link {
   color: rgb(70, 40, 110);
@@ -340,4 +359,36 @@ onMounted(() => {
   color: white;
 }
 
+/* Eliminar el borde celeste en la paginación */
+.pagination .page-link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/*Botones para exportar a excel:*/
+.btn-exportar-pagina {
+  background-color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
+  color: white !important; /* fuerza a que no cambie color  del texto al pasar por arriba */
+  transition: background-color 0.3s ease;
+}
+
+.btn-exportar-pagina:hover {
+  background-color: rgb(90, 60, 130);
+  border-color: rgb(90, 60, 130);
+  color: white !important; /* fuerza a que no cambie color  del texto al pasar por arriba */
+}
+
+.btn-exportar-todo {
+  background-color: #ff6b8a;
+  border-color: #ff6b8a;
+  color: white !important;
+  transition: background-color 0.3s ease;
+}
+
+.btn-exportar-todo:hover {
+  background-color: #ff89a1;
+  border-color: #ff89a1;
+  color: white !important;
+}
 </style>

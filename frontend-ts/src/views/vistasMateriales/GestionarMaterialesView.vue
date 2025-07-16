@@ -13,12 +13,22 @@
       </div>
 
       <!-- Filtro -->
-      <div class="d-flex mb-4 flex-wrap gap-3">
+      <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+
         <label class="form-label fw-semibold">Filtro:</label>
-        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color">
+        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color" style="max-width: 280px;" />
+
+        <!-- Selector de cantidad por página -->
+        <div class="d-flex align-items-end">
+          <label class="form-label me-2">Mostrar:</label>
+          <select class="form-select" style="width: auto;" v-model="totalPorpagina" @change="cambiarCantidadPorPagina">
+            <option :value="10">10 por página</option>
+            <option :value="20">20 por página</option>
+            <option :value="50">50 por página</option>
+          </select>
+        </div>
 
       </div>
-
 
       <!-- Tabla Materiales -->
       <div class="table-responsive">
@@ -184,7 +194,7 @@ const mostrarModalConfirmarEdicion = ref(false)
 const datoAFiltar = ref('')
 const paginaActual = ref(1)
 const paginasTotales = ref(10)
-const totalPorpagina = 10
+const totalPorpagina = ref(10)
 
 const materialAEditar = ref<DatosMaterialesEditar>({
   _id: '',
@@ -200,12 +210,12 @@ const materialesExistentes = ref<DatosMateriales[]>([]);
 const traerTodos = async () => {
   try {
     const respuesta = await servicioMaterial.traerTodos(paginaActual.value,
-      totalPorpagina,
+      totalPorpagina.value,
       datoAFiltar.value);
 
     materialesExistentes.value = respuesta.resultados;
     paginasTotales.value = respuesta.paginasTotales;
-      materialesExistentes.value.sort((a, b) =>
+    materialesExistentes.value.sort((a, b) =>
       a.nombreMaterial.localeCompare(b.nombreMaterial, 'es', { sensitivity: 'base' }))
   }
   catch (error) {
@@ -263,6 +273,11 @@ const cambiarPagina = (newPage: number) => {
   traerTodos()
 
 }
+//Cambiar la cantidad por página:
+const cambiarCantidadPorPagina = () => {
+  paginaActual.value = 1
+  traerTodos()
+}
 
 // Función debounce genérica (para filtar mientras se escribe)
 function debounce<T extends (...args: unknown[]) => void>(func: T, delay: number) {
@@ -299,14 +314,21 @@ onMounted(() => {
   font-weight: 600;
 }
 
-.subtitulo {
-  font-size: 20px;
+/* Color de numeración paginación */
+.pagination .page-link {
   color: rgb(70, 40, 110);
-  line-height: 1.5;
-  margin: 0;
 }
 
-.subtitulo-1 {
-  font-weight: 600;
+/* Paginación activa con fondo violeta y texto blanco */
+.pagination .page-item.active .page-link {
+  background-color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
+  color: white;
+}
+
+/* Eliminar el borde celeste en la paginación */
+.pagination .page-link:focus {
+  outline: none;
+  box-shadow: none;
 }
 </style>
