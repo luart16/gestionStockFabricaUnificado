@@ -1,13 +1,13 @@
 <template>
   <div v-if="store.Logueado">
-    <div v-if="store.Rol == 'administrador'">
+    
       <NavBar />
 
       <div class="container py-4">
-        <!-- Título y botón -->
+       
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h1 class="titulo">Sucursales</h1>
-          <router-link to="/crearSucursal">
+          <router-link v-if="store.Rol == 'administrador'" to="/crearSucursal">
             <button class="btn btn-gris-a-blanco">Crear nueva sucursal</button>
           </router-link>
         </div>
@@ -103,10 +103,7 @@
           </div>
         </div>
       </div>
-    </div>
-    <div v-else>
-      <RequiereRol />
-    </div>
+    
   </div>
   <div v-else>
     <RequiereLogin />

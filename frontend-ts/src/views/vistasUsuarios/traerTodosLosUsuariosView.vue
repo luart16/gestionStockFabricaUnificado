@@ -1,14 +1,13 @@
 <template>
   <div v-if="store.Logueado">
-    <div v-if="store.Rol == 'administrador'">
+    <div >
       <NavBar />
 
       <div class="container py-4">
-        <!-- Título y botón -->
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h1 class="titulo">Usuarios</h1>
-          <router-link to="/crearUsuario">
-            <button class="btn btn-gris-a-blanco">Crear nuevo usuario</button>
+          <router-link v-if="store.Rol == 'administrador'" to="/crearUsuario">
+            <button  class="btn btn-gris-a-blanco">Crear nuevo usuario</button>
           </router-link>
         </div>
 
@@ -19,7 +18,7 @@
                 <th>Nombre Usuario</th>
                 <th>Email</th>
                 <th>Rol</th>
-                <th>Acciones</th>
+                <th v-if="store.Rol == 'administrador'">Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -27,7 +26,7 @@
                 <td>{{ usuario.nombreUsuario }}</td>
                 <td>{{ usuario.email }}</td>
                 <td>{{ usuario.rol }}</td>
-                <td>
+                <td v-if="store.Rol == 'administrador'">
                   <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                       Opciones
@@ -105,9 +104,7 @@
         </div>
       </div>
     </div>
-    <div v-else>
-      <RequiereRol />
-    </div>
+   
   </div>
   <div v-else>
     <RequiereLogin />

@@ -15,7 +15,8 @@
 
           <!-- Filtro -->
           <label class="form-label fw-semibold">Filtro:</label>
-          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;" />
+          <input type="text" v-model="datoAFiltar" class="form-control"
+            placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;" />
 
           <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
@@ -97,7 +98,12 @@
 
                 <td>{{ stock.stockSinCompromiso }}</td>
                 <td>{{ stock.comprometido }}</td>
-                <td>{{ stock.stockFinal }}</td>
+                <td :class="[
+                  'fw-bold',
+                  stock.stockFinal < 0 ? 'text-danger' :
+                    stock.stockFinal === 0 ? 'text-warning' :
+                      'text-success'
+                ]">{{ stock.stockFinal }}</td>
                 <td>
                   <div class="dropdown">
                     <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
@@ -388,7 +394,8 @@ onMounted(() => {
 
 /*Botón de historial de movimientos */
 .btn-gris-a-blanco {
-  background-color: #6c757d; /* color de btn-secondary de Bootstrap */
+  background-color: #6c757d;
+  /* color de btn-secondary de Bootstrap */
   border: 1px solid #6c757d;
   color: white;
   transition: all 0.3s ease;
@@ -423,7 +430,7 @@ onMounted(() => {
 
 .btn-rosa-a-blanco:hover {
   background-color: white;
-  color: #ef5769;  
+  color: #ef5769;
   border-color: #ef5769;
 }
 
@@ -444,5 +451,4 @@ onMounted(() => {
   outline: none;
   box-shadow: none;
 }
-
 </style>

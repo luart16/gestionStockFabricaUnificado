@@ -8,7 +8,6 @@ import traerTodasLasSucursalesView from '@/views/vistasSucursales/traerTodasLasS
 import CrearProductoView from '@/views/vistasProducto/CrearProductoView.vue'
 import GestionarProductosView from '@/views/vistasProducto/GestionarProductosView.vue'
 import TraerProductosPorTipoView from '@/views/vistasProducto/TraerProductosPorTipoView.vue'
-import TraerTodosLosMaterialesView from '@/views/vistasMateriales/TraerTodosLosMaterialesView.vue'
 import GestionarMaterialesView from '@/views/vistasMateriales/GestionarMaterialesView.vue'
 import CrearMaterialView from '@/views/vistasMateriales/CrearMaterialView.vue'
 import CrearStockMaterialesView from '@/views/vistasStockMateriales.vue/CrearStockMaterialesView.vue'
@@ -84,13 +83,6 @@ const routes = [
     name: 'crearMaterial',
     component: CrearMaterialView
   },
-
-  {
-    path: '/traerTodosLosMateriales',
-    name: 'traerTodosLosMateriales',
-    component: TraerTodosLosMaterialesView
-  },
-
 
   {
     path: '/crearStockMaterial',

@@ -140,4 +140,17 @@ const crearMaterial = async () => {
   color: #6c757d;
   border-color: #6c757d;
 }
+
+/*Para el borde rosa del input: */
+input:focus,
+select:focus {
+  border-color: #ef5769;
+  box-shadow: 0 0 0 2px rgba(239, 87, 105, 0.2);
+  outline: none;
+}
+input::placeholder,
+select::placeholder {
+  color: #6c757d;
+}
+
 </style>

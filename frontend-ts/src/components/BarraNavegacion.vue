@@ -19,9 +19,9 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent" ref="elementoMenu">
         <div class="navbar-nav ms-auto align-items-center gap-3">
           <router-link to="/home" class="nav-link" @click="cerrarMenu">Inicio</router-link>
-          <router-link to="/gestionarProductos" class="nav-link" @click="cerrarMenu">Gestionar Productos</router-link>
-          <router-link to="/gestionarMateriales" class="nav-link" @click="cerrarMenu">Gestionar Materiales</router-link>
-          <router-link to="/stockActualDeProductos" class="nav-link" @click="cerrarMenu">Gestionar Stock</router-link>
+          <router-link v-if="store.Rol == 'administrador'" to="/gestionarProductos" class="nav-link" @click="cerrarMenu">Gestionar Productos</router-link>
+          <router-link v-if="store.Rol == 'administrador'" to="/gestionarMateriales" class="nav-link" @click="cerrarMenu">Gestionar Materiales</router-link>
+          <router-link v-if="store.Rol == 'administrador'" to="/stockActualDeProductos" class="nav-link" @click="cerrarMenu">Gestionar Stock</router-link>
           <button class="btn btn-principal" @click="deslogueo">Desloguear</button>
         </div>
       </div>

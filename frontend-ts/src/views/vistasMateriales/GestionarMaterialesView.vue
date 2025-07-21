@@ -7,7 +7,7 @@
         <div>
           <h1 class="titulo">Materiales </h1>
         </div>
-        <router-link to="/crearMaterial">
+        <router-link v-if="store.Rol == 'administrador'" to="/crearMaterial">
           <button class="btn btn-gris-a-blanco">Crear Nuevo Material</button>
         </router-link>
       </div>
@@ -40,7 +40,7 @@
               <th>Descripción</th>
               <th>Precio</th>
               <th>Stock</th>
-              <th>Acciones</th>
+              <th v-if="store.Rol == 'administrador'">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -50,7 +50,7 @@
               <td>{{ material.descripcion }}</td>
               <td>{{ material.precio }}</td>
               <td>{{ material.stock }}</td>
-              <td>
+              <td v-if="store.Rol == 'administrador'">
                 <div class="dropdown">
                   <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                     Opciones

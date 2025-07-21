@@ -208,4 +208,17 @@ const crearProducto = async () => {
   border-color: #6c757d;
 }
 
+/*Borde rosa sobre el input: */
+input:focus,
+select:focus {
+  border-color: #ef5769;
+  box-shadow: 0 0 0 2px rgba(239, 87, 105, 0.2);
+  outline: none;
+}
+input::placeholder,
+select::placeholder {
+  color: #6c757d;
+}
+
+
 </style>
