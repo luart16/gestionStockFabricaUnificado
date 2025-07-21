@@ -16,7 +16,7 @@ export const logincontroller = async (req: Request, res: Response) => {
             res.status(401).json({error: 'Contraseña inválida.'})
             return
         }
-        res.status(200).json({nombreUsario: usuario.nombreUsuario, rol: usuario.rol})
+        res.status(200).json({nombreUsuario: usuario.nombreUsuario, rol: usuario.rol})
     }
     catch(error){
         res.status(500).json({ error: 'Error al intentar loguearse.'})

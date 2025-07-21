@@ -14,7 +14,8 @@
       <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
         <label class="form-label fw-semibold">Filtro:</label>
-        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color" style="max-width: 280px;" />
+        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color"
+          style="max-width: 400px;" />
 
         <!-- Selector de cantidad por página -->
         <div class="d-flex align-items-end">

@@ -8,27 +8,29 @@
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h1 class="titulo">Productos</h1>
           <router-link to="/crearProducto">
-            <button class="btn btn-outline-primary">Crear Nuevo Producto</button>
+            <button class="btn btn-gris-a-blanco">Crear Nuevo Producto</button>
           </router-link>
         </div>
 
         <!-- Filtro -->
-      <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+        <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
-        <label class="form-label fw-semibold">Filtro:</label>
-        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por tipo producto, nombre o color" style="max-width: 280px;" />
+          <label class="form-label fw-semibold">Filtro:</label>
+          <input type="text" v-model="datoAFiltar" class="form-control"
+            placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;" />
 
-        <!-- Selector de cantidad por página -->
-        <div class="d-flex align-items-end">
-          <label class="form-label me-2">Mostrar:</label>
-          <select class="form-select" style="width: auto;" v-model="totalPorpagina" @change="cambiarCantidadPorPagina">
-            <option :value="10">10 por página</option>
-            <option :value="20">20 por página</option>
-            <option :value="50">50 por página</option>
-          </select>
+          <!-- Selector de cantidad por página -->
+          <div class="d-flex align-items-end">
+            <label class="form-label me-2">Mostrar:</label>
+            <select class="form-select" style="width: auto;" v-model="totalPorpagina"
+              @change="cambiarCantidadPorPagina">
+              <option :value="10">10 por página</option>
+              <option :value="20">20 por página</option>
+              <option :value="50">50 por página</option>
+            </select>
+          </div>
+
         </div>
-
-      </div>
 
         <div class="table-responsive">
           <table class="table table-hover table-bordered align-middle">
@@ -63,12 +65,14 @@
                 <td>{{ producto.kgPorPaquete }}</td>
                 <td>
                   <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                       Opciones
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#" @click.prevent="activarModalEditarProducto(producto._id)">Editar</a></li>
-                      <li><a class="dropdown-item text-danger" href="#" @click.prevent="activarModalEliminarrProducto(producto._id)">Eliminar</a></li>
+                      <li><a class="dropdown-item" href="#"
+                          @click.prevent="activarModalEditarProducto(producto._id)">Editar</a></li>
+                      <li><a class="dropdown-item text-danger" href="#"
+                          @click.prevent="activarModalEliminarrProducto(producto._id)">Eliminar</a></li>
                     </ul>
                   </div>
                 </td>
@@ -87,7 +91,7 @@
               <button type="button" class="btn-close" @click="mostrarModalEditar = false"></button>
             </div>
             <div class="modal-body">
-              
+
               <div class="mb-3">
                 <label class="form-label">Tipo de Producto</label>
                 <select class="form-select" v-model="productoAEditar.tipoProducto">
@@ -146,8 +150,8 @@
 
             </div>
             <div class="modal-footer">
-              <button class="btn btn-secondary" @click="mostrarModalEditar = false">Cancelar</button>
-              <button class="btn btn-primary" @click="mostrarModalConfirmarEdicion = true">Guardar</button>
+              <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
+              <button class="btn btn-rosa-a-blanco" @click="mostrarModalConfirmarEdicion = true">Guardar</button>
 
             </div>
           </div>
@@ -155,27 +159,30 @@
       </div>
 
       <!-- MODAL CONFIRMAR GUARDAR CAMBIOS -->
-<div v-if="mostrarModalConfirmarEdicion" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-primary">¿Desea guardar los cambios?</h5>
-        <button type="button" class="btn-close" @click="mostrarModalConfirmarEdicion = false"></button>
+      <div v-if="mostrarModalConfirmarEdicion" class="modal fade show d-block" tabindex="-1"
+        style="background: rgba(0,0,0,0.5);">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-rosado">¿Desea guardar los cambios?</h5>
+              <button type="button" class="btn-close" @click="mostrarModalConfirmarEdicion = false"></button>
+            </div>
+            <div class="modal-body">
+              <p>Se sobrescribirá la información del producto.</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-gris-a-blanco" @click="mostrarModalConfirmarEdicion = false">No</button>
+              <button class="btn btn-rosa-a-blanco" @click="confirmarEdicion">Sí, guardar</button>
+
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        <p>Se sobrescribirá la información del producto.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-secondary" @click="mostrarModalConfirmarEdicion = false">No</button>
-        <button class="btn btn-primary" @click="confirmarEdicion">Sí, guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 
       <!-- MODAL ELIMINAR PRODUCTO -->
-      <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+      <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
+        style="background: rgba(0,0,0,0.5);">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
@@ -193,19 +200,20 @@
         </div>
       </div>
       <!--Paginación-->
-  <nav class="d-flex justify-content-center mt-4">
-          <ul class="pagination">
-            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
-            </li>
-            <li class="page-item" v-for="pagina in paginasTotales" :key="pagina" :class="{ active: pagina === paginaActual }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
-            </li>
-            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
-            </li>
-          </ul>
-        </nav>
+      <nav class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+          <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+            <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+          </li>
+          <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
+            :class="{ active: pagina === paginaActual }">
+            <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+          </li>
+          <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+            <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+          </li>
+        </ul>
+      </nav>
     </div>
     <div v-else>
       <RequiereRol />
@@ -223,7 +231,7 @@ import RequiereRol from '@/components/RequiereRol.vue';
 import NavBar from '@/components/BarraNavegacion.vue'
 import { userStore } from '@/store/user';
 import type { DatosProductos } from '@/modelos/producto';
-import { ref, onMounted,watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { servicioProducto } from '@/services/producto.service';
 import type { DatosProductosEditar } from '@/modelos/productoEditar';
 import { useToast } from 'vue-toastification';
@@ -242,74 +250,72 @@ const mostrarModalConfirmarEdicion = ref(false)
 const datoAFiltar = ref('')
 const paginaActual = ref(1)
 const paginasTotales = ref(10)
-const totalPorpagina = ref (10)
+const totalPorpagina = ref(10)
 
 const productoAEditar = ref<DatosProductosEditar>({
-    _id: '',
-    tipoProducto: 'Piedra',
-    nombre: 'Ekos',
-    color: 'Gris',
-    descripcion: 'Piedra ecológica',
-    precio: 5520,
-    m2PorMolde: 0,
-    capacidadTotal: 0,
-    unidadesPorPaquete: 0,
-    m2PorPaquete: 0,
-    kgPorPaquete: 0,
-    moldes: 0,
+  _id: '',
+  tipoProducto: 'Piedra',
+  nombre: 'Ekos',
+  color: 'Gris',
+  descripcion: 'Piedra ecológica',
+  precio: 5520,
+  m2PorMolde: 0,
+  capacidadTotal: 0,
+  unidadesPorPaquete: 0,
+  m2PorPaquete: 0,
+  kgPorPaquete: 0,
+  moldes: 0,
 })
 
 const productosExistentes = ref<DatosProductos[]>([]);
 
 const traerTodos = async () => {
-    try {
-         const respuesta = await servicioProducto.traerTodos(
+  try {
+    const respuesta = await servicioProducto.traerTodos(
       paginaActual.value,
       totalPorpagina.value,
       datoAFiltar.value
     );
 
-        productosExistentes.value = respuesta.resultados;
-            paginasTotales.value = respuesta.paginasTotales;
-productosExistentes.value.sort(((a, b) =>
+    productosExistentes.value = respuesta.resultados;
+    paginasTotales.value = respuesta.paginasTotales;
+    productosExistentes.value.sort(((a, b) =>
       a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' })))
-        console.log(respuesta)
-    }
-    catch (error) {
-        console.error("Error al traer los productos:", error)
-
-    }
-
+    console.log(respuesta)
+  }
+  catch (error) {
+    console.error("Error al traer los productos:", error)
+  }
 }
 
 const activarModalEliminarrProducto = async (productoId: string) => {
-    idProductoAEliminar.value = productoId;
-    mostrarModalEliminar.value = true;
+  idProductoAEliminar.value = productoId;
+  mostrarModalEliminar.value = true;
 }
 
 const eliminarProducto = async () => {
-    try {
-        await servicioProducto.eliminar(idProductoAEliminar.value);
-        mostrarModalEliminar.value = false;
-        toast.success('Producto eliminado con éxito.')
-        traerTodos();
-    }
-    catch (error) {
-        console.error("Error al eliminar producto:", error)
-        toast.error('No se pudo eliminar el producto.')
-    }
+  try {
+    await servicioProducto.eliminar(idProductoAEliminar.value);
+    mostrarModalEliminar.value = false;
+    toast.success('Producto Eliminado!')
+    traerTodos();
+  }
+  catch (error) {
+    console.error("Error al eliminar producto:", error)
+    toast.error('No se pudo eliminar el producto.')
+  }
 }
 
 const activarModalEditarProducto = async (productoId: string) => {
-    idProductoAEditar.value = productoId;
-    mostrarModalEditar.value = true;
-    productoAEditar.value = await servicioProducto.traerProductoPorId(productoId)
+  idProductoAEditar.value = productoId;
+  mostrarModalEditar.value = true;
+  productoAEditar.value = await servicioProducto.traerProductoPorId(productoId)
 }
 
 const confirmarEdicion = async () => {
   try {
-    const respuesta = await servicioProducto.editar(idProductoAEditar.value, productoAEditar.value);
-    toast.success('Producto editado con éxito.');
+    await servicioProducto.editar(idProductoAEditar.value, productoAEditar.value);
+    toast.success('Cambio Guardado!');
     mostrarModalConfirmarEdicion.value = false;
     mostrarModalEditar.value = false;
     traerTodos();
@@ -355,7 +361,7 @@ watch(datoAFiltar, () => {
 
 
 onMounted(() => {
-    traerTodos();
+  traerTodos();
 })
 
 </script>
@@ -363,9 +369,38 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ff6b8a;
+  color: #ef5769;
   font-weight: 600;
 }
+
+.text-rosado {
+  color: #ef5769 !important;
+}
+
+.btn-rosa-a-blanco {
+  background-color: #ef5769;
+  border: 1px solid #ef5769;
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-rosa-a-blanco:hover {
+  background-color: white;
+  color: #ef5769;  
+  border-color: #ef5769;
+}
+
+.btn-gris-a-blanco {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-gris-a-blanco:hover {
+  background-color: white;
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
 /* Color de numeración paginación */
 .pagination .page-link {
   color: rgb(70, 40, 110);
@@ -377,11 +412,10 @@ onMounted(() => {
   border-color: rgb(70, 40, 110);
   color: white;
 }
+
 /* Eliminar el borde celeste en la paginación */
 .pagination .page-link:focus {
   outline: none;
   box-shadow: none;
 }
-
-
 </style>

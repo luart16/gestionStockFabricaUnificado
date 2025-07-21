@@ -4,10 +4,11 @@
       <NavBar />
 
       <div class="container py-4">
+        <!-- Título y botón -->
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h1 class="titulo">Usuarios</h1>
           <router-link to="/crearUsuario">
-            <button class="btn btn-outline-primary">Crear Nuevo Usuario</button>
+            <button class="btn btn-gris-a-blanco">Crear nuevo usuario</button>
           </router-link>
         </div>
 
@@ -28,14 +29,15 @@
                 <td>{{ usuario.rol }}</td>
                 <td>
                   <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                       Opciones
                     </button>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#" @click.prevent="activarModalEditar(usuario._id)">Editar</a>
+                      <li>
+                        <a class="dropdown-item" href="#" @click.prevent="activarModalEditar(usuario._id)">Editar</a>
                       </li>
-                      <li><a class="dropdown-item text-danger" href="#"
-                          @click.prevent="activarModalEliminar(usuario._id)">Eliminar</a>
+                      <li>
+                        <a class="dropdown-item text-danger" href="#" @click.prevent="activarModalEliminar(usuario._id)">Eliminar</a>
                       </li>
                     </ul>
                   </div>
@@ -46,8 +48,7 @@
         </div>
 
         <!-- MODAL EDITAR USUARIO -->
-        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
-          style="background: rgba(0,0,0,0.5);">
+        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -73,20 +74,19 @@
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Contraseña</label>
-                  <input type="text" class="form-control" placeholder="Dejar vacio para no modificar" v-model="usuarioAEditar.contrasenia">
+                  <input type="text" class="form-control" placeholder="Dejar vacío para no modificar" v-model="usuarioAEditar.contrasenia">
                 </div>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-secondary" @click="mostrarModalEditar = false">Cancelar</button>
-                <button class="btn btn-primary" @click="editarUsuario">Guardar</button>
+                <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
+                <button class="btn btn-rosa-a-blanco" @click="editarUsuario">Guardar</button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- MODAL ELIMINAR USUARIO -->
-        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
-          style="background: rgba(0,0,0,0.5);">
+        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -103,15 +103,12 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
     <div v-else>
       <RequiereRol />
     </div>
   </div>
-
   <div v-else>
     <RequiereLogin />
   </div>
@@ -125,8 +122,10 @@ import { servicioUsuario } from '@/services/usuario.service';
 import type { DatosUsuarios } from '@/modelos/usuario';
 import type { DatosUsuariosEditar } from '@/modelos/usuarioEditar';
 import { ref, onMounted } from 'vue';
+import { useToast } from 'vue-toastification';
 
 const store = userStore();
+const toast = useToast();
 
 const idUsuarioAEditar = ref('');
 const idUsuarioAEliminar = ref('');
@@ -160,7 +159,22 @@ const activarModalEditar = async (usuarioId: string) => {
   idUsuarioAEditar.value = usuarioId;
   mostrarModalEditar.value = true;
   usuarioAEditar.value = await servicioUsuario.traerUsuarioPorId(usuarioId)
-  usuarioAEditar.value.contrasenia=""
+  usuarioAEditar.value.contrasenia="" //esto lo pongo para que no me muestre la clave que puso el usuario
+}
+
+const editarUsuario = async () => {
+  try {
+
+    const respuesta = await servicioUsuario.editar(idUsuarioAEditar.value, usuarioAEditar.value)
+    console.log('Usuario editado con éxito.', respuesta)
+    toast.success('Cambio Guardado!')
+    traerTodos();
+    mostrarModalEditar.value = false;
+  }
+  catch (error) {
+    console.error("Error al editar usuario:", error)
+    toast.error('Error al guardar los cambios')
+  }
 }
 
 const activarModalEliminar = async (usuarioId: string) => {
@@ -171,23 +185,13 @@ const activarModalEliminar = async (usuarioId: string) => {
 const eliminarUsuario = async () => {
   try {
    await servicioUsuario.eliminar(idUsuarioAEliminar.value);
+   toast.success('Usuario Eliminado!')
     traerTodos();
     mostrarModalEliminar.value = false;
   }
   catch (error) {
     console.error("Error al eliminar usuario:", error)
-  }
-}
-const editarUsuario = async () => {
-  try {
-
-    const respuesta = await servicioUsuario.editar(idUsuarioAEditar.value, usuarioAEditar.value)
-    console.log('Usuario editado con éxito.', respuesta)
-    traerTodos();
-    mostrarModalEditar.value = false;
-  }
-  catch (error) {
-    console.error("Error al editar usuario:", error)
+    toast.error('Error al eliminar usuario')
   }
 }
 
@@ -200,7 +204,46 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ff6b8a;
+  color: #ef5769;
   font-weight: 600;
+}
+
+.text-rosado {
+  color: #ef5769 !important;
+}
+
+.btn-rosa-a-blanco {
+  background-color: #ef5769;
+  border: 1px solid #ef5769;
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-rosa-a-blanco:hover {
+  background-color: white;
+  color: #ef5769;
+  border-color: #ef5769;
+}
+
+.btn-gris-a-blanco {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-gris-a-blanco:hover {
+  background-color: white;
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+.table thead th {
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* Alineación centrada de acciones */
+td .dropdown {
+  display: flex;
+  justify-content: center;
 }
 </style>

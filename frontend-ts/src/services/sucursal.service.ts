@@ -33,6 +33,17 @@ export const servicioSucursal = {
         }
     },
 
+         traerSucursalPorId: async (sucursalId: string) => {
+        try {
+            const respuesta = await axios.get(`http://localhost:3000/api/sucursal/traerSucursalPorId/${sucursalId}`);
+            console.log('Sucursal encontrada con éxito.')
+            return respuesta.data
+        }
+        catch (error) {
+            console.log(error, 'Error al traer la sucursal.')
+        }
+    },
+
 
      eliminar: async (sucursalId: string) => {
          try {

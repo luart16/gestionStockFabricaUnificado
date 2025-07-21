@@ -8,7 +8,7 @@
           <h1 class="titulo">Materiales </h1>
         </div>
         <router-link to="/crearMaterial">
-          <button class="btn btn-outline-primary">Crear Nuevo Material</button>
+          <button class="btn btn-gris-a-blanco">Crear Nuevo Material</button>
         </router-link>
       </div>
 
@@ -16,7 +16,7 @@
       <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
         <label class="form-label fw-semibold">Filtro:</label>
-        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color" style="max-width: 280px;" />
+        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color" style="max-width: 400px;" />
 
         <!-- Selector de cantidad por página -->
         <div class="d-flex align-items-end">
@@ -52,7 +52,7 @@
               <td>{{ material.stock }}</td>
               <td>
                 <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                     Opciones
                   </button>
                   <ul class="dropdown-menu">
@@ -99,8 +99,8 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-secondary" @click="mostrarModalEditar = false">Cancelar</button>
-              <button class="btn btn-primary" @click="mostrarModalConfirmarEdicion = true">Guardar</button>
+              <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
+              <button class="btn btn-rosa-a-blanco" @click="mostrarModalConfirmarEdicion = true">Guardar</button>
             </div>
           </div>
         </div>
@@ -112,15 +112,15 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title text-primary">¿Desea guardar los cambios?</h5>
+              <h5 class="modal-title text-rosado">¿Desea guardar los cambios?</h5>
               <button type="button" class="btn-close" @click="mostrarModalConfirmarEdicion = false"></button>
             </div>
             <div class="modal-body">
               <p>Se sobrescribirá la información del producto.</p>
             </div>
             <div class="modal-footer">
-              <button class="btn btn-secondary" @click="mostrarModalConfirmarEdicion = false">No</button>
-              <button class="btn btn-primary" @click="confirmarEdicion">Sí, guardar</button>
+              <button class="btn btn-gris-a-blanco" @click="mostrarModalConfirmarEdicion = false">No</button>
+              <button class="btn btn-rosa-a-blanco" @click="confirmarEdicion">Sí, guardar</button>
             </div>
           </div>
         </div>
@@ -220,9 +220,7 @@ const traerTodos = async () => {
   }
   catch (error) {
     console.error("Error al traer los materiales:", error)
-
   }
-
 }
 
 const activarModalEliminarrMaterial = async (materialId: string) => {
@@ -234,7 +232,7 @@ const eliminarMaterial = async () => {
   try {
     await servicioMaterial.eliminar(idMaterialAEliminar.value);
     mostrarModalEliminar.value = false;
-    toast.success('Material eliminado con éxito.');
+    toast.success('Material Eliminado!');
     traerTodos();
   }
   catch (error) {
@@ -242,7 +240,6 @@ const eliminarMaterial = async () => {
     toast.error('No se pudo eliminar el material.')
   }
 }
-
 
 const activarModalEditarMaterial = async (materialId: string) => {
   idMaterialAEditar.value = materialId;
@@ -254,7 +251,7 @@ const confirmarEdicion = async () => {
   try {
     const respuesta = await servicioMaterial.editar(idMaterialAEditar.value, materialAEditar.value)
     console.log('Material editado con éxito.', respuesta)
-    toast.success('Material editado con éxito.');
+    toast.success('Cambio Guardado!');
     mostrarModalConfirmarEdicion.value = false;
     mostrarModalEditar.value = false;
     traerTodos();
@@ -265,13 +262,9 @@ const confirmarEdicion = async () => {
   }
 }
 const cambiarPagina = (newPage: number) => {
-
   if (newPage < 1 || newPage > paginasTotales.value) return;
-
   paginaActual.value = newPage;
-
   traerTodos()
-
 }
 //Cambiar la cantidad por página:
 const cambiarCantidadPorPagina = () => {
@@ -310,8 +303,36 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ff6b8a;
+  color: #ef5769;
   font-weight: 600;
+}
+
+.text-rosado {
+  color: #ef5769 !important;
+}
+
+.btn-rosa-a-blanco {
+  background-color: #ef5769;
+  border: 1px solid #ef5769;
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-rosa-a-blanco:hover {
+  background-color: white;
+  color: #ef5769;  
+  border-color: #ef5769;
+}
+
+.btn-gris-a-blanco {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-gris-a-blanco:hover {
+  background-color: white;
+  color: #6c757d;
+  border-color: #6c757d;
 }
 
 /* Color de numeración paginación */

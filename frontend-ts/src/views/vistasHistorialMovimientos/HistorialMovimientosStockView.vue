@@ -34,8 +34,8 @@
             </div>
 
             <div class="d-flex gap-2">
-              <button class="btn btn-secondary" @click="traerStock">Buscar</button>
-              <button class="btn btn-secondary" @click="limpiarFechas">Limpiar Fechas</button>
+              <button class="btn btn-gris-a-blanco" @click="traerStock">Buscar</button>
+              <button class="btn btn-gris-a-blanco" @click="limpiarFechas">Limpiar Fechas</button>
             </div>
 
           </div>
@@ -295,6 +295,18 @@ onMounted(() => {
   font-weight: 600;
 }
 
+.btn-gris-a-blanco {
+  background-color: #6c757d; /* color de btn-secondary de Bootstrap */
+  border: 1px solid #6c757d;
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-gris-a-blanco:hover {
+  background-color: white;
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
 /* Color de numeración paginación */
 .pagination .page-link {
   color: rgb(70, 40, 110);
@@ -315,28 +327,27 @@ onMounted(() => {
 /*Botones para exportar a excel:*/
 .btn-exportar-pagina {
   background-color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-  color: white !important; /* fuerza a que no cambie color  del texto al pasar por arriba */
-  transition: background-color 0.3s ease;
+  border: 1px solid rgb(70, 40, 110);
+  color: white;
+  transition: all 0.3s ease;
 }
 
 .btn-exportar-pagina:hover {
-  background-color: rgb(90, 60, 130);
-  border-color: rgb(90, 60, 130);
-  color: white !important; /* fuerza a que no cambie color  del texto al pasar por arriba */
+  background-color: white;
+  color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
 }
 
 .btn-exportar-todo {
   background-color: #ff6b8a;
-  border-color: #ff6b8a;
-  color: white !important;
-  transition: background-color 0.3s ease;
+  border: 1px solid #ff6b8a;
+  color: white;
+  transition: all 0.3s ease;
 }
 
 .btn-exportar-todo:hover {
-  background-color: #ff89a1;
-  border-color: #ff89a1;
-  color: white !important;
+  background-color: white;
+  color: #ff6b8a;
+  border-color: #ff6b8a;
 }
-
 </style>

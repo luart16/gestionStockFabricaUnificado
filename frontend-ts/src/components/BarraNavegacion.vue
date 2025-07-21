@@ -82,19 +82,21 @@ onMounted(() => {
 .btn-principal {
   background-color: #ff6b8a;
   color: white;
-  border: none;
+  border: 1px solid #ff6b8a;
   padding: 10px 16px;
   font-size: 14px;
   font-weight: bolder;
   border-radius: 6px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .btn-principal:hover {
-  background-color: #f8a3b5;
+    background-color: white;
+  color: #ff6b8a;  
+  border-color: #ff6b8a;
 }
 
 /* Links navbar */

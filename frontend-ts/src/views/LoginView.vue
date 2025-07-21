@@ -30,15 +30,29 @@
             </div>
           </div>
 
-          <div class="mb-4">
-            <div class="form-floating">
-              <input v-model="contrasenia" type="password" class="form-control form-control-custom" id="password"
-                placeholder="********" required />
-              <label for="password"><i class="bi bi-lock-fill me-2"></i>Contraseña</label>
-            </div>
-          </div>
+         <div class="mb-4 position-relative">
+  <div class="form-floating">
+    <input
+      :type="mostrarContrasenia ? 'text' : 'password'"
+      v-model="contrasenia"
+      class="form-control form-control-custom pe-5"
+      id="password"
+      placeholder="********"
+      required
+    />
+    <label for="password"><i class="bi bi-lock-fill me-2"></i>Contraseña</label>
+    <!-- Icono ojito -->
+    <i
+      :class="mostrarContrasenia ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"
+      class="position-absolute top-50 end-0 translate-middle-y me-3 text-secondary"
+      style="cursor: pointer;"
+      @click="mostrarContrasenia = !mostrarContrasenia"
+    ></i>
+  </div>
+</div>
 
-          <button type="submit" class="btn btn-brand w-100 py-2 fw-bold">
+
+          <button type="submit" class="btn btn-rosa-a-blanco w-100 py-2 fw-bold">
             Iniciar sesión
           </button>
         </form>
@@ -64,12 +78,15 @@ const store = userStore();
 
 const email = ref('');
 const contrasenia = ref('');
+const mostrarContrasenia = ref('')
 
 const loguearse = async () => {
   try {
     const resultado = await servicioLogin.login(email.value, contrasenia.value);
-    store.Loguear(resultado.nombre, resultado.rol);
-    toast.success('Logueado con éxito');
+    console.log(resultado)
+    store.Loguear(resultado.nombreUsuario, resultado.rol);
+
+    toast.success(`¡Bienvenid@, ${resultado.nombreUsuario}!`);
     router.push({ name: 'home' });
   } catch (error) {
     toast.error('Error al loguearse.');
@@ -88,7 +105,7 @@ const loguearse = async () => {
 }
 
 .btn-brand {
-  background-color: #ff6b8a;
+  background-color: #ef5769;
   color: white;
   border: none;
   border-radius: 8px;
@@ -109,7 +126,7 @@ const loguearse = async () => {
 
 .form-control-custom:focus {
   background-color: #fff;
-  border-color: #ff6b8a;
+  border-color: #ef5769;
   box-shadow: 0 0 0 0.2rem rgba(255, 107, 138, 0.25);
 }
 
@@ -119,5 +136,18 @@ label {
 
 input::placeholder {
   color: #adb5bd;
+}
+
+.btn-rosa-a-blanco {
+  background-color: #ef5769;
+  border: 1px solid #ef5769;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-rosa-a-blanco:hover {
+  background-color: white;
+  color: #ef5769;  
+  border-color: #ef5769;
 }
 </style>

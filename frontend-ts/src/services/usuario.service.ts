@@ -51,11 +51,11 @@ export const servicioUsuario = {
         traerUsuarioPorId: async (usuarioId: string) => {
         try {
             const respuesta = await axios.get(`http://localhost:3000/api/usuario/traerUsuarioPorId/${usuarioId}`);
-            console.log('Cambio guardado con éxito.')
+            console.log('Usuario encontrado con éxito.')
             return respuesta.data
         }
         catch (error) {
-            console.log(error, 'Error al editar el usuario.')
+            console.log(error, 'Error al traer el usuario.')
         }
     },
 

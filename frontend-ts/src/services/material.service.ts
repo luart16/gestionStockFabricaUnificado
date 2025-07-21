@@ -28,7 +28,9 @@ export const servicioMaterial = {
 
     traerTodosSinPaginacion:  async (pagina = 1, limite = 10, datoAFiltar = '') => {
         try {
-            const respuesta = await axios.get('http://localhost:3000/api/material/traerTodosLosMaterialesSinPaginacion');
+            const respuesta = await axios.get('http://localhost:3000/api/material/traerTodosLosMaterialesSinPaginacion',{
+                 params: { pagina, limite, datoAFiltar }
+            });
             return respuesta.data;
         }
         catch (error) {

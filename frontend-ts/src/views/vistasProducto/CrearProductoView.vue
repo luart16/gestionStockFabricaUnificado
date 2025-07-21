@@ -11,7 +11,7 @@
         <div class="card shadow p-4 mx-auto" style="max-width: 800px;">
           <form @submit.prevent="crearProducto">
             <div class="mb-3">
-              <label class="form-label fw-semibold">Tipo de producto:</label>
+              <label class="subtitulo subtitulo-1">Tipo de producto:</label>
               <select v-model="productoACrear.tipoProducto" class="form-select" required>
                 <option disabled value="">Seleccione una opción</option>
                 <option>Piedra</option>
@@ -32,7 +32,7 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label fw-semibold">Descripción:</label>
+              <label class="subtitulo subtitulo-1">Descripción:</label>
               <input type="text" v-model="productoACrear.descripcion" class="form-control" placeholder="Descripción breve" />
             </div>
 
@@ -78,9 +78,9 @@
             </div>
 
             <div class="d-flex gap-2 justify-content-end mt-4">
-              <button type="submit" class="btn-rosa">Crear Producto</button>
+              <button type="submit" class="btn btn-rosa-a-blanco">Crear Producto</button>
               <router-link to="/gestionarProductos">
-                <button type="button" class="btn btn-secondary">Cancelar</button>
+                <button type="button" class="btn btn-gris-a-blanco">Cancelar</button>
               </router-link>
             </div>
           </form>
@@ -135,7 +135,7 @@ const productoACrear = ref<DatosProductos>({
 const crearProducto = async () => {
   try {
     await servicioProducto.crear(productoACrear.value)
-    toast.success('Producto creado exitosamente.')
+    toast.success('Producto Creado!')
     router.push({ name: 'gestionarProductos' }); 
 
     // Limpiamos el formulario reseteando el objeto
@@ -170,7 +170,7 @@ const crearProducto = async () => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ff6b8a;
+  color: #ef5769;
   font-weight: 600;
 }
 
@@ -184,21 +184,28 @@ const crearProducto = async () => {
   margin-bottom: 10px;
 }
 
-.btn-rosa {
-  background-color: #ff6b8a;
+.btn-rosa-a-blanco {
+  background-color: #ef5769;
+  border: 1px solid #ef5769;
   color: white;
-  border: none;
-  padding: 10px 14px;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+}
+.btn-rosa-a-blanco:hover {
+  background-color: white;
+  color: #ef5769;  
+  border-color: #ef5769;
 }
 
-.btn-rosa:hover {
-  background-color: #e05576;
+.btn-gris-a-blanco {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  color: white;
+  transition: all 0.3s ease;
 }
+.btn-gris-a-blanco:hover {
+  background-color: white;
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
 </style>

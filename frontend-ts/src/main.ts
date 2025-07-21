@@ -26,7 +26,8 @@ position: "top-center",
   hideProgressBar: true,
   closeButton: "button",
   icon: true,
-  rtl: false
+  rtl: false,
+  toastClassName: "mi-toast-custom"
 }).mount('#app') //acá es como crear mi app y agregarle funcionalidades y conectarla al html.
 /*Sería:
 createApp(App): crea tu app a partir del componente raíz (App.vue)

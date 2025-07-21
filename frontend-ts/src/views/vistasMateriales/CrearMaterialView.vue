@@ -36,9 +36,9 @@
             </div>
 
             <div class="d-flex gap-2 justify-content-end">
-              <button type="submit" class="btn-rosa">Crear Material</button>
+              <button type="submit" class="btn btn-rosa-a-blanco">Crear Material</button>
               <router-link to="/GestionarMateriales">
-                <button type="button" class="btn btn-secondary">Volver</button>
+                <button type="button" class="btn btn-gris-a-blanco">Volver</button>
               </router-link>
             </div>
           </form>
@@ -83,7 +83,7 @@ const materialACrear = ref<DatosMateriales>({
 const crearMaterial = async () => {
   try {
     await servicioMaterial.crear(materialACrear.value);
-    toast.success('Material creado con éxito.')
+    toast.success('Material Creado!')
     router.push({ name: 'gestionarMateriales' }); 
 
     // Limpio el formulario reseteando el objeto:
@@ -98,6 +98,7 @@ const crearMaterial = async () => {
   }
   catch (error) {
     console.error("Error creando material:", error)
+    toast.error('Error al crear el material')
   }
 }
 
@@ -107,7 +108,7 @@ const crearMaterial = async () => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ff6b8a;
+  color: #ef5769;
   font-weight: 600;
 }
 
@@ -116,21 +117,27 @@ const crearMaterial = async () => {
   color: rgb(70, 40, 110);
 }
 
-.btn-rosa {
-  background-color: #ff6b8a;
+.btn-rosa-a-blanco {
+  background-color: #ef5769;
+  border: 1px solid #ef5769;
   color: white;
-  border: none;
-  padding: 10px 14px;
-  font-size: 14px;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  transition: background-color 0.2s ease;
+  transition: all 0.3s ease;
+}
+.btn-rosa-a-blanco:hover {
+  background-color: white;
+  color: #ef5769;  
+  border-color: #ef5769;
 }
 
-.btn-rosa:hover {
-  background-color: #e05576;
+.btn-gris-a-blanco {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+  color: white;
+  transition: all 0.3s ease;
+}
+.btn-gris-a-blanco:hover {
+  background-color: white;
+  color: #6c757d;
+  border-color: #6c757d;
 }
 </style>

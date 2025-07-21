@@ -7,7 +7,7 @@
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h1 class="titulo">Stock Actual de Productos</h1>
           <router-link to="/historialMovimientosDeStock">
-            <button class="btn btn-secondary">Historial de Movimientos</button>
+            <button class="btn btn-gris-a-blanco">Historial de Movimientos</button>
           </router-link>
         </div>
 
@@ -15,8 +15,7 @@
 
           <!-- Filtro -->
           <label class="form-label fw-semibold">Filtro:</label>
-          <input type="text" v-model="datoAFiltar" class="form-control"
-            placeholder="Buscar por tipo producto, nombre o color" style="max-width: 280px;" />
+          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;" />
 
           <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
@@ -35,17 +34,17 @@
           </div>
           <!-- Botón exportar todo -->
           <div class="d-flex align-items-end">
-            <button class="btn btn-exportar-todo" @click="exportarStockCompletoAExcel">Exportar Todo</button>
+            <button class="btn btn-rosa-a-blanco" @click="exportarStockCompletoAExcel">Exportar Todo</button>
           </div>
 
         </div>
 
         <!-- Botones mostrar/ocultar -->
         <div class="d-flex align-items-end gap-2">
-          <button class="btn btn-outline-primary" @click="mostrarCapacidadProduccion = !mostrarCapacidadProduccion">
+          <button class="btn btn-outline-secondary" @click="mostrarCapacidadProduccion = !mostrarCapacidadProduccion">
             {{ mostrarCapacidadProduccion ? 'Ocultar' : 'Mostrar' }} Capacidad de Producción
           </button>
-          <button class="btn btn-outline-primary" @click="mostrarEmbalaje = !mostrarEmbalaje">
+          <button class="btn btn-outline-secondary" @click="mostrarEmbalaje = !mostrarEmbalaje">
             {{ mostrarEmbalaje ? 'Ocultar' : 'Mostrar' }} Embalaje
           </button>
         </div>
@@ -84,24 +83,24 @@
             <!--cuerpo de la tabla:-->
             <tbody>
               <tr v-for="stock in listaStock" :key="stock._id">
-  <td>{{ stock.tipoProducto }}</td>
-  <td>{{ stock.nombre }}</td>
-  <td>{{ stock.color }}</td>
+                <td>{{ stock.tipoProducto }}</td>
+                <td>{{ stock.nombre }}</td>
+                <td>{{ stock.color }}</td>
 
-  <td v-if="mostrarCapacidadProduccion">{{ stock.moldes }}</td>
-  <td v-if="mostrarCapacidadProduccion">{{ stock.m2PorMolde }}</td>
-  <td v-if="mostrarCapacidadProduccion">{{ stock.capacidadTotal }}</td>
+                <td v-if="mostrarCapacidadProduccion">{{ stock.moldes }}</td>
+                <td v-if="mostrarCapacidadProduccion">{{ stock.m2PorMolde }}</td>
+                <td v-if="mostrarCapacidadProduccion">{{ stock.capacidadTotal }}</td>
 
-  <td v-if="mostrarEmbalaje">{{ stock.unidadesPorPaquete }}</td>
-  <td v-if="mostrarEmbalaje">{{ stock.m2PorPaquete }}</td>
-  <td v-if="mostrarEmbalaje">{{ stock.kgPorPaquete }}</td>
+                <td v-if="mostrarEmbalaje">{{ stock.unidadesPorPaquete }}</td>
+                <td v-if="mostrarEmbalaje">{{ stock.m2PorPaquete }}</td>
+                <td v-if="mostrarEmbalaje">{{ stock.kgPorPaquete }}</td>
 
-  <td>{{ stock.stockSinCompromiso }}</td>
-  <td>{{ stock.comprometido }}</td>
-  <td>{{ stock.stockFinal }}</td>
+                <td>{{ stock.stockSinCompromiso }}</td>
+                <td>{{ stock.comprometido }}</td>
+                <td>{{ stock.stockFinal }}</td>
                 <td>
                   <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                       Opciones
                     </button>
                     <ul class="dropdown-menu">
@@ -159,8 +158,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-secondary" @click="cerrarModal">Cancelar</button>
-                <button class="btn btn-primary" @click="confirmarMovimiento">Confirmar</button>
+                <button class="btn btn-gris-a-blanco" @click="cerrarModal">Cancelar</button>
+                <button class="btn btn-rosa-a-blanco" @click="confirmarMovimiento">Confirmar</button>
               </div>
             </div>
           </div>
@@ -185,10 +184,11 @@ import RequiereLogin from '@/components/RequiereLogin.vue'
 import RequiereRol from '@/components/RequiereRol.vue'
 import { userStore } from '@/store/user'
 import { servicioProducto } from '@/services/producto.service'
-
 import type { DatosProductos } from '@/modelos/producto'
+import { useToast } from 'vue-toastification'
 
 const store = userStore()
+const toast = useToast()
 
 const mostrarCapacidadProduccion = ref(true)
 const mostrarEmbalaje = ref(true)
@@ -198,24 +198,6 @@ const datoAFiltar = ref('')
 const paginaActual = ref(1)
 const paginasTotales = ref(10)
 const totalPorpagina = ref(10)
-
-//Paginación:
-const cambiarPagina = (newPage: number) => {
-
-  if (newPage < 1 || newPage > paginasTotales.value) return;
-
-  paginaActual.value = newPage;
-
-  traerStock()
-
-}
-
-//Cambiar la cantidad por página:
-const cambiarCantidadPorPagina = () => {
-  paginaActual.value = 1
-  traerStock()
-}
-
 
 const stockSeleccionado = ref<DatosProductos>()
 const listaStock = ref<DatosProductos[]>([])
@@ -271,11 +253,12 @@ const confirmarMovimiento = async () => {
     console.log("ENVIANDO:", movimiento)
 
     await servicioProducto.calcularStock(stockSeleccionado.value._id, movimiento)
-
+    toast.success('Movimiento Registrado!')
     await traerStock() // refresca la lista
     cerrarModal() // cierra el modal
   } catch (error) {
     console.error('Error al crear movimiento:', error)
+    toast.error('No se guardó el movimiento')
   }
 }
 
@@ -366,6 +349,23 @@ const exportarStockCompletoAExcel = async () => {
   }
 };
 
+//Paginación:
+const cambiarPagina = (newPage: number) => {
+
+  if (newPage < 1 || newPage > paginasTotales.value) return;
+
+  paginaActual.value = newPage;
+
+  traerStock()
+
+}
+
+//Cambiar la cantidad por página:
+const cambiarCantidadPorPagina = () => {
+  paginaActual.value = 1
+  traerStock()
+}
+
 onMounted(() => {
   traerStock()
 })
@@ -375,7 +375,7 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ff6b8a;
+  color: #ef5769;
   font-weight: 600;
 }
 
@@ -386,6 +386,46 @@ onMounted(() => {
   border-bottom: 2px solid #dee2e6;
 }
 
+/*Botón de historial de movimientos */
+.btn-gris-a-blanco {
+  background-color: #6c757d; /* color de btn-secondary de Bootstrap */
+  border: 1px solid #6c757d;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-gris-a-blanco:hover {
+  background-color: white;
+  color: #6c757d;
+  border-color: #6c757d;
+}
+
+/*Botones para exportar a excel:*/
+.btn-exportar-pagina {
+  background-color: rgb(70, 40, 110);
+  border: 1px solid rgb(70, 40, 110);
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-exportar-pagina:hover {
+  background-color: white;
+  color: rgb(70, 40, 110);
+  border-color: rgb(70, 40, 110);
+}
+
+.btn-rosa-a-blanco {
+  background-color: #ef5769;
+  border: 1px solid #ef5769;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.btn-rosa-a-blanco:hover {
+  background-color: white;
+  color: #ef5769;  
+  border-color: #ef5769;
+}
 
 /* Color de numeración paginación */
 .pagination .page-link {
@@ -405,32 +445,4 @@ onMounted(() => {
   box-shadow: none;
 }
 
-/*Botones para exportar a excel:*/
-.btn-exportar-pagina {
-  background-color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-  color: white !important;
-  /* fuerza a que no cambie color  del texto al pasar por arriba */
-  transition: background-color 0.3s ease;
-}
-
-.btn-exportar-pagina:hover {
-  background-color: rgb(90, 60, 130);
-  border-color: rgb(90, 60, 130);
-  color: white !important;
-  /* fuerza a que no cambie color  del texto al pasar por arriba */
-}
-
-.btn-exportar-todo {
-  background-color: #ff6b8a;
-  border-color: #ff6b8a;
-  color: white !important;
-  transition: background-color 0.3s ease;
-}
-
-.btn-exportar-todo:hover {
-  background-color: #ff89a1;
-  border-color: #ff89a1;
-  color: white !important;
-}
 </style>
