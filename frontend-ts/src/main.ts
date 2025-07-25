@@ -8,6 +8,7 @@ import "vue-toastification/dist/index.css";
 import './assets/styles.css'; //aquí estoy importando los estilos personalizados que creé para el toas
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import './assets/styles.css';
 
 
 const pinia= createPinia() //Creo una nueva instancia de Pinia para usar en mi app

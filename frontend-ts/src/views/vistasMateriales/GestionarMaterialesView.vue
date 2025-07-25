@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.Logueado">
+  <div v-if="store.Logueado" class="contenido-app">
     <NavBar />
 
     <div class="container py-4">
@@ -301,6 +301,7 @@ onMounted(() => {
 </script>
 
 <style scoped>
+
 .titulo {
   font-size: 36px;
   color: #ef5769;
@@ -311,45 +312,9 @@ onMounted(() => {
   color: #ef5769 !important;
 }
 
-.btn-rosa-a-blanco {
-  background-color: #ef5769;
-  border: 1px solid #ef5769;
-  color: white;
-  transition: all 0.3s ease;
-}
-.btn-rosa-a-blanco:hover {
-  background-color: white;
-  color: #ef5769;  
-  border-color: #ef5769;
-}
+/*Resto de los estilos están en archivo globar style.css */
 
-.btn-gris-a-blanco {
-  background-color: #6c757d;
-  border: 1px solid #6c757d;
-  color: white;
-  transition: all 0.3s ease;
-}
-.btn-gris-a-blanco:hover {
-  background-color: white;
-  color: #6c757d;
-  border-color: #6c757d;
-}
 
-/* Color de numeración paginación */
-.pagination .page-link {
-  color: rgb(70, 40, 110);
-}
+.table thead th {line-height: 3; }
 
-/* Paginación activa con fondo violeta y texto blanco */
-.pagination .page-item.active .page-link {
-  background-color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-  color: white;
-}
-
-/* Eliminar el borde celeste en la paginación */
-.pagination .page-link:focus {
-  outline: none;
-  box-shadow: none;
-}
 </style>

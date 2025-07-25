@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.Logueado">
+  <div v-if="store.Logueado" class="contenido-app">
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
 
@@ -42,11 +42,11 @@
                 <th>Descripción</th>
                 <th>Precio</th>
                 <th>Moldes</th>
-                <th>M2 por Molde</th>
-                <th>M2 totales</th>
-                <th>Unidades por paquete</th>
-                <th>M2 por paquete</th>
-                <th>Kg por paquete</th>
+                <th>M2<br>por<br>Molde</th>
+                <th>M2<br>totales</th>
+                <th>Unidades<br>por<br>paquete</th>
+                <th>M2<br>por<br>paquete</th>
+                <th>Kg<br>por<br>paquete</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -377,45 +377,6 @@ onMounted(() => {
   color: #ef5769 !important;
 }
 
-.btn-rosa-a-blanco {
-  background-color: #ef5769;
-  border: 1px solid #ef5769;
-  color: white;
-  transition: all 0.3s ease;
-}
-.btn-rosa-a-blanco:hover {
-  background-color: white;
-  color: #ef5769;  
-  border-color: #ef5769;
-}
+/*Resto de los estilos están en archivo globar style.css */
 
-.btn-gris-a-blanco {
-  background-color: #6c757d;
-  border: 1px solid #6c757d;
-  color: white;
-  transition: all 0.3s ease;
-}
-.btn-gris-a-blanco:hover {
-  background-color: white;
-  color: #6c757d;
-  border-color: #6c757d;
-}
-
-/* Color de numeración paginación */
-.pagination .page-link {
-  color: rgb(70, 40, 110);
-}
-
-/* Paginación activa con fondo violeta y texto blanco */
-.pagination .page-item.active .page-link {
-  background-color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-  color: white;
-}
-
-/* Eliminar el borde celeste en la paginación */
-.pagination .page-link:focus {
-  outline: none;
-  box-shadow: none;
-}
 </style>

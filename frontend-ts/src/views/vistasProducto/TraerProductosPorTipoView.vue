@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.Logueado">
+  <div v-if="store.Logueado" class="contenido-app">
     <NavBar />
     <div class="container py-4">
 
@@ -168,21 +168,6 @@ onMounted(() => {
   text-align: left !important;
 }
 
-/* Color de numeración paginación */
-.pagination .page-link {
-  color: rgb(70, 40, 110);
-}
+/*Resto de los estilos están en archivo globar style.css */
 
-/* Paginación activa con fondo violeta y texto blanco */
-.pagination .page-item.active .page-link {
-  background-color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-  color: white;
-}
-
-/* Eliminar el borde celeste en la paginación */
-.pagination .page-link:focus {
-  outline: none;
-  box-shadow: none;
-}
 </style>

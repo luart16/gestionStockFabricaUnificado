@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.Logueado">
+  <div v-if="store.Logueado" class="contenido-app">
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
       <div class="container py-4">
@@ -59,24 +59,30 @@
                 <th rowspan="2">Producto</th>
                 <th rowspan="2">Color</th>
 
-                <th v-if="mostrarCapacidadProduccion" colspan="3" class="text-center">Capacidad de Producción</th>
-                <th v-if="mostrarEmbalaje" colspan="3" class="text-center">Embalaje</th>
+                <th v-if="mostrarCapacidadProduccion" colspan="3" class="text-center align-middle">
+                  Capacidad de Producción
+                </th>
 
-                <th rowspan="2">Stock Sin Comprometer</th>
-                <th rowspan="2">Stock Comprometido</th>
-                <th rowspan="2">Stock Final</th>
+                <th v-if="mostrarEmbalaje" colspan="3" class="text-center align-middle">
+                  Embalaje
+                </th>
+
+                <th rowspan="2">Stock<br>Sin<br>Reserva</th>
+                <th rowspan="2">Stock<br>Con<br>Reserva</th>
+                <th rowspan="2">Stock<br>Final</th>
                 <th rowspan="2">Acciones</th>
               </tr>
               <tr>
                 <template v-if="mostrarCapacidadProduccion">
-                  <th>Moldes</th>
-                  <th>M2 por Molde</th>
-                  <th>M2 totales</th>
+                  <th class="text-center th-subtitulo">Moldes</th>
+                  <th class="text-center th-subtitulo">M2/Molde</th>
+                  <th class="text-center th-subtitulo">M2 totales</th>
                 </template>
+
                 <template v-if="mostrarEmbalaje">
-                  <th>Unidades por paquete</th>
-                  <th>M2 por paquete</th>
-                  <th>Kg por paquete</th>
+                  <th class="text-center th-subtitulo">Unid./paquete</th>
+                  <th class="text-center th-subtitulo">M2/paquete</th>
+                  <th class="text-center th-subtitulo">Kg/paquete</th>
                 </template>
               </tr>
             </thead>
@@ -84,9 +90,9 @@
             <!--cuerpo de la tabla:-->
             <tbody>
               <tr v-for="stock in listaStock" :key="stock._id">
-                <td>{{ stock.tipoProducto }}</td>
-                <td>{{ stock.nombre }}</td>
-                <td>{{ stock.color }}</td>
+                <td class="resaltar-celda">{{ stock.tipoProducto }}</td>
+                <td class="resaltar-celda">{{ stock.nombre }}</td>
+                <td class="resaltar-celda">{{ stock.color }}</td>
 
                 <td v-if="mostrarCapacidadProduccion">{{ stock.moldes }}</td>
                 <td v-if="mostrarCapacidadProduccion">{{ stock.m2PorMolde }}</td>
@@ -99,7 +105,7 @@
                 <td>{{ stock.stockSinCompromiso }}</td>
                 <td>{{ stock.comprometido }}</td>
                 <td :class="[
-                  'fw-bold',
+                  'fw-bold resaltar-celda',
                   stock.stockFinal < 0 ? 'text-danger' :
                     stock.stockFinal === 0 ? 'text-warning' :
                       'text-success'
@@ -115,9 +121,9 @@
                       <li><a class="dropdown-item" href="#" @click.prevent="abrirModal(stock, 'EGRESO')">- Quitar</a>
                       </li>
                       <li><a class="dropdown-item" href="#"
-                          @click.prevent="abrirModal(stock, 'COMPROMETIDO')">Comprometer</a></li>
+                          @click.prevent="abrirModal(stock, 'COMPROMETIDO')">Reservar</a></li>
                       <li><a class="dropdown-item" href="#"
-                          @click.prevent="abrirModal(stock, 'DESCOMPROMETIDO')">Descomprometer</a>
+                          @click.prevent="abrirModal(stock, 'DESCOMPROMETIDO')">Quitar Reserva</a>
                       </li>
                     </ul>
                   </div>
@@ -146,8 +152,8 @@
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">{{ tipoMovimiento === 'COMPROMETIDO' ? 'Comprometer' : tipoMovimiento ===
-                  'DESCOMPROMETIDO' ? 'Descomprometer' : tipoMovimiento === 'EGRESO' ? 'Quitar' : 'Agregar' }} Stock
+                <h5 class="modal-title">{{ tipoMovimiento === 'COMPROMETIDO' ? 'Reservar' : tipoMovimiento ===
+                  'DESCOMPROMETIDO' ? 'Quitar Reserva' : tipoMovimiento === 'EGRESO' ? 'Quitar' : 'Agregar' }} Stock
                 </h5>
                 <button type="button" class="btn-close" @click="cerrarModal"></button>
               </div>
@@ -392,63 +398,28 @@ onMounted(() => {
   border-bottom: 2px solid #dee2e6;
 }
 
-/*Botón de historial de movimientos */
-.btn-gris-a-blanco {
-  background-color: #6c757d;
-  /* color de btn-secondary de Bootstrap */
-  border: 1px solid #6c757d;
-  color: white;
-  transition: all 0.3s ease;
+/* Aplica solo a los encabezados chicos */
+th.th-subtitulo {
+  font-size: 0.70rem;      /* Más chico que el resto */
+  line-height: 1.2;
+  white-space: normal;     /* Permite salto de línea automático */
+  word-break: break-word;
+  padding: 0.4rem 0.5rem;  /* Menos padding = menos altura */
 }
 
-.btn-gris-a-blanco:hover {
-  background-color: white;
-  color: #6c757d;
-  border-color: #6c757d;
+/*Destaco columna de stock final: */
+.resaltar-celda {
+  background-color: #f8f9fa; /* gris muy clarito */
+  border-left: 2px solid #dee2e6;
+  border-right: 2px solid #dee2e6;
 }
 
-/*Botones para exportar a excel:*/
-.btn-exportar-pagina {
-  background-color: rgb(70, 40, 110);
-  border: 1px solid rgb(70, 40, 110);
-  color: white;
-  transition: all 0.3s ease;
+.table thead th {
+  
+  font-size: 0.85rem;       /* Tamaño de fuente un poco más chico */
+  
 }
 
-.btn-exportar-pagina:hover {
-  background-color: white;
-  color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-}
 
-.btn-rosa-a-blanco {
-  background-color: #ef5769;
-  border: 1px solid #ef5769;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.btn-rosa-a-blanco:hover {
-  background-color: white;
-  color: #ef5769;
-  border-color: #ef5769;
-}
-
-/* Color de numeración paginación */
-.pagination .page-link {
-  color: rgb(70, 40, 110);
-}
-
-/* Paginación activa con fondo violeta y texto blanco */
-.pagination .page-item.active .page-link {
-  background-color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-  color: white;
-}
-
-/* Eliminar el borde celeste en la paginación */
-.pagination .page-link:focus {
-  outline: none;
-  box-shadow: none;
-}
+/*Resto de los estilos están en archivo global styles.css*/
 </style>

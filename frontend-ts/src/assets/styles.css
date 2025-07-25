@@ -16,3 +16,157 @@
   font-weight: bold;       /* Negrita */
   text-align: center;      /* Texto centrado */
 }
+
+/*Espacio debajo de la barra de navegación*/
+body {
+  padding-top: 70px;
+}
+
+/*Color de fondo de las vistas (excepto del home)*/
+.contenido-app {
+  min-height: 100vh;
+    background: linear-gradient(to bottom right, #d6d8dc, #ced4da);
+  color: #212529!important;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+/*Botón gris a blanco:*/
+.btn-gris-a-blanco {
+  background-color: #6c757d!important;
+  /* color de btn-secondary de Bootstrap */
+  border: 1px solid #6c757d!important;
+  color: white!important;
+  transition: all 0.3s ease;
+}
+
+.btn-gris-a-blanco:hover {
+  background-color: white!important;
+  color: #6c757d!important;
+  border-color: #6c757d!important;
+}
+
+/*Botón rosa a blanco*/
+.btn-rosa-a-blanco {
+  background-color: #ef5769!important;
+  border: 1px solid #ef5769!important;
+  color: white!important;
+  transition: all 0.3s ease;
+}
+
+.btn-rosa-a-blanco:hover {
+  background-color: white!important;
+  color: #ef5769!important;
+  border-color: #ef5769!important;
+}
+
+/* Color de numeración paginación */
+.pagination .page-link {
+  color: rgb(70, 40, 110)!important;
+}
+
+/* Paginación activa con fondo violeta y texto blanco */
+.pagination .page-item.active .page-link {
+  background-color: rgb(70, 40, 110)!important;
+  border-color: rgb(70, 40, 110)!important;
+  color: white!important;
+}
+
+/* Eliminar el borde celeste en la paginación */
+.pagination .page-link:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+/*Botones para exportar a excel:*/
+.btn-exportar-pagina {
+  background-color: rgb(70, 40, 110)!important;
+  border: 1px solid rgb(70, 40, 110)!important;
+  color: white!important;
+  transition: all 0.3s ease;
+}
+
+.btn-exportar-pagina:hover {
+  background-color: white!important;
+  color: rgb(70, 40, 110)!important;
+  border-color: rgb(70, 40, 110)!important;
+}
+
+.btn-exportar-todo {
+  background-color: #ff6b8a!important;
+  border: 1px solid #ff6b8a!important;
+  color: white!important;
+  transition: all 0.3s ease;
+}
+
+.btn-exportar-todo:hover {
+  background-color: white!important;
+  color: #ff6b8a!important;
+  border-color: #ff6b8a!important;
+}
+
+/* Mejora visual para todas las tablas */
+.table {
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+}
+
+/* Encabezado claro y moderno (se mantiene con altura original) */
+.table thead {
+  background: linear-gradient(to right, #dee2e6, #cfd3d7);
+  color: #212529;
+  font-weight: 600;
+  border-bottom: 2px solid #adb5bd;
+}
+
+/* Celdas del encabezado (altura original) */
+.table thead th {
+  border: none;
+  text-align: center;
+  vertical-align: middle !important;
+  white-space: normal;     /* Permite salto de línea automático */
+  font-size: 1.05rem;       /* Tamaño de fuente un poco más chico */
+  line-height: 1.5;         /* Más compacto verticalmente */
+  word-break: break-word;   /* Rompe palabras largas si hace falta */
+  padding: 0.5rem;          /*  Menos padding = menos altura */
+}
+
+
+/* Celdas del cuerpo (más compactas) */
+.table tbody td {
+  border: none;
+  padding: 0.5rem 0.75rem; /* Menor altura para filas de datos */
+  vertical-align: middle;
+}
+
+/* Líneas divisorias suaves en filas */
+.table tbody tr {
+  border-bottom: 1px solid #dee2e6;
+}
+
+/* Hover con color sutil */
+.table-hover tbody tr:hover {
+  background-color: #f8f9fa;
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* Estilo centrado para botones en acciones */
+td .dropdown {
+  display: flex;
+  justify-content: center;
+}
+
+/* Ajuste para borde y sombra responsiva */
+.table-responsive {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+
+
+
+
+
+

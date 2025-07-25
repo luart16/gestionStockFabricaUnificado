@@ -2,138 +2,143 @@
   <div v-if="store.Logueado">
     <NavBar />
 
-<div class="fondo-home">
-  <div class="encabezado-home">
-    <h1>Gestión inteligente para tu fábrica</h1>
-    <p>Controlá productos, stock y movimientos de forma centralizada</p>
-  </div>
+    <div class="home-container">
 
-  <!-- Aquí va TODO tu contenido que ya tenés: categorías de productos, acciones rápidas, etc -->
+      <!-- Hero -->
+      <section class="hero">
+        <h1>Gestión inteligente para tu fábrica</h1>
+        <p>Controlá productos, stock y movimientos de forma simple y visual.</p>
+      </section>
 
-  <section class="main-content"></section>
-  <div class="container mt-5">
-
-      <!-- Categorías de Productos -->
-      <div class="categorias-productos">
-        <div class="row justify-content-center">
-          <!--Tarjeta piedras:-->
-          <div class="col-12 col-md-4 mb-4">
-            <div class="tarjeta-categoria" @click="irA('Piedra')" style="cursor: pointer;">
-              <div class="contenedor-imagen-categoria">
-                <img src="@/imagenes/piedra.jpg" class="imagen-categoria" alt="Piedras" />
-                <div class="superposicion-categoria">
-                  <span class="etiqueta-categoria">Ecológica</span>
-                </div>
-              </div>
-              <div class="contenido-categoria">
-                <h3 class="titulo-categoria">Piedras</h3>
-                <p class="descripcion-categoria">Piedra ecológica liviana para construcción sustentable</p>
-              </div>
-            </div>
-          </div>
-
-          <!--Tarjeta placas:-->
-          <div class="col-12 col-md-4 mb-4">
-            <div class="tarjeta-categoria" @click="irA('Placa')" style="cursor: pointer;">
-              <div class="contenedor-imagen-categoria">
-                <img src="@/imagenes/placa.jpg" class="imagen-categoria" alt="Placas" />
-                <div class="superposicion-categoria">
-                  <span class="etiqueta-categoria">Anti-Humedad</span>
-                </div>
-              </div>
-              <div class="contenido-categoria">
-                <h3 class="titulo-categoria">Placas</h3>
-                <p class="descripcion-categoria">Placas anti-humedad para protección y aislamiento</p>
-              </div>
-            </div>
-          </div>
-
-          <!--Tarjeta pisos:-->
-          <div class="col-12 col-md-4 mb-4">
-            <div class="tarjeta-categoria" @click="irA('Piso')" style="cursor: pointer;">
-              <div class="contenedor-imagen-categoria">
-                <img src="@/imagenes/piso.jpg" class="imagen-categoria" alt="Pisos" />
-                <div class="superposicion-categoria">
-                  <span class="etiqueta-categoria">Flotantes</span>
-                </div>
-              </div>
-              <div class="contenido-categoria">
-                <h3 class="titulo-categoria">Pisos</h3>
-                <p class="descripcion-categoria">Pisos flotantes evolution de alta calidad y durabilidad</p>
-              </div>
-            </div>
+      <!-- Tarjetas de Productos -->
+      <section class="productos">
+        <div class="producto-card" @click="irA('Piedra')">
+          <img src="@/imagenes/piedra.jpg" alt="Piedra" />
+          <div class="producto-info">
+            <h3>Piedras</h3>
+            <p>Controlá el stock de piedras decorativas</p>
+            <!--Piedra ecológica liviana para construcción sustentable-->
           </div>
         </div>
-      </div>
 
-      <!--Acciones rápidas: tarjetas movimiento stock, materiales-->
-
-      <div class="acciones-rapidas mb-5">
-
-        <!-- Barra: Movimientos de Stock (admin) -->
-        <router-link v-if="store.Rol === 'administrador'" to="/historialMovimientosDeStock"
-          class="barra-acceso-admin barra-verde d-block mb-4 text-decoration-none">
-          <div class="contenido-barra d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-              <i class="bi bi-clipboard-data icono-accion barra-verde-icon"></i>
-              <div>
-                <h5 class="mb-1 fw-bold">Movimientos de Stock</h5>
-                <p class="mb-0">Visualiza entradas y salidas de productos</p>
-              </div>
-            </div>
-            <span class="flecha-icono"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+        <div class="producto-card" @click="irA('Piso')">
+          <img src="@/imagenes/piso.jpg" alt="Piso" />
+          <div class="producto-info">
+            <h3>Pisos</h3>
+            <p>Visualizá los movimientos y cantidades</p> <!--Pisos flotantes evolution de alta calidad y durabilidad-->
           </div>
-        </router-link>
+        </div>
 
-        <!-- Barra: Materiales -->
-        <router-link to="/gestionarMateriales" class="barra-acceso-admin barra-rosa d-block mb-4 text-decoration-none">
-          <div class="contenido-barra d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-              <i class="bi bi-boxes icono-accion barra-rosa-icon"></i>
-              <div>
-                <h5 class="mb-1 fw-bold">Materiales</h5>
-                <p class="mb-0">Gestiona tu catálogo</p>
-              </div>
-            </div>
-            <span class="flecha-icono"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+        <div class="producto-card" @click="irA('Placa')">
+          <img src="@/imagenes/placa.jpg" alt="Placa" />
+          <div class="producto-info">
+            <h3>Placas</h3>
+            <p>Organizá la producción y entrega</p> <!--Placas anti-humedad para protección y aislamiento-->
           </div>
-        </router-link>
+        </div>
 
-        <!-- Barra: Usuarios -->
-        <router-link to="/traerUsuarios" class="barra-acceso-admin barra-violeta d-block mb-4 text-decoration-none">
-          <div class="contenido-barra d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-              <i class="bi bi-person-fill-check icono-accion barra-violeta-icon"></i>
-              <div>
-                <h5 class="mb-1 fw-bold">Usuarios</h5>
-                <p class="mb-0">Controla permisos</p>
-              </div>
-            </div>
-            <span class="flecha-icono"><i class="bi bi-arrow-up-right-square-fill"></i></span>
-          </div>
-        </router-link>
+      </section>
 
-        <!-- Barra: Sucursales -->
-        <router-link to="/traerSucursales" class="barra-acceso-admin barra-gris d-block mb-4 text-decoration-none">
-          <div class="contenido-barra d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center gap-3">
-              <i class="bi bi-buildings-fill icono-accion barra-gris-icon"></i>
-              <div>
-                <h5 class="mb-1 fw-bold">Sucursales</h5>
-                <p class="mb-0">Administra ubicaciones</p>
-              </div>
-            </div>
-            <span class="flecha-icono"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+       <!--Acciones rápidas: -->
+
+        <!--OPCIÓN 1 DE Acciones rápidas: -->
+
+      <section class="acciones-rapidas">
+        <h2>Acciones rápidas</h2>
+        <div class="acciones-grid">
+          <div class="accion" @click="router.push('/movimientos')">
+            <i class="bi bi-arrows-angle-expand"></i>
+            <span>Entradas y salidas</span>
           </div>
-        </router-link>
-      </div>
+          <div class="accion" @click="router.push('/stock')">
+            <i class="bi bi-box-seam"></i>
+            <span>Ver stock actual</span>
+          </div>
+          <div class="accion" @click="router.push('/productos')">
+            <i class="bi bi-card-list"></i>
+            <span>Listado de productos</span>
+          </div>
+          <div class="accion" @click="router.push('/reportes')">
+            <i class="bi bi-graph-up"></i>
+            <span>Ver reportes</span>
+          </div>
+        </div>
+      </section>
+
+      <!--OPCIÓN 2 DE Acciones rápidas: -->
+
+      <section class="acciones-rapidas">
+        <h2>Acciones rápidas</h2>
+        <div class="row g-4 justify-content-center align-items-stretch">
+          <!-- Materiales -->
+          <div class="col-12 col-md-6 col-lg-3">
+            <router-link to="/gestionarMateriales"
+              class="barra-acceso-admin barra-rosa d-block text-decoration-none h-100">
+              <div class="contenido-barra d-flex align-items-center gap-3">
+                <i class="bi bi-boxes icono-accion barra-rosa-icon"></i>
+                <div>
+                  <h5 class="mb-1 fw-bold">Materiales</h5>
+                  <p class="mb-0">Gestiona tu catálogo</p>
+                </div>
+              </div>
+              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+            </router-link>
+          </div>
+
+          <!-- Usuarios -->
+          <div class="col-12 col-md-6 col-lg-3">
+            <router-link to="/traerUsuarios"
+              class="barra-acceso-admin barra-violeta d-block text-decoration-none h-100">
+              <div class="contenido-barra d-flex align-items-center gap-3">
+                <i class="bi bi-person-fill-check icono-accion barra-violeta-icon"></i>
+                <div>
+                  <h5 class="mb-1 fw-bold">Usuarios</h5>
+                  <p class="mb-0">Controla permisos</p>
+                </div>
+              </div>
+              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+            </router-link>
+          </div>
+
+          <!-- Sucursales -->
+          <div class="col-12 col-md-6 col-lg-3">
+            <router-link to="/traerSucursales" class="barra-acceso-admin barra-gris d-block text-decoration-none h-100">
+              <div class="contenido-barra d-flex align-items-center gap-3">
+                <i class="bi bi-buildings-fill icono-accion barra-gris-icon"></i>
+                <div>
+                  <h5 class="mb-1 fw-bold">Sucursales</h5>
+                  <p class="mb-0">Administra ubicaciones</p>
+                </div>
+              </div>
+              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+            </router-link>
+          </div>
+
+          <!-- Movimientos -->
+          <div class="col-12 col-md-6 col-lg-3">
+            <router-link to="/historialMovimientosDeStock"
+              class="barra-acceso-admin barra-verde d-block text-decoration-none h-100">
+              <div class="contenido-barra d-flex align-items-center gap-3">
+                <i class="bi bi-clipboard-data icono-accion barra-verde-icon"></i>
+                <div>
+                  <h5 class="mb-1 fw-bold">Movimientos</h5>
+                  <p class="mb-0">Visualiza entradas y salidas de productos</p>
+                </div>
+              </div>
+              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+            </router-link>
+          </div>
+        </div>
+      </section>
+
 
     </div>
-</div>
 
-
-    
   </div>
+
+
+
+
 
   <div v-else>
     <RequiereLogin />
@@ -148,6 +153,7 @@ import NavBar from '@/components/BarraNavegacion.vue'
 import { userStore } from '@/store/user';
 import { useRouter } from 'vue-router';
 
+
 const store = userStore();
 const router = useRouter();
 
@@ -158,105 +164,147 @@ const irA = (tipo: string) => {
 </script>
 
 <style scoped>
-.encabezado-home {
-  text-align: center;
-  color: #392667;
-  padding: 4rem 1rem 2rem;
+ .home-container {
+  padding: 2rem;
+  min-height: 100vh;
+  background-image: linear-gradient(135deg, #f3f4f6aa, #d9dee4aa), url(~@/imagenes/fondo.jpg);
+  background-size: auto;
+  background-repeat: repeat;
+  background-position: top left;
+  background-blend-mode: overlay;
 }
 
-.encabezado-home h1 {
-  font-size: 2.6rem;
-  font-weight: 700;
+
+
+.hero {
+  text-align: center;
+  margin-bottom: 3rem;
+  background: rgba(255, 255, 255, 0.6);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.hero h1 {
+  font-size: 2.7rem;
+  color: #2c3e50;
   margin-bottom: 0.5rem;
 }
 
-.encabezado-home p {
-  font-size: 1.1rem;
-  color: #5c4a8c;
+.hero p {
+  color: #555;
+  font-size: 1.15rem;
 }
 
-.fondo-home {
-  background: linear-gradient(to bottom, #f6f4fd 0%, #f6f4fd 55%, #e8e6f1 55%, #e8e6f1 100%);
-  min-height: 100vh;
-  padding-bottom: 3rem;
-}
+/* PRODUCTOS: */
 
-
-.categorias-productos {
-  margin-bottom: 3rem;
-}
-
-/* Títulos de sección */
-.titulo-seccion {
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-  color: #333;
-  font-weight: 600;
-}
-
-/* Tarjetas de productos */
-.tarjeta-categoria {
-  border: 1px solid #ddd;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
-  background-color: #fff;
-}
-
-.tarjeta-categoria:hover {
-  transform: translateY(-5px);
-}
-
-.contenedor-imagen-categoria {
-  position: relative;
-  overflow: hidden;
+.productos {
   display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
   justify-content: center;
-  align-items: center;
-  background: #f0f0f0;
+  margin-bottom: 4rem;
 }
 
-.imagen-categoria {
+.producto-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  width: 280px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.producto-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.producto-card img {
   width: 100%;
-  height: auto;
-  object-fit: contain;
-  /* hace que la imagen se vea entera sin recortarse */
+  height: 180px;
+  object-fit: cover;
 }
 
-.superposicion-categoria {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: rgba(255, 255, 255, 0.8);
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #333;
-}
-
-.contenido-categoria {
+.producto-info {
   padding: 1rem;
   text-align: center;
 }
 
-.titulo-categoria {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.3rem;
+.producto-info h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  color: #2c3e50;
 }
 
-.descripcion-categoria {
-  font-size: 0.95rem;
+.producto-info p {
   color: #666;
+  font-size: 0.95rem;
 }
+
+/* ACCIONES RÁPIDAS */
+.acciones-rapidas {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+.acciones-rapidas h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #2c3e50;
+}
+
+/*Estilo de acciones rápidas para opción 1*/
+
+.acciones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1.5rem;
+  justify-items: center;
+}
+
+.accion {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 200px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.accion:hover {
+  background: #eef2f7;
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.accion i {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #34495e;
+}
+
+.accion span {
+  display: block;
+  font-size: 1rem;
+  color: #2c3e50;
+}
+
+
+
+
+
+/*desde acá lo viejooooooooooooooooooooooooooooooooooooooooooo:*/
 
 /* Acciones rápidas */
 
-.acciones-rapidas {
-  margin-bottom: 3rem;
-}
+/*Estilo de acciones rápidas para opción 2*/
 
 .barra-acceso-admin {
   border-left: 6px solid;
@@ -271,6 +319,13 @@ const irA = (tipo: string) => {
   transform: translateY(-2px);
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.acciones-rapidas .barra-acceso-admin {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Colores personalizados */
@@ -324,12 +379,15 @@ const irA = (tipo: string) => {
 .barra-verde-icon {
   color: #4caf50;
 }
+
 .barra-rosa-icon {
   color: #dea5cf;
 }
+
 .barra-violeta-icon {
   color: #573c9d;
 }
+
 .barra-gris-icon {
   color: #ccced3;
 }

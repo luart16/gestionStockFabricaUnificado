@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.Logueado">
+  <div v-if="store.Logueado" class="contenido-app">
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
       <div class="container py-4">
@@ -184,30 +184,6 @@ const crearProducto = async () => {
   margin-bottom: 10px;
 }
 
-.btn-rosa-a-blanco {
-  background-color: #ef5769;
-  border: 1px solid #ef5769;
-  color: white;
-  transition: all 0.3s ease;
-}
-.btn-rosa-a-blanco:hover {
-  background-color: white;
-  color: #ef5769;  
-  border-color: #ef5769;
-}
-
-.btn-gris-a-blanco {
-  background-color: #6c757d;
-  border: 1px solid #6c757d;
-  color: white;
-  transition: all 0.3s ease;
-}
-.btn-gris-a-blanco:hover {
-  background-color: white;
-  color: #6c757d;
-  border-color: #6c757d;
-}
-
 /*Borde rosa sobre el input: */
 input:focus,
 select:focus {
@@ -220,5 +196,7 @@ select::placeholder {
   color: #6c757d;
 }
 
+
+/*Resto de los estilos están en archivo globar style.css */
 
 </style>

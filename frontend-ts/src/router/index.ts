@@ -10,7 +10,6 @@ import GestionarProductosView from '@/views/vistasProducto/GestionarProductosVie
 import TraerProductosPorTipoView from '@/views/vistasProducto/TraerProductosPorTipoView.vue'
 import GestionarMaterialesView from '@/views/vistasMateriales/GestionarMaterialesView.vue'
 import CrearMaterialView from '@/views/vistasMateriales/CrearMaterialView.vue'
-import CrearStockMaterialesView from '@/views/vistasStockMateriales.vue/CrearStockMaterialesView.vue'
 import StockActualProductosView from '@/views/VistasStockProductosView.vue/StockActualProductosView.vue'
 import HistorialMovimientosStockView from '@/views/vistasHistorialMovimientos/HistorialMovimientosStockView.vue'
 
@@ -84,11 +83,8 @@ const routes = [
     component: CrearMaterialView
   },
 
-  {
-    path: '/crearStockMaterial',
-    name: 'crearStockMaterial',
-    component: CrearStockMaterialesView
-  },
+  
+ 
 
   {
     path: '/historialMovimientosDeStock',

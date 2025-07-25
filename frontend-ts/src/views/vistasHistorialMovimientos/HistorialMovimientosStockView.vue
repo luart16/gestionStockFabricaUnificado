@@ -1,5 +1,5 @@
 <template>
-  <div v-if="store.Logueado">
+  <div v-if="store.Logueado" class="contenido-app">
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
       <div class="container py-4">
@@ -79,14 +79,17 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(stock, index) in listaStock" :key="index">
+              <tr v-for="(stock, index) in listaStock" :key="index" :class="{
+                'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
+                'fila-egreso': stock.tipoMovimiento === 'EGRESO', 'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
+              }"><!--Puse esa clases fila-ingreso fila-egreso para darle color verde o rojo-->
                 <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
                 <td>{{ stock.tipoProducto }}</td>
                 <td>{{ stock.nombre }}</td>
                 <td>{{ stock.color }}</td>
                 <td>{{ stock.tipoMovimiento }}</td>
                 <td>{{ stock.cantidad }}</td>
-                <td>{{ stock.stockFinal }}</td>
+                <td class="fw-bold">{{ stock.stockFinal }}</td>
                 <td>{{ stock.observacion }}</td>
               </tr>
             </tbody>
@@ -292,62 +295,23 @@ onMounted(() => {
   font-weight: 600;
 }
 
-.btn-gris-a-blanco {
-  background-color: #6c757d;
-  /* color de btn-secondary de Bootstrap */
-  border: 1px solid #6c757d;
-  color: white;
-  transition: all 0.3s ease;
+
+
+/*Color verde, rojo gris para las filas ingreso, egreso, etc */
+table.table tr.fila-ingreso td {
+  background-color: #aeeea7   !important;
 }
 
-.btn-gris-a-blanco:hover {
-  background-color: white;
-  color: #6c757d;
-  border-color: #6c757d;
+table.table tr.fila-egreso td {
+  background-color: #f8d7d7    !important;
 }
 
-/* Color de numeración paginación */
-.pagination .page-link {
-  color: rgb(70, 40, 110);
+table.table tr.fila-compromiso td {
+  background-color: #ece39c    !important;
 }
 
-/* Paginación activa con fondo violeta y texto blanco */
-.pagination .page-item.active .page-link {
-  background-color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-  color: white;
-}
+/*Ato de las celdas cabeceras: */
+.table thead th {line-height: 3; }
 
-/* Eliminar el borde celeste en la paginación */
-.pagination .page-link:focus {
-  outline: none;
-  box-shadow: none;
-}
-
-/*Botones para exportar a excel:*/
-.btn-exportar-pagina {
-  background-color: rgb(70, 40, 110);
-  border: 1px solid rgb(70, 40, 110);
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.btn-exportar-pagina:hover {
-  background-color: white;
-  color: rgb(70, 40, 110);
-  border-color: rgb(70, 40, 110);
-}
-
-.btn-exportar-todo {
-  background-color: #ff6b8a;
-  border: 1px solid #ff6b8a;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.btn-exportar-todo:hover {
-  background-color: white;
-  color: #ff6b8a;
-  border-color: #ff6b8a;
-}
+/*El resto de los estilos están en el archivo styles.css porque son globales */
 </style>

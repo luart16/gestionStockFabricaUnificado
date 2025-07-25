@@ -1,9 +1,13 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm border-bottom py-3">
+  <nav class="navbar navbar-expand-lg nav-elegante fixed-top">
     <div class="container">
-      <router-link to="/home" class="navbar-brand" @click="cerrarMenu">
-        <img src="@/imagenes/logoPirka.png" alt="Logo Pirka" class="logo-img" />
-      </router-link>
+      <router-link to="/home" class="navbar-brand d-flex flex-row align-items-center" @click="cerrarMenu">
+  <img src="@/imagenes/logoPirka.png" alt="Logo Pirka" class="logo-img" />
+ 
+</router-link>
+ <span class="usuario-nombre ms-3 d-flex align-items-center">
+    <i class="bi bi-person-check me-1"></i>{{ store.Usuario }}
+  </span>
 
       <button
         class="navbar-toggler"
@@ -17,17 +21,20 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent" ref="elementoMenu">
-        <div class="navbar-nav ms-auto align-items-center gap-3">
+        <div class="navbar-nav ms-auto align-items-center">
           <router-link to="/home" class="nav-link" @click="cerrarMenu">Inicio</router-link>
           <router-link v-if="store.Rol == 'administrador'" to="/gestionarProductos" class="nav-link" @click="cerrarMenu">Gestionar Productos</router-link>
           <router-link v-if="store.Rol == 'administrador'" to="/gestionarMateriales" class="nav-link" @click="cerrarMenu">Gestionar Materiales</router-link>
           <router-link v-if="store.Rol == 'administrador'" to="/stockActualDeProductos" class="nav-link" @click="cerrarMenu">Gestionar Stock</router-link>
-          <button class="btn btn-principal" @click="deslogueo">Desloguear</button>
+          <button class="btn-logout" @click="deslogueo" title="Cerrar sesión">
+            <i class="bi bi-box-arrow-right"></i>
+          </button>
         </div>
       </div>
     </div>
   </nav>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from 'vue';
@@ -69,54 +76,87 @@ onMounted(() => {
 
 <style scoped>
 * {
-  font-family: Poppins;
+  font-family: 'Poppins', sans-serif;
 }
 
+/* Navbar contenedor */
+.nav-elegante {
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid #eee;
+  padding: 0.75rem 1rem;
+  z-index: 999;
+}
+
+/* Logo */
 .logo-img {
-  height: 40px;
+  height: 26px;
   width: auto;
   object-fit: contain;
 }
-
-/* Estilos para el botón desloguear - personalizado */
-.btn-principal {
-  background-color: #ff6b8a;
-  color: white;
-  border: 1px solid #ff6b8a;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: bolder;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
+.titulo-logo {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #46286e;
 }
 
-.btn-principal:hover {
-    background-color: white;
-  color: #ff6b8a;  
-  border-color: #ff6b8a;
-}
-
-/* Links navbar */
+/* Enlaces navbar */
 .nav-link {
-  color: rgba(70, 40, 110, 1);
+  color: #46286e;
   font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  transition: background-color 0.2s ease, color 0.2s ease;
-  text-decoration: none;
+  margin: 0 0.4rem;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .nav-link:hover {
-  background-color: rgba(70, 40, 110, 0.15);
-  color: rgba(70, 40, 110, 1);
+  background-color: rgba(70, 40, 110, 0.1);
+  color: #46286e;
 }
 
-/* Espaciado para los items */
-.navbar-nav {
-  gap: 1rem;
+/* Botón logout con ícono */
+.btn-logout {
+  background-color: transparent;
+  color: #ff6b8a;
+  border: 2px solid #ff6b8a;
+  padding: 6px 10px;
+  border-radius: 50%;
+  margin-left: 0.75rem;
+  transition: all 0.2s ease;
+  font-size: 1.2rem;
 }
+
+.btn-logout:hover {
+  background-color: #ff6b8a;
+  color: white;
+}
+
+/* Responsive spacing */
+.navbar-nav {
+  gap: 0.75rem;
+}
+
+.navbar-brand span {
+  font-size: 1.1rem;
+  color: #444;
+}
+
+/* Mejora visual del texto "Usuario: ..." al lado del logo */
+.usuario-nombre {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: #46286e; /* púrpura más claro que el logo */
+  margin-top: 0.25rem;
+  margin-left: 4px;
+  opacity: 0.9;
+}
+
+
+
+
+
+
 </style>
 
