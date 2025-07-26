@@ -1,12 +1,49 @@
-<template>
+<template> 
   <div style="max-width: 1000px; margin: auto;">
+    <!-- Controles -->
+    <div class="d-flex flex-wrap gap-3 mb-4 align-items-end">
+      <div>
+        <label class="form-label fw-semibold">Buscar producto:</label>
+        <input v-model="busqueda" type="text" class="form-control" placeholder="Nombre del producto" />
+      </div>
+
+      <div>
+        <label class="form-label fw-semibold">Cantidad de productos:</label>
+        <select v-model="limite" class="form-select">
+          <option :value="5">5</option>
+          <option :value="10">10</option>
+          <option :value="20">20</option>
+          <option :value="50">50</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Gráfico -->
     <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
     <p v-else>No hay datos disponibles para mostrar.</p>
+
+    <!-- Tabla -->
+    <table v-if="tablaFiltrada.length" class="table table-bordered table-striped mt-4">
+      <thead class="table-light">
+        <tr>
+          <th>Producto</th>
+          <th class="text-end">Ingresos</th>
+          <th class="text-end">Egresos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(dato, index) in tablaFiltrada" :key="index">
+          <td>{{ dato.nombre }}</td>
+          <td class="text-end">{{ dato.ingresos }}</td>
+          <td class="text-end">{{ dato.egresos }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -25,47 +62,54 @@ const props = defineProps<{
   egresos: { nombre: string; cantidad: number }[]
 }>()
 
-const datosGrafico = computed(() => {
-  const resumenIngresos: Record<string, number> = {}
-  const resumenEgresos: Record<string, number> = {}
+const busqueda = ref('')
+const limite = ref(10)
 
-  props.ingresos.forEach(item => {
-    const clave = item.nombre || 'Sin nombre'
-    resumenIngresos[clave] = (resumenIngresos[clave] || 0) + (item.cantidad || 0)
-  })
+const resumenIngresos: Record<string, number> = {}
+const resumenEgresos: Record<string, number> = {}
 
-  props.egresos.forEach(item => {
-    const clave = item.nombre || 'Sin nombre'
-    resumenEgresos[clave] = (resumenEgresos[clave] || 0) + (item.cantidad || 0)
-  })
-
-  // Tomar los nombres únicos de ambos conjuntos
-  const nombresUnicos = Array.from(
-    new Set([...Object.keys(resumenIngresos), ...Object.keys(resumenEgresos)])
-  )
-
-  // Ordenar por ingresos descendente (podés cambiar a egresos si querés)
-  nombresUnicos.sort((a, b) => (resumenIngresos[b] || 0) - (resumenIngresos[a] || 0))
-
-  // Opcional: mostrar solo los 10 primeros productos
-  const topNombres = nombresUnicos.slice(0, 10)
-
-  return {
-    labels: topNombres,
-    datasets: [
-      {
-        label: 'Ingresos',
-        data: topNombres.map(n => resumenIngresos[n] || 0),
-        backgroundColor: '#52b788'
-      },
-      {
-        label: 'Egresos',
-        data: topNombres.map(n => resumenEgresos[n] || 0),
-        backgroundColor: '#e76f51'
-      }
-    ]
-  }
+props.ingresos.forEach(item => {
+  const clave = item.nombre || 'Sin nombre'
+  resumenIngresos[clave] = (resumenIngresos[clave] || 0) + (item.cantidad || 0)
 })
+
+props.egresos.forEach(item => {
+  const clave = item.nombre || 'Sin nombre'
+  resumenEgresos[clave] = (resumenEgresos[clave] || 0) + (item.cantidad || 0)
+})
+
+// Nombres combinados y filtrados
+const nombresFiltradosOrdenados = computed(() => {
+  const nombresUnicos = Array.from(new Set([...Object.keys(resumenIngresos), ...Object.keys(resumenEgresos)]))
+  return nombresUnicos
+    .filter(n => n.toLowerCase().includes(busqueda.value.toLowerCase()))
+    .sort((a, b) => (resumenIngresos[b] || 0) - (resumenIngresos[a] || 0))
+    .slice(0, limite.value)
+})
+
+const datosGrafico = computed(() => ({
+  labels: nombresFiltradosOrdenados.value,
+  datasets: [
+    {
+      label: 'Ingresos',
+      data: nombresFiltradosOrdenados.value.map(n => resumenIngresos[n] || 0),
+      backgroundColor: '#52b788'
+    },
+    {
+      label: 'Egresos',
+      data: nombresFiltradosOrdenados.value.map(n => resumenEgresos[n] || 0),
+      backgroundColor: '#e76f51'
+    }
+  ]
+}))
+
+const tablaFiltrada = computed(() =>
+  nombresFiltradosOrdenados.value.map(nombre => ({
+    nombre,
+    ingresos: resumenIngresos[nombre] || 0,
+    egresos: resumenEgresos[nombre] || 0
+  }))
+)
 
 const opcionesGrafico = {
   responsive: true,

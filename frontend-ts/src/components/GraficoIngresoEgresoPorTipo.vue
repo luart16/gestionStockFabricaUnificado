@@ -1,7 +1,26 @@
 <template>
   <div style="max-width: 800px; margin: auto;">
+    <!-- Gráfico -->
     <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
     <p v-else>No hay datos disponibles para mostrar.</p>
+
+    <!-- Tabla comparativa -->
+    <table v-if="tablaDatos.length" class="table table-bordered table-striped mt-4">
+      <thead class="table-light">
+        <tr>
+          <th>Tipo de Producto</th>
+          <th class="text-end">Ingresos</th>
+          <th class="text-end">Egresos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(fila, index) in tablaDatos" :key="index">
+          <td>{{ fila.tipo }}</td>
+          <td class="text-end">{{ fila.ingresos }}</td>
+          <td class="text-end">{{ fila.egresos }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -25,38 +44,54 @@ const props = defineProps<{
   egresos: { tipoProducto: string; cantidad: number }[]
 }>()
 
-const datosGrafico = computed(() => {
-  const tipos = ['piedra', 'placa', 'piso']
-  const resumenIngresos: Record<string, number> = { piedra: 0, placa: 0, piso: 0 }
-  const resumenEgresos: Record<string, number> = { piedra: 0, placa: 0, piso: 0 }
+const tipos = ['piedra', 'placa', 'piso']
 
+// Resúmenes
+const resumenIngresos = computed(() => {
+  const resumen: Record<string, number> = { piedra: 0, placa: 0, piso: 0 }
   props.ingresos.forEach(item => {
     const tipo = item.tipoProducto.toLowerCase()
-    if (tipo in resumenIngresos) resumenIngresos[tipo] += item.cantidad || 0
+    if (tipo in resumen) resumen[tipo] += item.cantidad || 0
   })
-
-  props.egresos.forEach(item => {
-    const tipo = item.tipoProducto.toLowerCase()
-    if (tipo in resumenEgresos) resumenEgresos[tipo] += item.cantidad || 0
-  })
-
-  return {
-    labels: tipos.map(tipo => tipo.charAt(0).toUpperCase() + tipo.slice(1)),
-    datasets: [
-      {
-        label: 'Ingresos',
-        data: tipos.map(t => resumenIngresos[t]),
-        backgroundColor: '#52b788'
-      },
-      {
-        label: 'Egresos',
-        data: tipos.map(t => resumenEgresos[t]),
-        backgroundColor: '#e76f51'
-      }
-    ]
-  }
+  return resumen
 })
 
+const resumenEgresos = computed(() => {
+  const resumen: Record<string, number> = { piedra: 0, placa: 0, piso: 0 }
+  props.egresos.forEach(item => {
+    const tipo = item.tipoProducto.toLowerCase()
+    if (tipo in resumen) resumen[tipo] += item.cantidad || 0
+  })
+  return resumen
+})
+
+// Datos del gráfico
+const datosGrafico = computed(() => ({
+  labels: tipos.map(tipo => tipo.charAt(0).toUpperCase() + tipo.slice(1)),
+  datasets: [
+    {
+      label: 'Ingresos',
+      data: tipos.map(t => resumenIngresos.value[t]),
+      backgroundColor: '#52b788'
+    },
+    {
+      label: 'Egresos',
+      data: tipos.map(t => resumenEgresos.value[t]),
+      backgroundColor: '#e76f51'
+    }
+  ]
+}))
+
+// Datos para la tabla
+const tablaDatos = computed(() =>
+  tipos.map(tipo => ({
+    tipo: tipo.charAt(0).toUpperCase() + tipo.slice(1),
+    ingresos: resumenIngresos.value[tipo],
+    egresos: resumenEgresos.value[tipo]
+  }))
+)
+
+// Opciones del gráfico
 const opcionesGrafico = {
   responsive: true,
   plugins: {

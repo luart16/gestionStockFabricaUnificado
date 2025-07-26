@@ -1,91 +1,127 @@
 <template>
-    <div style="max-width: 800px; margin: auto;">
-        <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
-        <p v-else>No hay datos disponibles para mostrar.</p>
+  <div style="max-width: 1000px; margin: auto;">
+    <!-- Controles -->
+    <div class="d-flex flex-wrap gap-3 mb-4 align-items-end">
+      <div>
+        <label class="form-label fw-semibold">Buscar producto:</label>
+        <input v-model="busqueda" type="text" class="form-control" placeholder="Nombre del producto" />
+      </div>
+
+      <div>
+        <label class="form-label fw-semibold">Cantidad de productos:</label>
+        <select v-model="limite" class="form-select">
+          <option :value="5">5</option>
+          <option :value="10">10</option>
+          <option :value="20">20</option>
+          <option :value="50">50</option>
+        </select>
+      </div>
     </div>
+
+    <!-- Gráfico -->
+    <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
+    <p v-else>No hay datos disponibles para mostrar.</p>
+
+    <!-- Tabla de datos -->
+    <table v-if="tablaFiltrada.length" class="table table-bordered table-striped mt-4">
+      <thead class="table-light">
+        <tr>
+          <th>Producto</th>
+          <th class="text-end">Cantidad Egresada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(dato, index) in tablaFiltrada" :key="index">
+          <td>{{ dato.nombre }}</td>
+          <td class="text-end">{{ dato.cantidad }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { Bar } from 'vue-chartjs'
 import {
-    Chart as ChartJS,
-    Title,
-    Tooltip,
-    Legend,
-    BarElement,
-    CategoryScale,
-    LinearScale
+  Chart as ChartJS,
+  Title,
+  Tooltip,
+  Legend,
+  BarElement,
+  CategoryScale,
+  LinearScale
 } from 'chart.js'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
-// Definir props con tipado más preciso
 const props = defineProps<{
-    egresos: { nombre: string; cantidad: number }[]
+  egresos: { nombre: string; cantidad: number }[]
 }>()
 
-// Computar dinámicamente los datos del gráfico
-const datosGrafico = computed(() => {
-    if (!props.egresos || props.egresos.length === 0) {
-        return {
-            labels: [],
-            datasets: []
-        }
-    }
+const busqueda = ref('')
+const limite = ref(10)
 
-    const resumenPorProducto: Record<string, number> = {}
-
-    props.egresos.forEach(item => {
-        if (!item.nombre) return
-        if (!resumenPorProducto[item.nombre]) resumenPorProducto[item.nombre] = 0
-        resumenPorProducto[item.nombre] += item.cantidad || 0
-    })
-
-    const productosOrdenados = Object.entries(resumenPorProducto)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 10)
-
-    return {
-        labels: productosOrdenados.map(e => e[0]),
-        datasets: [{
-            label: 'Cantidad de Egreso',
-            data: productosOrdenados.map(e => e[1]),
-            backgroundColor: '#dd0426'
-        }]
-    }
+// Resumen por producto
+const resumenPorProducto = computed(() => {
+  const resumen: Record<string, number> = {}
+  props.egresos.forEach(item => {
+    const clave = item.nombre || 'Sin nombre'
+    resumen[clave] = (resumen[clave] || 0) + (item.cantidad || 0)
+  })
+  return resumen
 })
 
+// Lista filtrada y ordenada
+const nombresFiltradosOrdenados = computed(() => {
+  return Object.keys(resumenPorProducto.value)
+    .filter(n => n.toLowerCase().includes(busqueda.value.toLowerCase()))
+    .sort((a, b) => resumenPorProducto.value[b] - resumenPorProducto.value[a])
+    .slice(0, limite.value)
+})
+
+// Datos del gráfico
+const datosGrafico = computed(() => ({
+  labels: nombresFiltradosOrdenados.value,
+  datasets: [{
+    label: 'Cantidad de Egreso',
+    data: nombresFiltradosOrdenados.value.map(n => resumenPorProducto.value[n]),
+    backgroundColor: '#dd0426'
+  }]
+}))
+
+// Datos de la tabla
+const tablaFiltrada = computed(() =>
+  nombresFiltradosOrdenados.value.map(nombre => ({
+    nombre,
+    cantidad: resumenPorProducto.value[nombre]
+  }))
+)
+
+// Opciones del gráfico
 const opcionesGrafico = {
-    responsive: true,
-    plugins: {
-        legend: { position: 'top' as const },
-        title: {
-            display: true,
-            text: 'Top 10 Productos Con Más Egresos',
-            color: '#353535', //color del título
-            font: { size: 20 }
-        }
-    },
- scales: {
+  responsive: true,
+  plugins: {
+    legend: { position: 'top' as const },
+    title: {
+      display: true,
+      text: 'Top Productos con Más Egresos',
+      color: '#353535',
+      font: { size: 20 }
+    }
+  },
+  scales: {
     y: {
-      beginAtZero: true, // para que el eje empiece en cero
-      ticks: {color: '#0b090a'},  // color de las etiquetas del eje Y      
-      grid: {color: '#bcbdc2'},  // color de las líneas de la grilla    
-        border: {
-        color: '#0b090a',// color para la línea del eje y
-        width: 1 //grosor para la línea del eje y
-      }, 
+      beginAtZero: true,
+      ticks: { color: '#0b090a' },
+      grid: { color: '#bcbdc2' },
+      border: { color: '#0b090a', width: 1 }
     },
     x: {
-      ticks: {color: '#0b090a'},  // color etiquetas eje X      
-      grid: {color: '#bcbdc2'}, //color de las líneas de la grilla 
-      border: {
-        color: '#0b090a',// color para la línea del eje x
-        width: 1 //grosor para la línea del eje x
-      },     
-    },
-    
+      ticks: { color: '#0b090a' },
+      grid: { color: '#bcbdc2' },
+      border: { color: '#0b090a', width: 1 }
+    }
   }
 }
 </script>
