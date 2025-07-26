@@ -23,8 +23,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent" ref="elementoMenu">
         <div class="navbar-nav ms-auto align-items-center">
           <router-link to="/home" class="nav-link" @click="cerrarMenu">Inicio</router-link>
-          <router-link v-if="store.Rol == 'administrador'" to="/gestionarProductos" class="nav-link" @click="cerrarMenu">Gestionar Productos</router-link>
-          <router-link v-if="store.Rol == 'administrador'" to="/gestionarMateriales" class="nav-link" @click="cerrarMenu">Gestionar Materiales</router-link>
+          <router-link v-if="store.Rol == 'administrador'" to="/gestionarProductos" class="nav-link" @click="cerrarMenu">Gestionar Productos</router-link>          
           <router-link v-if="store.Rol == 'administrador'" to="/stockActualDeProductos" class="nav-link" @click="cerrarMenu">Gestionar Stock</router-link>
           <button class="btn-logout" @click="deslogueo" title="Cerrar sesión">
             <i class="bi bi-box-arrow-right"></i>

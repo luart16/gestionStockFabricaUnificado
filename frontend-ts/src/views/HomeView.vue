@@ -39,9 +39,18 @@
 
       </section>
 
-       <!--Acciones rápidas: -->
 
-        <!--OPCIÓN 1 DE Acciones rápidas: -->
+      <!--ESTADÍSTICAS VER DONDE PONER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+<router-link to="/estadisticasIngresosEgresos" class="btn btn-primario">
+  Ver Estadísticas de Ingresos/Egresos
+</router-link>
+
+
+      <!--Acciones rápidas: -->
+
+      <!--OPCIÓN 1 DE Acciones rápidas: -->
 
       <section class="acciones-rapidas">
         <h2>Acciones rápidas</h2>
@@ -164,7 +173,7 @@ const irA = (tipo: string) => {
 </script>
 
 <style scoped>
- .home-container {
+.home-container {
   padding: 2rem;
   min-height: 100vh;
   background-image: linear-gradient(135deg, #f3f4f6aa, #d9dee4aa), url(~@/imagenes/fondo.jpg);
@@ -182,7 +191,7 @@ const irA = (tipo: string) => {
   background: rgba(255, 255, 255, 0.6);
   padding: 2rem;
   border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
 .hero h1 {

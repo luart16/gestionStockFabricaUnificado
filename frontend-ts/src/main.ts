@@ -9,13 +9,13 @@ import './assets/styles.css'; //aquí estoy importando los estilos personalizado
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import './assets/styles.css';
-
+import HighchartsVue from 'highcharts-vue'
 
 const pinia= createPinia() //Creo una nueva instancia de Pinia para usar en mi app
 pinia.use(piniaPluginPersistedstate) // esto es para la persistencia (que no se desloguee al recargar)
 
 
-createApp(App).use(router).use(pinia).use(Toast,{
+createApp(App).use(router).use(pinia).use(HighchartsVue).use(Toast,{
 position: "top-center",
   timeout: 2451,
   closeOnClick: true,

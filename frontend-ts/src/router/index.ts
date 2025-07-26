@@ -12,7 +12,7 @@ import GestionarMaterialesView from '@/views/vistasMateriales/GestionarMateriale
 import CrearMaterialView from '@/views/vistasMateriales/CrearMaterialView.vue'
 import StockActualProductosView from '@/views/VistasStockProductosView.vue/StockActualProductosView.vue'
 import HistorialMovimientosStockView from '@/views/vistasHistorialMovimientos/HistorialMovimientosStockView.vue'
-
+import EstadisticasIngresosEgresosView from '@/views/vistasEstadisticas/EstadisticasIngresosEgresosView.vue'
 
 const routes = [
 
@@ -83,9 +83,6 @@ const routes = [
     component: CrearMaterialView
   },
 
-  
- 
-
   {
     path: '/historialMovimientosDeStock',
     name: 'historialMovimientosDeStock',
@@ -98,6 +95,13 @@ const routes = [
     component: StockActualProductosView
   },
 
+
+
+{
+  path: '/estadisticasIngresosEgresos',
+  name: 'EstadisticasIngresosEgresos',
+  component: EstadisticasIngresosEgresosView
+},
 
 ]
 

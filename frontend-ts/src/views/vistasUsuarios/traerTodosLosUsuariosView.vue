@@ -1,14 +1,14 @@
 <template>
   <div v-if="store.Logueado" class="contenido-app">
-    
-    <div >
+
+    <div>
       <NavBar />
 
       <div class="container py-4">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h1 class="titulo">Usuarios</h1>
           <router-link v-if="store.Rol == 'administrador'" to="/crearUsuario">
-            <button  class="btn btn-gris-a-blanco">Crear nuevo usuario</button>
+            <button class="btn btn-gris-a-blanco">Crear nuevo usuario</button>
           </router-link>
         </div>
 
@@ -37,7 +37,8 @@
                         <a class="dropdown-item" href="#" @click.prevent="activarModalEditar(usuario._id)">Editar</a>
                       </li>
                       <li>
-                        <a class="dropdown-item text-danger" href="#" @click.prevent="activarModalEliminar(usuario._id)">Eliminar</a>
+                        <a class="dropdown-item text-danger" href="#"
+                          @click.prevent="activarModalEliminar(usuario._id)">Eliminar</a>
                       </li>
                     </ul>
                   </div>
@@ -48,7 +49,8 @@
         </div>
 
         <!-- MODAL EDITAR USUARIO -->
-        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
@@ -74,7 +76,8 @@
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Contraseña</label>
-                  <input type="text" class="form-control" placeholder="Dejar vacío para no modificar" v-model="usuarioAEditar.contrasenia">
+                  <input type="text" class="form-control" placeholder="Dejar vacío para no modificar"
+                    v-model="usuarioAEditar.contrasenia">
                 </div>
               </div>
               <div class="modal-footer">
@@ -86,27 +89,27 @@
         </div>
 
         <!-- MODAL ELIMINAR USUARIO -->
-        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title text-danger">¿Eliminar Usuario?</h5>
-                <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
-              </div>
-              <div class="modal-body">
-                <p>Esta acción no se puede deshacer.</p>
-              </div>
-              <div class="modal-footer">
-                <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
-                <button class="btn btn-danger" @click="eliminarUsuario">Eliminar</button>
-              </div>
+        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title text-danger">¿Eliminar Usuario?</h5>
+              <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
+            </div>
+            <div class="modal-body">
+              <p>Esta acción no se puede deshacer.</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
+              <button class="btn btn-danger" @click="eliminarUsuario">Eliminar</button>
             </div>
           </div>
         </div>
       </div>
     </div>
-   </div>
-  
+  </div>
+
   <div v-else>
     <RequiereLogin />
   </div>
@@ -135,7 +138,7 @@ const usuarioAEditar = ref<DatosUsuariosEditar>({
   _id: '',
   nombreUsuario: '',
   email: '',
-  contrasenia:'',
+  contrasenia: '',
   rol: 'vendedor',
 })
 
@@ -157,7 +160,7 @@ const activarModalEditar = async (usuarioId: string) => {
   idUsuarioAEditar.value = usuarioId;
   mostrarModalEditar.value = true;
   usuarioAEditar.value = await servicioUsuario.traerUsuarioPorId(usuarioId)
-  usuarioAEditar.value.contrasenia="" //esto lo pongo para que no me muestre la clave que puso el usuario
+  usuarioAEditar.value.contrasenia = "" //esto lo pongo para que no me muestre la clave que puso el usuario
 }
 
 const editarUsuario = async () => {
@@ -182,8 +185,8 @@ const activarModalEliminar = async (usuarioId: string) => {
 
 const eliminarUsuario = async () => {
   try {
-   await servicioUsuario.eliminar(idUsuarioAEliminar.value);
-   toast.success('Usuario Eliminado!')
+    await servicioUsuario.eliminar(idUsuarioAEliminar.value);
+    toast.success('Usuario Eliminado!')
     traerTodos();
     mostrarModalEliminar.value = false;
   }
@@ -222,7 +225,9 @@ td .dropdown {
 }
 
 /*Ato de las celdas cabeceras: */
-.table thead th {line-height: 3; }
+.table thead th {
+  line-height: 3;
+}
 
 /*Resto de los estilos están en archivo globar style.css */
 </style>
