@@ -7,13 +7,36 @@
                 <div>
                     <h1 class="titulo">Gráficos de Movimientos de Stock</h1>
                 </div>
-               
+
             </div>
 
 
             <div v-if="cargando" class="text-center">
                 <span class="spinner-border"></span> Cargando datos...
             </div>
+
+
+
+            <div class="d-flex flex-wrap gap-3 mb-4">
+                <div>
+                    <label class="form-label fw-semibold">Fecha inicial:</label>
+                    <input type="date" class="form-control" v-model="fechaInicial" />
+                </div>
+
+                <div>
+                    <label class="form-label fw-semibold">Fecha final:</label>
+                    <input type="date" class="form-control" v-model="fechaFinal" />
+                </div>
+
+                <div class="d-flex align-items-end">
+                    <button class="btn btn-primario" @click="filtrarPorFecha">Filtrar</button>
+                </div>
+            </div>
+
+
+
+
+
 
             <div>
                 <GraficoIngresos v-if="!cargando" :ingresos="movimientosFiltradosIngreso" />
@@ -23,11 +46,24 @@
                 <GraficoEgresos v-if="!cargando" :egresos="movimientosFiltradosEgreso" />
             </div>
 
+            <div>
+                <GraficoIngresoPorTipo v-if="!cargando" :ingresos="movimientosFiltradosIngreso" />
+            </div>
 
+            <div>
+                <GraficoEgresoPorTipo v-if="!cargando" :egresos="movimientosFiltradosEgreso" />
+            </div>
 
+            <div>
+                <GraficoIngresoEgresoPorTipo v-if="!cargando" :ingresos="movimientosFiltradosIngreso"
+                    :egresos="movimientosFiltradosEgreso" />
+            </div>
 
+            <div>
+                <GraficoIngresoEgresoPorNombre v-if="!cargando" :ingresos="movimientosFiltradosIngreso"
+                    :egresos="movimientosFiltradosEgreso" />
 
-
+            </div>
 
         </div>
     </div>
@@ -46,8 +82,16 @@ import { servicioMovimientoStock } from '@/services/movimientoStock.service';
 import { DatosHistorialMovimientosStock } from '@/modelos/historialMovimientoStock';
 import GraficoIngresos from '@/components/GraficoIngresos.vue';
 import GraficoEgresos from '@/components/GraficoEgresos.vue';
+import GraficoEgresoPorTipo from '@/components/GraficoEgresoPorTipo.vue';
+import GraficoIngresoPorTipo from '@/components/GraficoIngresoPorTipo.vue';
+import GraficoIngresoEgresoPorTipo from '@/components/GraficoIngresoEgresoPorTipo.vue';
+import GraficoIngresoEgresoPorNombre from '@/components/GraficoIngresoEgresoPorNombre.vue';
+
 
 const store = userStore();
+
+const fechaInicial = ref('')
+const fechaFinal = ref('')
 
 const listaMovimientos = ref<DatosHistorialMovimientosStock[]>([])
 const cargando = ref(true)
@@ -86,6 +130,30 @@ const traerMovimientosEgresos = async () => {
         cargando.value = false
     }
 }
+
+//Para filtrar por fecha lo que muestran los gráficos:
+
+const filtrarPorFecha = async () => {
+    cargando.value = true
+    const todos = await servicioMovimientoStock.traerTodosMovimientosSinPaginacion()
+
+    const fechaInicio = fechaInicial.value ? new Date(fechaInicial.value) : null
+    const fechaFin = fechaFinal.value ? new Date(fechaFinal.value) : null
+
+    listaMovimientos.value = todos.filter((mov: DatosHistorialMovimientosStock) => {
+
+        const fechaMov = new Date(mov.fecha)
+        if (fechaInicio && fechaMov < fechaInicio) return false
+        if (fechaFin && fechaMov > fechaFin) return false
+        return true
+    })
+
+    movimientosFiltradosIngreso.value = listaMovimientos.value.filter(m => m.tipoMovimiento === 'INGRESO')
+    movimientosFiltradosEgreso.value = listaMovimientos.value.filter(m => m.tipoMovimiento === 'EGRESO')
+
+    cargando.value = false
+}
+
 
 onMounted(() => {
     traerMovimientosIngresos()
