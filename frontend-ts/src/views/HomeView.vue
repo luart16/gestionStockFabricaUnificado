@@ -39,42 +39,41 @@
 
       </section>
 
-
-      <!--ESTADÍSTICAS VER DONDE PONER!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
-
-
-<router-link to="/estadisticasIngresosEgresos" class="btn btn-primario">
-  Ver Estadísticas de Ingresos/Egresos
-</router-link>
-
-
-      <!--Acciones rápidas: -->
-
-      <!--OPCIÓN 1 DE Acciones rápidas: -->
+      <!--Acceso a gráficos: -->
 
       <section class="acciones-rapidas">
-        <h2>Acciones rápidas</h2>
+        <h2>Gráficos de Ingresos y Egresos</h2>
         <div class="acciones-grid">
-          <div class="accion" @click="router.push('/movimientos')">
-            <i class="bi bi-arrows-angle-expand"></i>
-            <span>Entradas y salidas</span>
+          <div class="accion" @click="router.push('/datosIngresosPorProductos')">
+            <i class="bi bi-box-arrow-in-down"></i>
+            <span>Productos con más ingresos</span>
           </div>
-          <div class="accion" @click="router.push('/stock')">
-            <i class="bi bi-box-seam"></i>
-            <span>Ver stock actual</span>
+          <div class="accion" @click="router.push('/datosEgresosPorProductos')">
+            <i class="bi bi-box-arrow-up"></i>
+            <span>Productos con más egresos</span>
           </div>
-          <div class="accion" @click="router.push('/productos')">
-            <i class="bi bi-card-list"></i>
-            <span>Listado de productos</span>
+          <div class="accion" @click="router.push('/datosIngresosVsEgresosPorProductos')">
+            <i class="bi bi-box-arrow-up me-1"></i>
+            <i class="bi bi-box-arrow-down me-2"></i>
+            <span>Ingresos vs Egresos - Por Producto -</span>
           </div>
-          <div class="accion" @click="router.push('/reportes')">
-            <i class="bi bi-graph-up"></i>
-            <span>Ver reportes</span>
+          <div class="accion" @click="router.push('/datosIngresosPorTipo')">
+            <i class="bi bi-arrow-up-square-fill"></i>
+            <span>Ingresos por tipo de producto</span>
+          </div>
+          <div class="accion" @click="router.push('/datosEgresosPorTipo')">
+            <i class="bi bi-arrow-down-square-fill"></i>
+            <span>Egresos por tipo de producto</span>
+          </div>
+          <div class="accion" @click="router.push('/datosIngresosVsEgresosPorTipo')">
+            <i class="bi bi-arrow-up-square-fill"></i>
+            <i class="bi bi-arrow-down-square-fill"></i>
+            <span>Ingresos vs Egresos - Por Producto -</span>
           </div>
         </div>
       </section>
 
-      <!--OPCIÓN 2 DE Acciones rápidas: -->
+      <!-- Acciones rápidas: -->
 
       <section class="acciones-rapidas">
         <h2>Acciones rápidas</h2>
@@ -82,7 +81,7 @@
           <!-- Materiales -->
           <div class="col-12 col-md-6 col-lg-3">
             <router-link to="/gestionarMateriales"
-              class="barra-acceso-admin barra-rosa d-block text-decoration-none h-100">
+              class="barra-acceso-admin barra-violeta d-block text-decoration-none h-100">
               <div class="contenido-barra d-flex align-items-center gap-3">
                 <i class="bi bi-boxes icono-accion barra-rosa-icon"></i>
                 <div>
@@ -97,7 +96,7 @@
           <!-- Usuarios -->
           <div class="col-12 col-md-6 col-lg-3">
             <router-link to="/traerUsuarios"
-              class="barra-acceso-admin barra-violeta d-block text-decoration-none h-100">
+              class="barra-acceso-admin barra-rosa d-block text-decoration-none h-100">
               <div class="contenido-barra d-flex align-items-center gap-3">
                 <i class="bi bi-person-fill-check icono-accion barra-violeta-icon"></i>
                 <div>
@@ -111,9 +110,9 @@
 
           <!-- Sucursales -->
           <div class="col-12 col-md-6 col-lg-3">
-            <router-link to="/traerSucursales" class="barra-acceso-admin barra-gris d-block text-decoration-none h-100">
+            <router-link to="/traerSucursales" class="barra-acceso-admin barra-violeta d-block text-decoration-none h-100">
               <div class="contenido-barra d-flex align-items-center gap-3">
-                <i class="bi bi-buildings-fill icono-accion barra-gris-icon"></i>
+                <i class="bi bi-buildings-fill icono-accion barra-rosa-icon"></i>
                 <div>
                   <h5 class="mb-1 fw-bold">Sucursales</h5>
                   <p class="mb-0">Administra ubicaciones</p>
@@ -126,9 +125,9 @@
           <!-- Movimientos -->
           <div class="col-12 col-md-6 col-lg-3">
             <router-link to="/historialMovimientosDeStock"
-              class="barra-acceso-admin barra-verde d-block text-decoration-none h-100">
+              class="barra-acceso-admin barra-rosa d-block text-decoration-none h-100">
               <div class="contenido-barra d-flex align-items-center gap-3">
-                <i class="bi bi-clipboard-data icono-accion barra-verde-icon"></i>
+                <i class="bi bi-clipboard-data icono-accion barra-violeta-icon"></i>
                 <div>
                   <h5 class="mb-1 fw-bold">Movimientos</h5>
                   <p class="mb-0">Visualiza entradas y salidas de productos</p>
@@ -266,7 +265,7 @@ const irA = (tipo: string) => {
   color: #2c3e50;
 }
 
-/*Estilo de acciones rápidas para opción 1*/
+/*Estilo de acceso a gráficos:*/
 
 .acciones-grid {
   display: grid;
@@ -305,14 +304,6 @@ const irA = (tipo: string) => {
   color: #2c3e50;
 }
 
-
-
-
-
-/*desde acá lo viejooooooooooooooooooooooooooooooooooooooooooo:*/
-
-/* Acciones rápidas */
-
 /*Estilo de acciones rápidas para opción 2*/
 
 .barra-acceso-admin {
@@ -338,15 +329,6 @@ const irA = (tipo: string) => {
 }
 
 /* Colores personalizados */
-.barra-verde {
-  background: linear-gradient(90deg, #e8f5e8, #d0ecd0);
-  border-color: #4caf50;
-  color: #2e7d32;
-}
-
-.barra-verde:hover {
-  color: #1b5e20;
-}
 
 .barra-rosa {
   background: linear-gradient(90deg, #fae6f4, #f2cce9);
@@ -368,16 +350,6 @@ const irA = (tipo: string) => {
   color: #2a1c4d;
 }
 
-.barra-gris {
-  background: linear-gradient(90deg, #f5f5f5, #dcdde1);
-  border-color: #ccced3;
-  color: #444;
-}
-
-.barra-gris:hover {
-  color: #222;
-}
-
 /* Iconos */
 .icono-accion {
   font-size: 2.2rem;
@@ -395,10 +367,6 @@ const irA = (tipo: string) => {
 
 .barra-violeta-icon {
   color: #573c9d;
-}
-
-.barra-gris-icon {
-  color: #ccced3;
 }
 
 .flecha-icono {

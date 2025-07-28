@@ -1,4 +1,4 @@
-<template> 
+<template>
   <div style="max-width: 1000px; margin: auto;">
     <!-- Controles -->
     <div class="d-flex flex-wrap gap-3 mb-4 align-items-end">
@@ -16,7 +16,15 @@
           <option :value="50">50</option>
         </select>
       </div>
+
+ <!-- Botón Exportar -->
+      <div class="ms-auto">
+        <button class="btn btn-exportar-pagina" @click="exportarAExcel">Exportar a Excel</button>
+      </div>
     </div>
+
+        <!-- Botón descargar gráfico como imagen -->
+<button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button>
 
     <!-- Gráfico -->
     <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
@@ -44,6 +52,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import * as XLSX from 'xlsx'
 import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -65,25 +74,32 @@ const props = defineProps<{
 const busqueda = ref('')
 const limite = ref(10)
 
-const resumenIngresos: Record<string, number> = {}
-const resumenEgresos: Record<string, number> = {}
-
-props.ingresos.forEach(item => {
-  const clave = item.nombre || 'Sin nombre'
-  resumenIngresos[clave] = (resumenIngresos[clave] || 0) + (item.cantidad || 0)
+const resumenIngresos = computed(() => {
+  const resumen: Record<string, number> = {}
+  props.ingresos.forEach(item => {
+    const clave = item.nombre || 'Sin nombre'
+    resumen[clave] = (resumen[clave] || 0) + (item.cantidad || 0)
+  })
+  return resumen
 })
 
-props.egresos.forEach(item => {
-  const clave = item.nombre || 'Sin nombre'
-  resumenEgresos[clave] = (resumenEgresos[clave] || 0) + (item.cantidad || 0)
+const resumenEgresos = computed(() => {
+  const resumen: Record<string, number> = {}
+  props.egresos.forEach(item => {
+    const clave = item.nombre || 'Sin nombre'
+    resumen[clave] = (resumen[clave] || 0) + (item.cantidad || 0)
+  })
+  return resumen
 })
 
-// Nombres combinados y filtrados
 const nombresFiltradosOrdenados = computed(() => {
-  const nombresUnicos = Array.from(new Set([...Object.keys(resumenIngresos), ...Object.keys(resumenEgresos)]))
+  const nombresUnicos = Array.from(
+    new Set([...Object.keys(resumenIngresos.value), ...Object.keys(resumenEgresos.value)])
+  )
+
   return nombresUnicos
     .filter(n => n.toLowerCase().includes(busqueda.value.toLowerCase()))
-    .sort((a, b) => (resumenIngresos[b] || 0) - (resumenIngresos[a] || 0))
+    .sort((a, b) => (resumenIngresos.value[b] || 0) - (resumenIngresos.value[a] || 0))
     .slice(0, limite.value)
 })
 
@@ -92,12 +108,12 @@ const datosGrafico = computed(() => ({
   datasets: [
     {
       label: 'Ingresos',
-      data: nombresFiltradosOrdenados.value.map(n => resumenIngresos[n] || 0),
+      data: nombresFiltradosOrdenados.value.map(n => resumenIngresos.value[n] || 0),
       backgroundColor: '#52b788'
     },
     {
       label: 'Egresos',
-      data: nombresFiltradosOrdenados.value.map(n => resumenEgresos[n] || 0),
+      data: nombresFiltradosOrdenados.value.map(n => resumenEgresos.value[n] || 0),
       backgroundColor: '#e76f51'
     }
   ]
@@ -106,10 +122,47 @@ const datosGrafico = computed(() => ({
 const tablaFiltrada = computed(() =>
   nombresFiltradosOrdenados.value.map(nombre => ({
     nombre,
-    ingresos: resumenIngresos[nombre] || 0,
-    egresos: resumenEgresos[nombre] || 0
+    ingresos: resumenIngresos.value[nombre] || 0,
+    egresos: resumenEgresos.value[nombre] || 0
   }))
 )
+
+const exportarAExcel = () => {
+  const hoja = XLSX.utils.json_to_sheet(tablaFiltrada.value)
+  const libro = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(libro, hoja, 'IngresosVsEgresos')
+  XLSX.writeFile(libro, 'Ingresos_vs_Egresos.xlsx')
+}
+
+/*Función para exportar el gráfico de excel como imagen: */
+
+const exportarGraficoComoPNG = () => {
+  const canvas = document.querySelector('canvas')
+  if (!canvas) return
+
+  const backgroundColor = '#ffffff' // Fondo blanco
+
+  const exportCanvas = document.createElement('canvas')
+  exportCanvas.width = canvas.width
+  exportCanvas.height = canvas.height
+
+  const ctx = exportCanvas.getContext('2d')
+  if (!ctx) return
+
+  // Poner fondo blanco
+  ctx.fillStyle = backgroundColor
+  ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
+
+  // Copiar el contenido original
+  ctx.drawImage(canvas, 0, 0)
+
+  // Descargar la imagen
+  const enlace = document.createElement('a')
+  enlace.download = 'grafico.png'
+  enlace.href = exportCanvas.toDataURL('image/png')
+  enlace.click()
+}
+
 
 const opcionesGrafico = {
   responsive: true,

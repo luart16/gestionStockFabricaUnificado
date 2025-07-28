@@ -1,5 +1,14 @@
 <template>
   <div style="max-width: 800px; margin: auto;">
+    <!-- Botón exportar -->
+    <div class="text-end mb-3">
+      <button class="btn btn-exportar-pagina" @click="exportarResumenAExcel">Exportar a Excel</button>
+    </div>
+
+    <!-- Botón descargar gráfico como imagen -->
+<button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button>
+
+
     <!-- Gráfico -->
     <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
     <p v-else>No hay datos disponibles para mostrar.</p>
@@ -24,6 +33,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import * as XLSX from 'xlsx'
 import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -41,7 +51,6 @@ const props = defineProps<{
   egresos: { tipoProducto: string; cantidad: number }[]
 }>()
 
-// Cálculo del resumen por tipo
 const resumen = computed(() => {
   const resumen: Record<string, number> = {
     piedra: 0,
@@ -59,7 +68,6 @@ const resumen = computed(() => {
   return resumen
 })
 
-// Datos para el gráfico
 const datosGrafico = computed(() => ({
   labels: ['Piedra', 'Placa', 'Piso'],
   datasets: [{
@@ -69,14 +77,48 @@ const datosGrafico = computed(() => ({
   }]
 }))
 
-// Datos para la tabla
 const tablaDatos = computed(() => [
   { tipo: 'Piedra', cantidad: resumen.value.piedra },
   { tipo: 'Placa', cantidad: resumen.value.placa },
   { tipo: 'Piso', cantidad: resumen.value.piso }
 ])
 
-// Opciones del gráfico
+const exportarResumenAExcel = () => {
+  const hoja = XLSX.utils.json_to_sheet(tablaDatos.value)
+  const libro = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(libro, hoja, 'ResumenEgresosTipoProducto')
+  XLSX.writeFile(libro, 'Resumen_Egresos_TipoProducto.xlsx')
+}
+
+/*Función para exportar el gráfico de excel como imagen: */
+
+const exportarGraficoComoPNG = () => {
+  const canvas = document.querySelector('canvas')
+  if (!canvas) return
+
+  const backgroundColor = '#ffffff' // Fondo blanco
+
+  const exportCanvas = document.createElement('canvas')
+  exportCanvas.width = canvas.width
+  exportCanvas.height = canvas.height
+
+  const ctx = exportCanvas.getContext('2d')
+  if (!ctx) return
+
+  // Poner fondo blanco
+  ctx.fillStyle = backgroundColor
+  ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
+
+  // Copiar el contenido original
+  ctx.drawImage(canvas, 0, 0)
+
+  // Descargar la imagen
+  const enlace = document.createElement('a')
+  enlace.download = 'grafico.png'
+  enlace.href = exportCanvas.toDataURL('image/png')
+  enlace.click()
+}
+
 const opcionesGrafico = {
   responsive: true,
   plugins: {

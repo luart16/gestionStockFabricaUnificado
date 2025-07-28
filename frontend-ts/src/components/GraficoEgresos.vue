@@ -16,7 +16,16 @@
           <option :value="50">50</option>
         </select>
       </div>
+
+      <!-- Botón exportar a excel -->
+      <div class="ms-auto">
+        <button class="btn btn-exportar-pagina" @click="exportarResumenAExcel">Exportar a Excel</button>
+      </div>
     </div>
+
+    <!-- Botón descargar gráfico como imagen -->
+<button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button>
+
 
     <!-- Gráfico -->
     <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
@@ -43,6 +52,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Bar } from 'vue-chartjs'
+import * as XLSX from 'xlsx'
 import {
   Chart as ChartJS,
   Title,
@@ -62,7 +72,6 @@ const props = defineProps<{
 const busqueda = ref('')
 const limite = ref(10)
 
-// Resumen por producto
 const resumenPorProducto = computed(() => {
   const resumen: Record<string, number> = {}
   props.egresos.forEach(item => {
@@ -72,7 +81,6 @@ const resumenPorProducto = computed(() => {
   return resumen
 })
 
-// Lista filtrada y ordenada
 const nombresFiltradosOrdenados = computed(() => {
   return Object.keys(resumenPorProducto.value)
     .filter(n => n.toLowerCase().includes(busqueda.value.toLowerCase()))
@@ -80,7 +88,6 @@ const nombresFiltradosOrdenados = computed(() => {
     .slice(0, limite.value)
 })
 
-// Datos del gráfico
 const datosGrafico = computed(() => ({
   labels: nombresFiltradosOrdenados.value,
   datasets: [{
@@ -90,7 +97,6 @@ const datosGrafico = computed(() => ({
   }]
 }))
 
-// Datos de la tabla
 const tablaFiltrada = computed(() =>
   nombresFiltradosOrdenados.value.map(nombre => ({
     nombre,
@@ -98,7 +104,48 @@ const tablaFiltrada = computed(() =>
   }))
 )
 
-// Opciones del gráfico
+const exportarResumenAExcel = () => {
+  if (tablaFiltrada.value.length === 0) {
+    alert('No hay datos para exportar')
+    return
+  }
+
+  const hoja = XLSX.utils.json_to_sheet(tablaFiltrada.value)
+  const libro = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(libro, hoja, 'ResumenEgresos')
+
+  XLSX.writeFile(libro, 'Resumen_Egresos_Productos.xlsx')
+}
+
+/*Función para exportar el gráfico de excel como imagen: */
+
+const exportarGraficoComoPNG = () => {
+  const canvas = document.querySelector('canvas')
+  if (!canvas) return
+
+  const backgroundColor = '#ffffff' // Fondo blanco
+
+  const exportCanvas = document.createElement('canvas')
+  exportCanvas.width = canvas.width
+  exportCanvas.height = canvas.height
+
+  const ctx = exportCanvas.getContext('2d')
+  if (!ctx) return
+
+  // Poner fondo blanco
+  ctx.fillStyle = backgroundColor
+  ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
+
+  // Copiar el contenido original
+  ctx.drawImage(canvas, 0, 0)
+
+  // Descargar la imagen
+  const enlace = document.createElement('a')
+  enlace.download = 'grafico.png'
+  enlace.href = exportCanvas.toDataURL('image/png')
+  enlace.click()
+}
+
 const opcionesGrafico = {
   responsive: true,
   plugins: {

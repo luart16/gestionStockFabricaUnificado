@@ -12,7 +12,12 @@ import GestionarMaterialesView from '@/views/vistasMateriales/GestionarMateriale
 import CrearMaterialView from '@/views/vistasMateriales/CrearMaterialView.vue'
 import StockActualProductosView from '@/views/VistasStockProductosView.vue/StockActualProductosView.vue'
 import HistorialMovimientosStockView from '@/views/vistasHistorialMovimientos/HistorialMovimientosStockView.vue'
-import EstadisticasIngresosEgresosView from '@/views/vistasEstadisticas/EstadisticasIngresosEgresosView.vue'
+import IngresosPorProductoView from '@/views/vistasEstadisticas/IngresosPorProductoView.vue'
+import EgresosPorProductoView from '@/views/vistasEstadisticas/EgresosPorProductoView.vue'
+import ComparaIngresosEgresosPorNombreView from '@/views/vistasEstadisticas/ComparaIngresosEgresosPorNombreView.vue'
+import IngresosPorTipoView from '@/views/vistasEstadisticas/IngresosPorTipoView.vue'
+import EgresosPorTipoView from '@/views/vistasEstadisticas/EgresosPorTipoView.vue'
+import ComparaIngresosEgresosPorTipoView from '@/views/vistasEstadisticas/ComparaIngresosEgresosPorTipoView.vue'
 
 const routes = [
 
@@ -95,12 +100,40 @@ const routes = [
     component: StockActualProductosView
   },
 
+  {
+  path: '/datosIngresosPorProductos',
+  name: 'datosIngresosPorProductos',
+  component: IngresosPorProductoView
+},
 
+  {
+  path: '/datosEgresosPorProductos',
+  name: 'datosEgresosPorProductos',
+  component: EgresosPorProductoView
+},
+
+ {
+  path: '/datosIngresosVsEgresosPorProductos',
+  name: 'datosIngresosVsEgresosPorProductos',
+  component: ComparaIngresosEgresosPorNombreView
+},
+
+ {
+  path: '/datosIngresosPorTipo',
+  name: 'datosIngresosPorTipo',
+  component: IngresosPorTipoView
+},
 
 {
-  path: '/estadisticasIngresosEgresos',
-  name: 'EstadisticasIngresosEgresos',
-  component: EstadisticasIngresosEgresosView
+  path: '/datosEgresosPorTipo',
+  name: 'datosEgresosPorTipo',
+  component: EgresosPorTipoView
+},
+
+{
+  path: '/datosIngresosVsEgresosPorTipo',
+  name: 'datosIngresosVsEgresosPorTipo',
+  component: ComparaIngresosEgresosPorTipoView
 },
 
 ]

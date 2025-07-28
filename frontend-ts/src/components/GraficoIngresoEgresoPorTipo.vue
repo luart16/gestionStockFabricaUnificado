@@ -1,5 +1,14 @@
 <template>
   <div style="max-width: 800px; margin: auto;">
+    <!-- Botón Exportar -->
+    <div class="d-flex justify-content-end mb-3">
+      <button class="btn btn-exportar-pagina" @click="exportarAExcel">Exportar a Excel</button>
+    </div>
+
+    <!-- Botón descargar gráfico como imagen -->
+<button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button>
+
+
     <!-- Gráfico -->
     <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
     <p v-else>No hay datos disponibles para mostrar.</p>
@@ -26,6 +35,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import * as XLSX from 'xlsx'
 import { Bar } from 'vue-chartjs'
 import {
   Chart as ChartJS,
@@ -46,7 +56,6 @@ const props = defineProps<{
 
 const tipos = ['piedra', 'placa', 'piso']
 
-// Resúmenes
 const resumenIngresos = computed(() => {
   const resumen: Record<string, number> = { piedra: 0, placa: 0, piso: 0 }
   props.ingresos.forEach(item => {
@@ -65,7 +74,14 @@ const resumenEgresos = computed(() => {
   return resumen
 })
 
-// Datos del gráfico
+const tablaDatos = computed(() =>
+  tipos.map(tipo => ({
+    tipo: tipo.charAt(0).toUpperCase() + tipo.slice(1),
+    ingresos: resumenIngresos.value[tipo],
+    egresos: resumenEgresos.value[tipo]
+  }))
+)
+
 const datosGrafico = computed(() => ({
   labels: tipos.map(tipo => tipo.charAt(0).toUpperCase() + tipo.slice(1)),
   datasets: [
@@ -82,16 +98,43 @@ const datosGrafico = computed(() => ({
   ]
 }))
 
-// Datos para la tabla
-const tablaDatos = computed(() =>
-  tipos.map(tipo => ({
-    tipo: tipo.charAt(0).toUpperCase() + tipo.slice(1),
-    ingresos: resumenIngresos.value[tipo],
-    egresos: resumenEgresos.value[tipo]
-  }))
-)
+const exportarAExcel = () => {
+  const hoja = XLSX.utils.json_to_sheet(tablaDatos.value)
+  const libro = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(libro, hoja, 'ComparativaTipo')
+  XLSX.writeFile(libro, 'Ingresos_vs_Egresos_TipoProducto.xlsx')
+}
 
-// Opciones del gráfico
+/*Función para exportar el gráfico de excel como imagen: */
+
+const exportarGraficoComoPNG = () => {
+  const canvas = document.querySelector('canvas')
+  if (!canvas) return
+
+  const backgroundColor = '#ffffff' // Fondo blanco
+
+  const exportCanvas = document.createElement('canvas')
+  exportCanvas.width = canvas.width
+  exportCanvas.height = canvas.height
+
+  const ctx = exportCanvas.getContext('2d')
+  if (!ctx) return
+
+  // Poner fondo blanco
+  ctx.fillStyle = backgroundColor
+  ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
+
+  // Copiar el contenido original
+  ctx.drawImage(canvas, 0, 0)
+
+  // Descargar la imagen
+  const enlace = document.createElement('a')
+  enlace.download = 'grafico.png'
+  enlace.href = exportCanvas.toDataURL('image/png')
+  enlace.click()
+}
+
+
 const opcionesGrafico = {
   responsive: true,
   plugins: {

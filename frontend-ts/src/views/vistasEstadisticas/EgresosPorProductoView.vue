@@ -33,36 +33,8 @@
                 </div>
             </div>
 
-
-
-
-
-
-            <div>
-                <GraficoIngresos v-if="!cargando" :ingresos="movimientosFiltradosIngreso" />
-            </div>
-
             <div>
                 <GraficoEgresos v-if="!cargando" :egresos="movimientosFiltradosEgreso" />
-            </div>
-
-            <div>
-                <GraficoIngresoPorTipo v-if="!cargando" :ingresos="movimientosFiltradosIngreso" />
-            </div>
-
-            <div>
-                <GraficoEgresoPorTipo v-if="!cargando" :egresos="movimientosFiltradosEgreso" />
-            </div>
-
-            <div>
-                <GraficoIngresoEgresoPorTipo v-if="!cargando" :ingresos="movimientosFiltradosIngreso"
-                    :egresos="movimientosFiltradosEgreso" />
-            </div>
-
-            <div>
-                <GraficoIngresoEgresoPorNombre v-if="!cargando" :ingresos="movimientosFiltradosIngreso"
-                    :egresos="movimientosFiltradosEgreso" />
-
             </div>
 
         </div>
@@ -80,13 +52,7 @@ import { userStore } from '@/store/user';
 import NavBar from '@/components/BarraNavegacion.vue'
 import { servicioMovimientoStock } from '@/services/movimientoStock.service';
 import { DatosHistorialMovimientosStock } from '@/modelos/historialMovimientoStock';
-import GraficoIngresos from '@/components/GraficoIngresos.vue';
 import GraficoEgresos from '@/components/GraficoEgresos.vue';
-import GraficoEgresoPorTipo from '@/components/GraficoEgresoPorTipo.vue';
-import GraficoIngresoPorTipo from '@/components/GraficoIngresoPorTipo.vue';
-import GraficoIngresoEgresoPorTipo from '@/components/GraficoIngresoEgresoPorTipo.vue';
-import GraficoIngresoEgresoPorNombre from '@/components/GraficoIngresoEgresoPorNombre.vue';
-
 
 const store = userStore();
 
@@ -98,22 +64,6 @@ const cargando = ref(true)
 
 const movimientosFiltradosIngreso = ref<DatosHistorialMovimientosStock[]>([])
 const movimientosFiltradosEgreso = ref<DatosHistorialMovimientosStock[]>([])
-
-const traerMovimientosIngresos = async () => {
-    try {
-        cargando.value = true
-        const todos: DatosHistorialMovimientosStock[] = await servicioMovimientoStock.traerTodosMovimientosSinPaginacion()
-
-        listaMovimientos.value = todos
-        movimientosFiltradosIngreso.value = todos.filter(m => m.tipoMovimiento === 'INGRESO')
-    }
-    catch (error) {
-        console.error('Error al traer movimientos:', error)
-    }
-    finally {
-        cargando.value = false
-    }
-}
 
 const traerMovimientosEgresos = async () => {
     try {
@@ -148,18 +98,14 @@ const filtrarPorFecha = async () => {
         return true
     })
 
-    movimientosFiltradosIngreso.value = listaMovimientos.value.filter(m => m.tipoMovimiento === 'INGRESO')
     movimientosFiltradosEgreso.value = listaMovimientos.value.filter(m => m.tipoMovimiento === 'EGRESO')
 
     cargando.value = false
 }
 
-
 onMounted(() => {
-    traerMovimientosIngresos()
     traerMovimientosEgresos()
 })
-
 
 </script>
 
