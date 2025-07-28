@@ -1,17 +1,21 @@
 <template>
   <div v-if="store.Logueado" class="contenido-app">
-    
-      <NavBar />
 
-      <div class="container py-4">
-       
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-          <h1 class="titulo">Sucursales</h1>
-          <router-link v-if="store.Rol == 'administrador'" to="/crearSucursal">
-            <button class="btn btn-gris-a-blanco">Crear nueva sucursal</button>
-          </router-link>
-        </div>
+    <NavBar />
 
+    <div class="container py-4">
+
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="titulo">Sucursales</h1>
+        <router-link v-if="store.Rol == 'administrador'" to="/crearSucursal">
+          <button class="btn btn-gris-a-blanco">Crear nueva sucursal</button>
+        </router-link>
+      </div>
+
+      <div v-if="traerTodos.length == 0">
+        <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+      </div>
+      <div v-else>
         <div class="table-responsive">
           <table class="table table-hover table-bordered align-middle">
             <thead class="table-light">
@@ -103,7 +107,9 @@
           </div>
         </div>
       </div>
-    
+
+    </div>
+
   </div>
   <div v-else>
     <RequiereLogin />
@@ -215,7 +221,9 @@ td .dropdown {
 }
 
 /*Ato de las celdas cabeceras: */
-.table thead th {line-height: 3; }
+.table thead th {
+  line-height: 3;
+}
 
 /*Resto de los estilos están en archivo globar style.css */
 </style>

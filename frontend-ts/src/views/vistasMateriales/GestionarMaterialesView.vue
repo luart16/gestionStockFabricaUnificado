@@ -12,156 +12,163 @@
         </router-link>
       </div>
 
-      <!-- Filtro -->
-      <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+      <div v-if="traerTodos.length == 0">
+        <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+      </div>
+      <div v-else>
+        <!-- Filtro -->
+        <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
-        <label class="form-label fw-semibold">Filtro:</label>
-        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color" style="max-width: 400px;" />
+          <label class="form-label fw-semibold">Filtro:</label>
+          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color"
+            style="max-width: 400px;" />
 
-        <!-- Selector de cantidad por página -->
-        <div class="d-flex align-items-end">
-          <label class="form-label me-2">Mostrar:</label>
-          <select class="form-select" style="width: auto;" v-model="totalPorpagina" @change="cambiarCantidadPorPagina">
-            <option :value="10">10 por página</option>
-            <option :value="20">20 por página</option>
-            <option :value="50">50 por página</option>
-          </select>
+          <!-- Selector de cantidad por página -->
+          <div class="d-flex align-items-end">
+            <label class="form-label me-2">Mostrar:</label>
+            <select class="form-select" style="width: auto;" v-model="totalPorpagina"
+              @change="cambiarCantidadPorPagina">
+              <option :value="10">10 por página</option>
+              <option :value="20">20 por página</option>
+              <option :value="50">50 por página</option>
+            </select>
+          </div>
+
         </div>
 
-      </div>
+        <!-- Tabla Materiales -->
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Nombre de Material</th>
+                <th>Color</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th v-if="store.Rol == 'administrador'">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="material in materialesExistentes" :key="material._id">
+                <td>{{ material.nombreMaterial }}</td>
+                <td>{{ material.color }}</td>
+                <td>{{ material.descripcion }}</td>
+                <td>{{ material.precio }}</td>
+                <td>{{ material.stock }}</td>
+                <td v-if="store.Rol == 'administrador'">
+                  <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                      Opciones
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#"
+                          @click.prevent="activarModalEditarMaterial(material._id)">Editar</a></li>
+                      <li><a class="dropdown-item text-danger" href="#"
+                          @click.prevent="activarModalEliminarrMaterial(material._id)">Eliminar</a></li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <!-- Tabla Materiales -->
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Nombre de Material</th>
-              <th>Color</th>
-              <th>Descripción</th>
-              <th>Precio</th>
-              <th>Stock</th>
-              <th v-if="store.Rol == 'administrador'">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="material in materialesExistentes" :key="material._id">
-              <td>{{ material.nombreMaterial }}</td>
-              <td>{{ material.color }}</td>
-              <td>{{ material.descripcion }}</td>
-              <td>{{ material.precio }}</td>
-              <td>{{ material.stock }}</td>
-              <td v-if="store.Rol == 'administrador'">
-                <div class="dropdown">
-                  <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    Opciones
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#"
-                        @click.prevent="activarModalEditarMaterial(material._id)">Editar</a></li>
-                    <li><a class="dropdown-item text-danger" href="#"
-                        @click.prevent="activarModalEliminarrMaterial(material._id)">Eliminar</a></li>
-                  </ul>
+        <!-- MODAL EDITAR MATERIAL -->
+        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Editar Material</h5>
+                <button type="button" class="btn-close" @click="mostrarModalEditar = false"></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" class="form-control" v-model="materialAEditar.nombreMaterial">
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- MODAL EDITAR MATERIAL -->
-      <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Editar Material</h5>
-              <button type="button" class="btn-close" @click="mostrarModalEditar = false"></button>
-            </div>
-            <div class="modal-body">
-              <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" v-model="materialAEditar.nombreMaterial">
+                <div class="mb-3">
+                  <label class="form-label">Color</label>
+                  <input type="text" class="form-control" v-model="materialAEditar.color">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Descripción</label>
+                  <input type="text" class="form-control" v-model="materialAEditar.descripcion">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Precio</label>
+                  <input type="number" class="form-control" v-model="materialAEditar.precio">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Stock</label>
+                  <input type="number" class="form-control" v-model="materialAEditar.stock">
+                </div>
               </div>
-              <div class="mb-3">
-                <label class="form-label">Color</label>
-                <input type="text" class="form-control" v-model="materialAEditar.color">
+              <div class="modal-footer">
+                <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
+                <button class="btn btn-rosa-a-blanco" @click="mostrarModalConfirmarEdicion = true">Guardar</button>
               </div>
-              <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <input type="text" class="form-control" v-model="materialAEditar.descripcion">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Precio</label>
-                <input type="number" class="form-control" v-model="materialAEditar.precio">
-              </div>
-              <div class="mb-3">
-                <label class="form-label">Stock</label>
-                <input type="number" class="form-control" v-model="materialAEditar.stock">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
-              <button class="btn btn-rosa-a-blanco" @click="mostrarModalConfirmarEdicion = true">Guardar</button>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- MODAL CONFIRMAR GUARDAR CAMBIOS -->
-      <div v-if="mostrarModalConfirmarEdicion" class="modal fade show d-block" tabindex="-1"
-        style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-rosado">¿Desea guardar los cambios?</h5>
-              <button type="button" class="btn-close" @click="mostrarModalConfirmarEdicion = false"></button>
-            </div>
-            <div class="modal-body">
-              <p>Se sobrescribirá la información del producto.</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-gris-a-blanco" @click="mostrarModalConfirmarEdicion = false">No</button>
-              <button class="btn btn-rosa-a-blanco" @click="confirmarEdicion">Sí, guardar</button>
+        <!-- MODAL CONFIRMAR GUARDAR CAMBIOS -->
+        <div v-if="mostrarModalConfirmarEdicion" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-rosado">¿Desea guardar los cambios?</h5>
+                <button type="button" class="btn-close" @click="mostrarModalConfirmarEdicion = false"></button>
+              </div>
+              <div class="modal-body">
+                <p>Se sobrescribirá la información del producto.</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-gris-a-blanco" @click="mostrarModalConfirmarEdicion = false">No</button>
+                <button class="btn btn-rosa-a-blanco" @click="confirmarEdicion">Sí, guardar</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- MODAL ELIMINAR MATERIAL -->
-      <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
-        style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-danger">¿Eliminar Material?</h5>
-              <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
-            </div>
-            <div class="modal-body">
-              <p>Esta acción no se puede deshacer.</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
-              <button class="btn btn-danger" @click="eliminarMaterial">Eliminar</button>
+        <!-- MODAL ELIMINAR MATERIAL -->
+        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger">¿Eliminar Material?</h5>
+                <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
+              </div>
+              <div class="modal-body">
+                <p>Esta acción no se puede deshacer.</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
+                <button class="btn btn-danger" @click="eliminarMaterial">Eliminar</button>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- Paginación -->
+        <nav class="d-flex justify-content-center mt-4">
+          <ul class="pagination">
+            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+            </li>
+            <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
+              :class="{ active: pagina === paginaActual }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-
-      <!-- Paginación -->
-      <nav class="d-flex justify-content-center mt-4">
-        <ul class="pagination">
-          <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
-          </li>
-          <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
-            :class="{ active: pagina === paginaActual }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
-          </li>
-          <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
-          </li>
-        </ul>
-      </nav>
-
     </div>
   </div>
 
@@ -301,7 +308,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
 .titulo {
   font-size: 36px;
   color: #ef5769;
@@ -315,6 +321,7 @@ onMounted(() => {
 /*Resto de los estilos están en archivo globar style.css */
 
 
-.table thead th {line-height: 3; }
-
+.table thead th {
+  line-height: 3;
+}
 </style>

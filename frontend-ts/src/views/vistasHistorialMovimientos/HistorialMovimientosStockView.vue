@@ -14,7 +14,11 @@
           <span style="margin-left: 8px; vertical-align: middle;">Cargando...</span>
         </div>
 
-        <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+        <div v-if="traerStock.length == 0">
+          <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+        </div>
+        <div v-else>
+           <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
           <label class="form-label fw-semibold">Filtro:</label>
 
@@ -113,6 +117,9 @@
             </li>
           </ul>
         </nav>
+
+        </div>
+       
 
       </div>
     </div>
@@ -299,19 +306,21 @@ onMounted(() => {
 
 /*Color verde, rojo gris para las filas ingreso, egreso, etc */
 table.table tr.fila-ingreso td {
-  background-color: #aeeea7   !important;
+  background-color: #aeeea7 !important;
 }
 
 table.table tr.fila-egreso td {
-  background-color: #f8d7d7    !important;
+  background-color: #f8d7d7 !important;
 }
 
 table.table tr.fila-compromiso td {
-  background-color: #ece39c    !important;
+  background-color: #ece39c !important;
 }
 
 /*Ato de las celdas cabeceras: */
-.table thead th {line-height: 3; }
+.table thead th {
+  line-height: 3;
+}
 
 /*El resto de los estilos están en el archivo styles.css porque son globales */
 </style>

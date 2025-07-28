@@ -8,69 +8,75 @@
         <p class="subtitulo subtitulo-1 m-0">Tipo de producto: {{ tipo }}</p>
       </div>
 
+      <div v-if="traerTodosPorTipo.length == 0">
+        <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+      </div>
+      <div v-else>
+        <!-- Filtro -->
+        <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
+          <label class="form-label fw-semibold">Filtro:</label>
+          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color"
+            style="max-width: 400px;" />
 
-      <!-- Filtro -->
-      <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+          <!-- Selector de cantidad por página -->
+          <div class="d-flex align-items-end">
+            <label class="form-label me-2">Mostrar:</label>
+            <select class="form-select" style="width: auto;" v-model="totalPorPagina"
+              @change="cambiarCantidadPorPagina">
+              <option :value="10">10 por página</option>
+              <option :value="20">20 por página</option>
+              <option :value="50">50 por página</option>
+            </select>
+          </div>
 
-        <label class="form-label fw-semibold">Filtro:</label>
-        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color"
-          style="max-width: 400px;" />
-
-        <!-- Selector de cantidad por página -->
-        <div class="d-flex align-items-end">
-          <label class="form-label me-2">Mostrar:</label>
-          <select class="form-select" style="width: auto;" v-model="totalPorPagina" @change="cambiarCantidadPorPagina">
-            <option :value="10">10 por página</option>
-            <option :value="20">20 por página</option>
-            <option :value="50">50 por página</option>
-          </select>
         </div>
 
-      </div>
+        <!-- Tabla -->
+        <div class="table-responsive">
+          <table class="table table-hover table-bordered align-middle">
+            <thead class="table-light">
+              <tr>
+                <th>Tipo</th>
+                <th>Nombre</th>
+                <th>Color</th>
+                <th>Descripción</th>
+                <th>Precio</th>
+                <th>Stock</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="producto in productosExistentes" :key="producto._id">
+                <td>{{ producto.tipoProducto }}</td>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.color }}</td>
+                <td>{{ producto.descripcion }}</td>
+                <td>{{ producto.precio }}</td>
+                <td>{{ producto.stockFinal }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <!-- Tabla -->
-      <div class="table-responsive">
-        <table class="table table-hover table-bordered align-middle">
-          <thead class="table-light">
-            <tr>
-              <th>Tipo</th>
-              <th>Nombre</th>
-              <th>Color</th>
-              <th>Descripción</th>
-              <th>Precio</th>
-              <th>Stock</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="producto in productosExistentes" :key="producto._id">
-              <td>{{ producto.tipoProducto }}</td>
-              <td>{{ producto.nombre }}</td>
-              <td>{{ producto.color }}</td>
-              <td>{{ producto.descripcion }}</td>
-              <td>{{ producto.precio }}</td>
-              <td>{{ producto.stockFinal }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <!-- Paginación -->
+        <nav class="d-flex justify-content-center mt-4">
+          <ul class="pagination">
+            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+            </li>
+            <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
+              :class="{ active: pagina === paginaActual }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-
-      <!-- Paginación -->
-      <nav class="d-flex justify-content-center mt-4">
-        <ul class="pagination">
-          <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
-          </li>
-          <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
-            :class="{ active: pagina === paginaActual }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
-          </li>
-          <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
-          </li>
-        </ul>
-      </nav>
     </div>
+
+
   </div>
 
   <div v-else>
@@ -169,5 +175,4 @@ onMounted(() => {
 }
 
 /*Resto de los estilos están en archivo globar style.css */
-
 </style>

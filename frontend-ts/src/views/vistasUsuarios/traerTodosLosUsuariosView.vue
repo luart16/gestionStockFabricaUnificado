@@ -12,100 +12,106 @@
           </router-link>
         </div>
 
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Nombre Usuario</th>
-                <th>Email</th>
-                <th>Rol</th>
-                <th v-if="store.Rol == 'administrador'">Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="usuario in usuariosExistentes" :key="usuario._id">
-                <td>{{ usuario.nombreUsuario }}</td>
-                <td>{{ usuario.email }}</td>
-                <td>{{ usuario.rol }}</td>
-                <td v-if="store.Rol == 'administrador'">
-                  <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                      Opciones
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="#" @click.prevent="activarModalEditar(usuario._id)">Editar</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item text-danger" href="#"
-                          @click.prevent="activarModalEliminar(usuario._id)">Eliminar</a>
-                      </li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+        <div v-if="traerTodos.length == 0">
+          <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
         </div>
+        <div v-else>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Nombre Usuario</th>
+                  <th>Email</th>
+                  <th>Rol</th>
+                  <th v-if="store.Rol == 'administrador'">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="usuario in usuariosExistentes" :key="usuario._id">
+                  <td>{{ usuario.nombreUsuario }}</td>
+                  <td>{{ usuario.email }}</td>
+                  <td>{{ usuario.rol }}</td>
+                  <td v-if="store.Rol == 'administrador'">
+                    <div class="dropdown">
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Opciones
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a class="dropdown-item" href="#" @click.prevent="activarModalEditar(usuario._id)">Editar</a>
+                        </li>
+                        <li>
+                          <a class="dropdown-item text-danger" href="#"
+                            @click.prevent="activarModalEliminar(usuario._id)">Eliminar</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <!-- MODAL EDITAR USUARIO -->
-        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
-          style="background: rgba(0,0,0,0.5);">
-          <div class="modal-dialog">
-            <div class="modal-content">
+          <!-- MODAL EDITAR USUARIO -->
+          <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
+            style="background: rgba(0,0,0,0.5);">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Editar Usuario</h5>
+                  <button type="button" class="btn-close" @click="mostrarModalEditar = false"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input type="text" class="form-control" v-model="usuarioAEditar.nombreUsuario">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Email</label>
+                    <input type="text" class="form-control" v-model="usuarioAEditar.email">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Rol</label>
+                    <select v-model="usuarioAEditar.rol" class="form-select" required>
+                      <option disabled value="">Seleccione una opción</option>
+                      <option>administrador</option>
+                      <option>vendedor</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Contraseña</label>
+                    <input type="text" class="form-control" placeholder="Dejar vacío para no modificar"
+                      v-model="usuarioAEditar.contrasenia">
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
+                  <button class="btn btn-rosa-a-blanco" @click="editarUsuario">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- MODAL ELIMINAR USUARIO -->
+          <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
+            style="background: rgba(0,0,0,0.5);">
+            <div class="modal-dialog modal-content">
+
               <div class="modal-header">
-                <h5 class="modal-title">Editar Usuario</h5>
-                <button type="button" class="btn-close" @click="mostrarModalEditar = false"></button>
+                <h5 class="modal-title text-danger">¿Eliminar Usuario?</h5>
+                <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
               </div>
               <div class="modal-body">
-                <div class="mb-3">
-                  <label class="form-label">Nombre</label>
-                  <input type="text" class="form-control" v-model="usuarioAEditar.nombreUsuario">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Email</label>
-                  <input type="text" class="form-control" v-model="usuarioAEditar.email">
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Rol</label>
-                  <select v-model="usuarioAEditar.rol" class="form-select" required>
-                    <option disabled value="">Seleccione una opción</option>
-                    <option>administrador</option>
-                    <option>vendedor</option>
-                  </select>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Contraseña</label>
-                  <input type="text" class="form-control" placeholder="Dejar vacío para no modificar"
-                    v-model="usuarioAEditar.contrasenia">
-                </div>
+                <p>Esta acción no se puede deshacer.</p>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
-                <button class="btn btn-rosa-a-blanco" @click="editarUsuario">Guardar</button>
+                <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
+                <button class="btn btn-danger" @click="eliminarUsuario">Eliminar</button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- MODAL ELIMINAR USUARIO -->
-        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
-          style="background: rgba(0,0,0,0.5);">
-          <div class="modal-dialog modal-content">
-
-            <div class="modal-header">
-              <h5 class="modal-title text-danger">¿Eliminar Usuario?</h5>
-              <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
-            </div>
-            <div class="modal-body">
-              <p>Esta acción no se puede deshacer.</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
-              <button class="btn btn-danger" @click="eliminarUsuario">Eliminar</button>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>

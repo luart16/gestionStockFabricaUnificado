@@ -15,27 +15,30 @@
                 <span class="spinner-border"></span> Cargando datos...
             </div>
 
-
-
-            <div class="d-flex flex-wrap gap-3 mb-4">
-                <div>
-                    <label class="form-label fw-semibold">Fecha inicial:</label>
-                    <input type="date" class="form-control" v-model="fechaInicial" />
-                </div>
-
-                <div>
-                    <label class="form-label fw-semibold">Fecha final:</label>
-                    <input type="date" class="form-control" v-model="fechaFinal" />
-                </div>
-
-                <div class="d-flex align-items-end">
-                    <button class="btn btn-primario" @click="filtrarPorFecha">Filtrar</button>
-                </div>
+            <div v-if="traerMovimientosIngresos.length == 0 || traerMovimientosEgresos.length == 0">
+                <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
             </div>
+            <div v-else>
+                <div class="d-flex flex-wrap gap-3 mb-4">
+                    <div>
+                        <label class="form-label fw-semibold">Fecha inicial:</label>
+                        <input type="date" class="form-control" v-model="fechaInicial" />
+                    </div>
 
-            <div>
-                <GraficoIngresoEgresoPorTipo v-if="!cargando" :ingresos="movimientosFiltradosIngreso"
-                    :egresos="movimientosFiltradosEgreso" />
+                    <div>
+                        <label class="form-label fw-semibold">Fecha final:</label>
+                        <input type="date" class="form-control" v-model="fechaFinal" />
+                    </div>
+
+                    <div class="d-flex align-items-end">
+                        <button class="btn btn-primario" @click="filtrarPorFecha">Filtrar</button>
+                    </div>
+                </div>
+
+                <div>
+                    <GraficoIngresoEgresoPorTipo v-if="!cargando" :ingresos="movimientosFiltradosIngreso"
+                        :egresos="movimientosFiltradosEgreso" />
+                </div>
             </div>
 
         </div>

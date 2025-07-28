@@ -15,7 +15,10 @@
                 <span class="spinner-border"></span> Cargando datos...
             </div>
 
-
+<div v-if="traerMovimientosEgresos.length == 0">
+    <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+</div>
+<div v-else>
 
             <div class="d-flex flex-wrap gap-3 mb-4">
                 <div>
@@ -36,6 +39,8 @@
             <div>
                 <GraficoEgresos v-if="!cargando" :egresos="movimientosFiltradosEgreso" />
             </div>
+</div>
+
 
         </div>
     </div>

@@ -23,11 +23,11 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Nombre de producto:</label>
-                <input type="text" v-model="productoACrear.nombre" class="form-control" placeholder="Nombre del producto" required />
+                <input type="text" v-model="productoACrear.nombre" @input="productoACrear.nombre = productoACrear.nombre.toUpperCase()" class="form-control" placeholder="Nombre del producto" required />
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Color:</label>
-                <input type="text" v-model="productoACrear.color" class="form-control" placeholder="Color del producto" required />
+                <input type="text" v-model="productoACrear.color" @input="productoACrear.color = productoACrear.color.toUpperCase()" class="form-control" placeholder="Color del producto" required />
               </div>
             </div>
 
@@ -39,11 +39,11 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Precio:</label>
-                <input type="number" v-model="productoACrear.precio" class="form-control" placeholder="Precio unitario" />
+                <input type="number" step="0.01" v-model="productoACrear.precio" class="form-control" placeholder="Precio unitario" />
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Stock inicial:</label>
-                <input type="number" v-model="productoACrear.stockSinCompromiso" class="form-control" placeholder="Cantidad inicial" />
+                <input type="number" step="0.01" v-model="productoACrear.stockSinCompromiso" class="form-control" placeholder="Cantidad inicial" />
               </div>
             </div>
 
@@ -55,7 +55,7 @@
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">M2 por molde:</label>
-                <input type="number" v-model="productoACrear.m2PorMolde" class="form-control" placeholder="Metros cuadrados por molde" />
+                <input type="number" step="0.01" v-model="productoACrear.m2PorMolde" class="form-control" placeholder="Metros cuadrados por molde" />
               </div>
             </div>
 
@@ -69,11 +69,11 @@
               </div>
               <div class="col-md-4">
                 <label class="form-label fw-semibold">M2 por paquete:</label>
-                <input type="number" v-model="productoACrear.m2PorPaquete" class="form-control" placeholder="Metros cuadrados por paquete" />
+                <input type="number" step="0.01" v-model="productoACrear.m2PorPaquete" class="form-control" placeholder="Metros cuadrados por paquete" />
               </div>
               <div class="col-md-4">
                 <label class="form-label fw-semibold">Kg por paquete:</label>
-                <input type="number" v-model="productoACrear.kgPorPaquete" class="form-control" placeholder="Kilogramos por paquete" />
+                <input type="number" step="0.01" v-model="productoACrear.kgPorPaquete" class="form-control" placeholder="Kilogramos por paquete" />
               </div>
             </div>
 

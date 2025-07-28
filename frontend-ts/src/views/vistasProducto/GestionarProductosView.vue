@@ -12,208 +12,217 @@
           </router-link>
         </div>
 
-        <!-- Filtro -->
-        <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+        <div v-if="productosExistentes.length == 0">
+          <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+        </div>
+        <div v-else>
+          <!-- Filtro -->
+          <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
-          <label class="form-label fw-semibold">Filtro:</label>
-          <input type="text" v-model="datoAFiltar" class="form-control"
-            placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;" />
+            <label class="form-label fw-semibold">Filtro:</label>
+            <input type="text" v-model="datoAFiltar" class="form-control"
+              placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;" />
 
-          <!-- Selector de cantidad por página -->
-          <div class="d-flex align-items-end">
-            <label class="form-label me-2">Mostrar:</label>
-            <select class="form-select" style="width: auto;" v-model="totalPorpagina"
-              @change="cambiarCantidadPorPagina">
-              <option :value="10">10 por página</option>
-              <option :value="20">20 por página</option>
-              <option :value="50">50 por página</option>
-            </select>
+            <!-- Selector de cantidad por página -->
+            <div class="d-flex align-items-end">
+              <label class="form-label me-2">Mostrar:</label>
+              <select class="form-select" style="width: auto;" v-model="totalPorpagina"
+                @change="cambiarCantidadPorPagina">
+                <option :value="10">10 por página</option>
+                <option :value="20">20 por página</option>
+                <option :value="50">50 por página</option>
+              </select>
+            </div>
+
           </div>
 
-        </div>
-
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Tipo Producto</th>
-                <th>Nombre</th>
-                <th>Color</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Moldes</th>
-                <th>M2<br>por<br>Molde</th>
-                <th>M2<br>totales</th>
-                <th>Unidades<br>por<br>paquete</th>
-                <th>M2<br>por<br>paquete</th>
-                <th>Kg<br>por<br>paquete</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="producto in productosExistentes" :key="producto._id">
-                <td>{{ producto.tipoProducto }}</td>
-                <td>{{ producto.nombre }}</td>
-                <td>{{ producto.color }}</td>
-                <td>{{ producto.descripcion }}</td>
-                <td>{{ producto.precio }}</td>
-                <td>{{ producto.moldes }}</td>
-                <td>{{ producto.m2PorMolde }}</td>
-                <td>{{ producto.capacidadTotal }}</td>
-                <td>{{ producto.unidadesPorPaquete }}</td>
-                <td>{{ producto.m2PorPaquete }}</td>
-                <td>{{ producto.kgPorPaquete }}</td>
-                <td>
-                  <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                      Opciones
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#"
-                          @click.prevent="activarModalEditarProducto(producto._id)">Editar</a></li>
-                      <li><a class="dropdown-item text-danger" href="#"
-                          @click.prevent="activarModalEliminarrProducto(producto._id)">Eliminar</a></li>
-                    </ul>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <!-- MODAL EDITAR PRODUCTO -->
-      <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Editar Producto</h5>
-              <button type="button" class="btn-close" @click="mostrarModalEditar = false"></button>
-            </div>
-            <div class="modal-body">
-
-              <div class="mb-3">
-                <label class="form-label">Tipo de Producto</label>
-                <select class="form-select" v-model="productoAEditar.tipoProducto">
-                  <option>Piedra</option>
-                  <option>Placa</option>
-                  <option>Piso</option>
-                </select>
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Nombre</label>
-                <input type="text" class="form-control" v-model="productoAEditar.nombre">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Color</label>
-                <input type="text" class="form-control" v-model="productoAEditar.color">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <input type="text" class="form-control" v-model="productoAEditar.descripcion">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Precio</label>
-                <input type="number" class="form-control" v-model="productoAEditar.precio">
-              </div>
-
-              <h6 class="fw-bold mt-3">Capacidad de Producción</h6>
-              <div class="mb-3">
-                <label class="form-label">Cantidad de Moldes</label>
-                <input type="number" class="form-control" v-model="productoAEditar.moldes">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">M² por Molde</label>
-                <input type="number" class="form-control" v-model="productoAEditar.m2PorMolde">
-              </div>
-
-              <h6 class="fw-bold mt-3">Embalaje</h6>
-              <div class="mb-3">
-                <label class="form-label">Unidades por Paquete</label>
-                <input type="number" class="form-control" v-model="productoAEditar.unidadesPorPaquete">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">M² por Paquete</label>
-                <input type="number" class="form-control" v-model="productoAEditar.m2PorPaquete">
-              </div>
-
-              <div class="mb-3">
-                <label class="form-label">Kg por Paquete</label>
-                <input type="number" class="form-control" v-model="productoAEditar.kgPorPaquete">
-              </div>
-
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
-              <button class="btn btn-rosa-a-blanco" @click="mostrarModalConfirmarEdicion = true">Guardar</button>
-
-            </div>
+          <div class="table-responsive">
+            <table class="table table-hover table-bordered align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Tipo Producto</th>
+                  <th>Nombre</th>
+                  <th>Color</th>
+                  <th>Descripción</th>
+                  <th>Precio</th>
+                  <th>Moldes</th>
+                  <th>M2<br>por<br>Molde</th>
+                  <th>M2<br>totales</th>
+                  <th>Unidades<br>por<br>paquete</th>
+                  <th>M2<br>por<br>paquete</th>
+                  <th>Kg<br>por<br>paquete</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="producto in productosExistentes" :key="producto._id">
+                  <td>{{ producto.tipoProducto }}</td>
+                  <td>{{ producto.nombre }}</td>
+                  <td>{{ producto.color }}</td>
+                  <td>{{ producto.descripcion }}</td>
+                  <td>{{ producto.precio }}</td>
+                  <td>{{ producto.moldes }}</td>
+                  <td>{{ producto.m2PorMolde }}</td>
+                  <td>{{ producto.capacidadTotal }}</td>
+                  <td>{{ producto.unidadesPorPaquete }}</td>
+                  <td>{{ producto.m2PorPaquete }}</td>
+                  <td>{{ producto.kgPorPaquete }}</td>
+                  <td>
+                    <div class="dropdown">
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        Opciones
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#"
+                            @click.prevent="activarModalEditarProducto(producto._id)">Editar</a></li>
+                        <li><a class="dropdown-item text-danger" href="#"
+                            @click.prevent="activarModalEliminarrProducto(producto._id)">Eliminar</a></li>
+                      </ul>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
 
-      <!-- MODAL CONFIRMAR GUARDAR CAMBIOS -->
-      <div v-if="mostrarModalConfirmarEdicion" class="modal fade show d-block" tabindex="-1"
-        style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-rosado">¿Desea guardar los cambios?</h5>
-              <button type="button" class="btn-close" @click="mostrarModalConfirmarEdicion = false"></button>
-            </div>
-            <div class="modal-body">
-              <p>Se sobrescribirá la información del producto.</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-gris-a-blanco" @click="mostrarModalConfirmarEdicion = false">No</button>
-              <button class="btn btn-rosa-a-blanco" @click="confirmarEdicion">Sí, guardar</button>
+        <!-- MODAL EDITAR PRODUCTO -->
+        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Editar Producto</h5>
+                <button type="button" class="btn-close" @click="mostrarModalEditar = false"></button>
+              </div>
+              <div class="modal-body">
 
+                <div class="mb-3">
+                  <label class="form-label">Tipo de Producto</label>
+                  <select class="form-select" v-model="productoAEditar.tipoProducto">
+                    <option>Piedra</option>
+                    <option>Placa</option>
+                    <option>Piso</option>
+                  </select>
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Nombre</label>
+                  <input type="text" class="form-control" v-model="productoAEditar.nombre">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Color</label>
+                  <input type="text" class="form-control" v-model="productoAEditar.color">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Descripción</label>
+                  <input type="text" class="form-control" v-model="productoAEditar.descripcion">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Precio</label>
+                  <input type="number" class="form-control" v-model="productoAEditar.precio">
+                </div>
+
+                <h6 class="fw-bold mt-3">Capacidad de Producción</h6>
+                <div class="mb-3">
+                  <label class="form-label">Cantidad de Moldes</label>
+                  <input type="number" class="form-control" v-model="productoAEditar.moldes">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">M² por Molde</label>
+                  <input type="number" class="form-control" v-model="productoAEditar.m2PorMolde">
+                </div>
+
+                <h6 class="fw-bold mt-3">Embalaje</h6>
+                <div class="mb-3">
+                  <label class="form-label">Unidades por Paquete</label>
+                  <input type="number" class="form-control" v-model="productoAEditar.unidadesPorPaquete">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">M² por Paquete</label>
+                  <input type="number" class="form-control" v-model="productoAEditar.m2PorPaquete">
+                </div>
+
+                <div class="mb-3">
+                  <label class="form-label">Kg por Paquete</label>
+                  <input type="number" class="form-control" v-model="productoAEditar.kgPorPaquete">
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
+                <button class="btn btn-rosa-a-blanco" @click="mostrarModalConfirmarEdicion = true">Guardar</button>
+
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
+        <!-- MODAL CONFIRMAR GUARDAR CAMBIOS -->
+        <div v-if="mostrarModalConfirmarEdicion" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-rosado">¿Desea guardar los cambios?</h5>
+                <button type="button" class="btn-close" @click="mostrarModalConfirmarEdicion = false"></button>
+              </div>
+              <div class="modal-body">
+                <p>Se sobrescribirá la información del producto.</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-gris-a-blanco" @click="mostrarModalConfirmarEdicion = false">No</button>
+                <button class="btn btn-rosa-a-blanco" @click="confirmarEdicion">Sí, guardar</button>
 
-      <!-- MODAL ELIMINAR PRODUCTO -->
-      <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
-        style="background: rgba(0,0,0,0.5);">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title text-danger">¿Eliminar Producto?</h5>
-              <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
-            </div>
-            <div class="modal-body">
-              <p>Esta acción no se puede deshacer.</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
-              <button class="btn btn-danger" @click="eliminarProducto">Eliminar</button>
+              </div>
             </div>
           </div>
         </div>
+
+
+        <!-- MODAL ELIMINAR PRODUCTO -->
+        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title text-danger">¿Eliminar Producto?</h5>
+                <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
+              </div>
+              <div class="modal-body">
+                <p>Esta acción no se puede deshacer.</p>
+              </div>
+              <div class="modal-footer">
+                <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
+                <button class="btn btn-danger" @click="eliminarProducto">Eliminar</button>
+              </div>
+            </div>
+          </div>
+           <!--Paginación-->
+        <nav class="d-flex justify-content-center mt-4">
+          <ul class="pagination">
+            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+            </li>
+            <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
+              :class="{ active: pagina === paginaActual }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
+        </div>
+       
       </div>
-      <!--Paginación-->
-      <nav class="d-flex justify-content-center mt-4">
-        <ul class="pagination">
-          <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
-          </li>
-          <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
-            :class="{ active: pagina === paginaActual }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
-          </li>
-          <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-            <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
-          </li>
-        </ul>
-      </nav>
+
+
     </div>
     <div v-else>
       <RequiereRol />
@@ -378,5 +387,4 @@ onMounted(() => {
 }
 
 /*Resto de los estilos están en archivo globar style.css */
-
 </style>
