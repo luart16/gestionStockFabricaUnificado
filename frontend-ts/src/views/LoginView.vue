@@ -1,64 +1,84 @@
 <template>
   <div class="container-fluid vh-100 d-flex align-items-center justify-content-center bg-light">
-    <div class="row shadow-lg rounded-5 overflow-hidden w-100" style="max-width: 920px;">
+    <div
+      class="row shadow-lg rounded-5 overflow-hidden w-100"
+      style="max-width: 920px;"
+    >
       <!-- LADO IZQUIERDO -->
       <div
-        class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center text-white p-5 bg-brand">
-
-        <p class="fs-4 fw-semibold mb-3">Sistema de gestión de stock</p>
+        class="col-md-6 d-none d-md-flex flex-column justify-content-center align-items-center text-white p-5 bg-brand"
+      >
+        <p class="fs-4 fw-semibold mb-3">
+          Sistema de gestión de stock
+        </p>
 
         <p class="text-light text-opacity-75 text-center px-3">
           Controlá productos, materiales y movimientos de forma rápida y eficiente.
         </p>
         <div class="mt-4">
-          <i class="bi bi-box-seam fs-1 me-3"></i>
-          <i class="bi bi-gear-fill fs-2 me-3"></i>
-          <i class="bi bi-clipboard-check fs-2"></i>
+          <i class="bi bi-box-seam fs-1 me-3" />
+          <i class="bi bi-gear-fill fs-2 me-3" />
+          <i class="bi bi-clipboard-check fs-2" />
         </div>
       </div>
 
       <!-- LADO DERECHO: LOGIN -->
       <div class="col-12 col-md-6 bg-white p-5">
-        <h2 class="mb-4 text-center fw-bold text-dark">Iniciar sesión</h2>
+        <h2 class="mb-4 text-center fw-bold text-dark">
+          Iniciar sesión
+        </h2>
 
         <form @submit.prevent="loguearse">
           <div class="mb-4">
             <div class="form-floating">
-              <input v-model="email" type="email" class="form-control form-control-custom" id="email"
-                placeholder="name@example.com" required />
-              <label for="email"><i class="bi bi-envelope-fill me-2"></i>Correo electrónico</label>
+              <input
+                id="email"
+                v-model="email"
+                type="email"
+                class="form-control form-control-custom"
+                placeholder="name@example.com"
+                required
+              >
+              <label for="email"><i class="bi bi-envelope-fill me-2" />Correo electrónico</label>
             </div>
           </div>
 
-         <div class="mb-4 position-relative">
-  <div class="form-floating">
-    <input
-      :type="mostrarContrasenia ? 'text' : 'password'"
-      v-model="contrasenia"
-      class="form-control form-control-custom pe-5"
-      id="password"
-      placeholder="********"
-      required
-    />
-    <label for="password"><i class="bi bi-lock-fill me-2"></i>Contraseña</label>
-    <!-- Icono ojito -->
-    <i
-      :class="mostrarContrasenia ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"
-      class="position-absolute top-50 end-0 translate-middle-y me-3 text-secondary"
-      style="cursor: pointer;"
-      @click="mostrarContrasenia = !mostrarContrasenia"
-    ></i>
-  </div>
-</div>
+          <div class="mb-4 position-relative">
+            <div class="form-floating">
+              <input
+                id="password"
+                v-model="contrasenia"
+                :type="mostrarContrasenia ? 'text' : 'password'"
+                class="form-control form-control-custom pe-5"
+                placeholder="********"
+                required
+              >
+              <label for="password"><i class="bi bi-lock-fill me-2" />Contraseña</label>
+              <!-- Icono ojito -->
+              <i
+                :class="mostrarContrasenia ? 'bi bi-eye-slash-fill' : 'bi bi-eye-fill'"
+                class="position-absolute top-50 end-0 translate-middle-y me-3 text-secondary"
+                style="cursor: pointer;"
+                @click="mostrarContrasenia = !mostrarContrasenia"
+              />
+            </div>
+          </div>
 
 
-          <button type="submit" class="btn btn-rosa-a-blanco w-100 py-2 fw-bold">
+          <button
+            type="submit"
+            class="btn btn-rosa-a-blanco w-100 py-2 fw-bold"
+          >
             Iniciar sesión
           </button>
         </form>
         <!-- LOGO ABAJO DEL TODO -->
         <div class="text-center mt-5">
-          <img src="@/imagenes/logoPirka.png" alt="Logo Pirka" style="width: 120px; max-width: 80%;" />
+          <img
+            src="@/imagenes/logoPirka.png"
+            alt="Logo Pirka"
+            style="width: 120px; max-width: 80%;"
+          >
         </div>
       </div>
     </div>

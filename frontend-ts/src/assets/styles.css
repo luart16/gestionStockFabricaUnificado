@@ -17,17 +17,12 @@
   text-align: center;      /* Texto centrado */
 }
 
-/*Espacio debajo de la barra de navegación*/
-body {
-  padding-top: 70px;
-}
-
 /*Color de fondo de las vistas (excepto del home)*/
 .contenido-app {
   min-height: 100vh;
-    background: linear-gradient(to bottom right, #d6d8dc, #ced4da);
-  color: #212529!important;
-  padding-top: 1rem;
+  background:  #e2e2e3;
+  color: #042e58!important;
+  padding-top: 5rem;
   padding-bottom: 2rem;
 }
 
@@ -80,30 +75,31 @@ body {
 
 /*Botones para exportar a excel:*/
 .btn-exportar-pagina {
-  background-color: rgb(70, 40, 110)!important;
-  border: 1px solid rgb(70, 40, 110)!important;
-  color: white!important;
+  background-color: white !important;
+  border: 1px solid rgb(70, 40, 110) !important;
+  color: rgb(70, 40, 110) !important;
   transition: all 0.3s ease;
 }
 
 .btn-exportar-pagina:hover {
-  background-color: white!important;
-  color: rgb(70, 40, 110)!important;
-  border-color: rgb(70, 40, 110)!important;
+  background-color: rgb(70, 40, 110) !important;
+  color: white !important;
+  border-color: rgb(70, 40, 110) !important;
 }
 
 .btn-exportar-todo {
-  background-color: #ff6b8a!important;
-  border: 1px solid #ff6b8a!important;
-  color: white!important;
+  background-color: white !important;
+  border: 1px solid #ff6b8a !important;
+  color: #ff6b8a !important;
   transition: all 0.3s ease;
 }
 
 .btn-exportar-todo:hover {
-  background-color: white!important;
-  color: #ff6b8a!important;
-  border-color: #ff6b8a!important;
+  background-color: #ff6b8a !important;
+  color: white !important;
+  border-color: #ff6b8a !important;
 }
+
 
 /* Mejora visual para todas las tablas */
 .table {
@@ -164,6 +160,16 @@ td .dropdown {
   overflow: hidden;
 }
 
+.dropdown-menu-fija {
+  position: fixed !important;
+  z-index: 9999 !important;
+  display: block;
+  min-width: 10rem;
+  background-color: white;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.1);
+}
 
 
 

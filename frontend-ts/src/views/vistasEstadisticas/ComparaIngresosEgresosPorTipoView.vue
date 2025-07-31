@@ -1,53 +1,69 @@
 <template>
-    <div v-if="store.Logueado" class="contenido-app">
-        <NavBar />
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
+    <NavBar />
 
-        <div class="container py-4">
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-                <div>
-                    <h1 class="titulo">Gráficos de Movimientos de Stock</h1>
-                </div>
-
-            </div>
-
-
-            <div v-if="cargando" class="text-center">
-                <span class="spinner-border"></span> Cargando datos...
-            </div>
-
-            <div v-if="traerMovimientosIngresos.length == 0 || traerMovimientosEgresos.length == 0">
-                <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
-            </div>
-            <div v-else>
-                <div class="d-flex flex-wrap gap-3 mb-4">
-                    <div>
-                        <label class="form-label fw-semibold">Fecha inicial:</label>
-                        <input type="date" class="form-control" v-model="fechaInicial" />
-                    </div>
-
-                    <div>
-                        <label class="form-label fw-semibold">Fecha final:</label>
-                        <input type="date" class="form-control" v-model="fechaFinal" />
-                    </div>
-
-                    <div class="d-flex align-items-end">
-                        <button class="btn btn-primario" @click="filtrarPorFecha">Filtrar</button>
-                    </div>
-                </div>
-
-                <div>
-                    <GraficoIngresoEgresoPorTipo v-if="!cargando" :ingresos="movimientosFiltradosIngreso"
-                        :egresos="movimientosFiltradosEgreso" />
-                </div>
-            </div>
-
+    <div class="container py-4">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+          <h1 class="titulo">
+            Gráficos de Movimientos de Stock
+          </h1>
         </div>
-    </div>
+      </div>
 
-    <div v-else>
-        <RequiereLogin />
-    </div>
 
+      <div
+        v-if="cargando"
+        class="text-center"
+      >
+        <span class="spinner-border" /> Cargando datos...
+      </div>
+
+      <div class="d-flex flex-wrap gap-3 mb-4">
+        <div>
+          <label class="form-label fw-semibold">Fecha inicial:</label>
+          <input
+            v-model="fechaInicial"
+            type="date"
+            class="form-control"
+          >
+        </div>
+
+        <div>
+          <label class="form-label fw-semibold">Fecha final:</label>
+          <input
+            v-model="fechaFinal"
+            type="date"
+            class="form-control"
+          >
+        </div>
+
+        <div class="d-flex align-items-end">
+          <button
+            class="btn btn-gris-a-blanco"
+            @click="filtrarPorFecha"
+          >
+            Filtrar
+          </button>
+        </div>
+      </div>
+
+      <div>
+        <GraficoIngresoEgresoPorTipo
+          v-if="!cargando"
+          :ingresos="movimientosFiltradosIngreso"
+          :egresos="movimientosFiltradosEgreso"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div v-else>
+    <RequiereLogin />
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -136,7 +152,7 @@ onMounted(() => {
 <style scoped>
 .titulo {
     font-size: 36px;
-    color: #ef5769;
+    color: rgb(70, 40, 110);
     font-weight: 600;
 }
 

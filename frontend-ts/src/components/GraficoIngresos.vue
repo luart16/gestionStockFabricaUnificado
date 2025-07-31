@@ -1,7 +1,7 @@
-<template>
-  <div style="max-width: 1000px; margin: auto;">
+<!-- <template>
+  <div style="max-width: 1000px; margin: auto;"> -->
     <!-- Controles -->
-    <div class="d-flex flex-wrap gap-3 mb-4 align-items-end">
+    <!-- <div class="d-flex flex-wrap gap-3 mb-4 align-items-end">
       <div>
         <label class="form-label fw-semibold">Buscar producto:</label>
         <input v-model="busqueda" type="text" class="form-control" placeholder="Nombre del producto" />
@@ -15,24 +15,24 @@
           <option :value="20">20</option>
           <option :value="50">50</option>
         </select>
-      </div>
+      </div> -->
 
       <!-- Botón para exportar a excel -->
-      <div class="ms-auto">
+      <!-- <div class="ms-auto">
         <button class="btn btn-exportar-pagina" @click="exportarResumenAExcel">Exportar a Excel</button>
       </div>
-    </div>
+    </div> -->
 
-    <!-- Botón descargar gráfico como imagen -->
-<button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button>
+    <!-- Botón descargar gráfico como imagen
+<button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button> -->
 
 
-    <!-- Gráfico -->
+    <!-- Gráfico
     <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
     <p v-else>No hay datos disponibles para mostrar.</p>
 
     <!-- Tabla -->
-    <table v-if="tablaFiltrada.length" class="table table-bordered table-striped mt-4">
+    <!-- <table v-if="tablaFiltrada.length" class="table table-bordered table-striped mt-4">
       <thead class="table-light">
         <tr>
           <th>Producto</th>
@@ -47,9 +47,9 @@
       </tbody>
     </table>
   </div>
-</template>
+</template> --> 
 
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { Bar } from 'vue-chartjs'
 import * as XLSX from 'xlsx'
@@ -115,11 +115,11 @@ const exportarResumenAExcel = () => {
   XLSX.utils.book_append_sheet(libro, hoja, 'ResumenIngresos')
 
   XLSX.writeFile(libro, 'Resumen_Ingresos_Productos.xlsx')
-}
+} -->
 
-/*Función para exportar el gráfico de excel como imagen: */
+<!-- /*Función para exportar el gráfico de excel como imagen: */ -->
 
-const exportarGraficoComoPNG = () => {
+<!-- const exportarGraficoComoPNG = () => {
   const canvas = document.querySelector('canvas')
   if (!canvas) return
 
@@ -130,9 +130,9 @@ const exportarGraficoComoPNG = () => {
   exportCanvas.height = canvas.height
 
   const ctx = exportCanvas.getContext('2d')
-  if (!ctx) return
+  if (!ctx) return -->
 
-  // Poner fondo blanco
+  <!-- // Poner fondo blanco
   ctx.fillStyle = backgroundColor
   ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
 
@@ -144,9 +144,9 @@ const exportarGraficoComoPNG = () => {
   enlace.download = 'grafico.png'
   enlace.href = exportCanvas.toDataURL('image/png')
   enlace.click()
-}
+} -->
 
-const opcionesGrafico = {
+<!-- const opcionesGrafico = {
   responsive: true,
   plugins: {
     legend: { position: 'top' as const },
@@ -171,4 +171,4 @@ const opcionesGrafico = {
     }
   }
 }
-</script>
+</script> -->

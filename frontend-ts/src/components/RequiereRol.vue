@@ -1,9 +1,16 @@
 <template>
   <div class="requiere-rol-container">
     <div class="mensaje">
-      <h1 class="titulo">Acceso restringido</h1>
-      <p class="subtitulo">Sector exclusivo para administradores.</p>
-      <router-link :to="{ name: 'home' }" class="btn-principal">
+      <h1 class="titulo">
+        Acceso restringido
+      </h1>
+      <p class="subtitulo">
+        Sector exclusivo para administradores.
+      </p>
+      <router-link
+        :to="{ name: 'home' }"
+        class="btn-principal"
+      >
         Volver a inicio
       </router-link>
     </div>

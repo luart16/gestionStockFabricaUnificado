@@ -1,19 +1,29 @@
 <template>
-  <div v-if="store.Logueado" class="contenido-app">
-
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
     <NavBar />
 
     <div class="container py-4">
-
       <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-        <h1 class="titulo">Sucursales</h1>
-        <router-link v-if="store.Rol == 'administrador'" to="/crearSucursal">
-          <button class="btn btn-gris-a-blanco">Crear nueva sucursal</button>
+        <h1 class="titulo">
+          Sucursales
+        </h1>
+        <router-link
+          v-if="store.Rol == 'administrador'"
+          to="/crearSucursal"
+        >
+          <button class="btn btn-gris-a-blanco">
+            Crear nueva sucursal
+          </button>
         </router-link>
       </div>
 
-      <div v-if="traerTodos.length == 0">
-        <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+      <div v-if="sucursalesExistentes.length == 0">
+        <p class="subtitulo-1 m-0 ">
+          No hay datos disponibles para mostrar
+        </p>
       </div>
       <div v-else>
         <div class="table-responsive">
@@ -23,28 +33,44 @@
                 <th>Nombre sucursal</th>
                 <th>Dirección</th>
                 <th>Teléfono</th>
-                <th v-if="store.Rol == 'administrador'">Acciones</th>
+                <th v-if="store.Rol == 'administrador'">
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="sucursal in sucursalesExistentes" :key="sucursal._id">
+              <tr
+                v-for="sucursal in sucursalesExistentes"
+                :key="sucursal._id"
+              >
                 <td>{{ sucursal.nombreSucursal }}</td>
                 <td>{{ sucursal.direccion }}</td>
                 <td>{{ sucursal.telefono }}</td>
                 <td v-if="store.Rol == 'administrador'">
                   <div class="dropdown">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <button
+                      class="btn btn-outline-secondary dropdown-toggle"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                    >
                       Opciones
                     </button>
                     <ul class="dropdown-menu">
                       <li>
-                        <a class="dropdown-item" href="#" @click.prevent="activarModalEditar(sucursal._id)">
+                        <a
+                          class="dropdown-item"
+                          href="#"
+                          @click.prevent="activarModalEditar(sucursal._id)"
+                        >
                           Editar
                         </a>
                       </li>
                       <li>
-                        <a class="dropdown-item text-danger" href="#"
-                          @click.prevent="activarModalEliminar(sucursal._id)">
+                        <a
+                          class="dropdown-item text-danger"
+                          href="#"
+                          @click.prevent="activarModalEliminar(sucursal._id)"
+                        >
                           Eliminar
                         </a>
                       </li>
@@ -57,59 +83,109 @@
         </div>
 
         <!-- MODAL EDITAR SUCURSAL -->
-        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
-          style="background: rgba(0,0,0,0.5);">
+        <div
+          v-if="mostrarModalEditar"
+          class="modal fade show d-block"
+          tabindex="-1"
+          style="background: rgba(0,0,0,0.5);"
+        >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Editar Sucursal</h5>
-                <button type="button" class="btn-close" @click="mostrarModalEditar = false"></button>
+                <h5 class="modal-title">
+                  Editar Sucursal
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  @click="mostrarModalEditar = false"
+                />
               </div>
               <div class="modal-body">
                 <div class="mb-3">
                   <label class="form-label">Nombre</label>
-                  <input type="text" class="form-control" v-model="sucursalAEditar.nombreSucursal">
+                  <input
+                    v-model="sucursalAEditar.nombreSucursal"
+                    type="text"
+                    class="form-control"
+                  >
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Dirección</label>
-                  <input type="text" class="form-control" v-model="sucursalAEditar.direccion">
+                  <input
+                    v-model="sucursalAEditar.direccion"
+                    type="text"
+                    class="form-control"
+                  >
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Teléfono</label>
-                  <input type="text" class="form-control" v-model="sucursalAEditar.telefono">
+                  <input
+                    v-model="sucursalAEditar.telefono"
+                    type="text"
+                    class="form-control"
+                  >
                 </div>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">Cancelar</button>
-                <button class="btn btn-rosa-a-blanco" @click="editarSucursal">Guardar</button>
+                <button
+                  class="btn btn-gris-a-blanco"
+                  @click="mostrarModalEditar = false"
+                >
+                  Cancelar
+                </button>
+                <button
+                  class="btn btn-rosa-a-blanco"
+                  @click="editarSucursal"
+                >
+                  Guardar
+                </button>
               </div>
             </div>
           </div>
         </div>
 
         <!-- MODAL ELIMINAR SUCURSAL -->
-        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
-          style="background: rgba(0,0,0,0.5);">
+        <div
+          v-if="mostrarModalEliminar"
+          class="modal fade show d-block"
+          tabindex="-1"
+          style="background: rgba(0,0,0,0.5);"
+        >
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title text-danger">¿Eliminar Sucursal?</h5>
-                <button type="button" class="btn-close" @click="mostrarModalEliminar = false"></button>
+                <h5 class="modal-title text-danger">
+                  ¿Eliminar Sucursal?
+                </h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  @click="mostrarModalEliminar = false"
+                />
               </div>
               <div class="modal-body">
                 <p>Esta acción no se puede deshacer.</p>
               </div>
               <div class="modal-footer">
-                <button class="btn btn-secondary" @click="mostrarModalEliminar = false">Cancelar</button>
-                <button class="btn btn-danger" @click="eliminarSucursal">Eliminar</button>
+                <button
+                  class="btn btn-secondary"
+                  @click="mostrarModalEliminar = false"
+                >
+                  Cancelar
+                </button>
+                <button
+                  class="btn btn-danger"
+                  @click="eliminarSucursal"
+                >
+                  Eliminar
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
-
   </div>
   <div v-else>
     <RequiereLogin />
@@ -201,7 +277,7 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ef5769;
+  color: rgb(70, 40, 110);
   font-weight: 600;
 }
 

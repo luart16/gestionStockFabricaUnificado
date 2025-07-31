@@ -1,32 +1,53 @@
 <template>
   <div style="max-width: 800px; margin: auto;">
-    <!-- Botón Exportar -->
-    <div class="d-flex justify-content-end mb-3">
-      <button class="btn btn-exportar-pagina" @click="exportarAExcel">Exportar a Excel</button>
-    </div>
-
-    <!-- Botón descargar gráfico como imagen -->
-<button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button>
-
-
     <!-- Gráfico -->
-    <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
-    <p v-else>No hay datos disponibles para mostrar.</p>
+    <Bar datosGrafico.labels.length :data="datosGrafico" :options="opcionesGrafico" />
+
+    <!-- Botones de exportación (solo si hay datos) -->
+    <div
+      v-if="datosGrafico.labels.length"
+      class="my-3 d-flex gap-3"
+    >
+      <button
+        class="btn btn-exportar-todo"
+        @click="exportarGraficoComoPNG"
+      >
+        Descargar gráfico
+      </button>
+      <button
+        class="btn btn-exportar-pagina"
+        @click="exportarAExcel"
+      >
+        Exportar a Excel
+      </button>
+    </div>
+   
 
     <!-- Tabla comparativa -->
-    <table v-if="tablaDatos.length" class="table table-bordered table-striped mt-4">
+    <table class="table table-bordered table-striped mt-4">
       <thead class="table-light">
         <tr>
           <th>Tipo de Producto</th>
-          <th class="text-end">Ingresos</th>
-          <th class="text-end">Egresos</th>
+          <th class="text-end">
+            Ingresos
+          </th>
+          <th class="text-end">
+            Egresos
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(fila, index) in tablaDatos" :key="index">
+        <tr
+          v-for="(fila, index) in tablaDatos"
+          :key="index"
+        >
           <td>{{ fila.tipo }}</td>
-          <td class="text-end">{{ fila.ingresos }}</td>
-          <td class="text-end">{{ fila.egresos }}</td>
+          <td class="text-end">
+            {{ fila.ingresos }}
+          </td>
+          <td class="text-end">
+            {{ fila.egresos }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -88,12 +109,12 @@ const datosGrafico = computed(() => ({
     {
       label: 'Ingresos',
       data: tipos.map(t => resumenIngresos.value[t]),
-      backgroundColor: '#52b788'
+      backgroundColor: '#573c9d'
     },
     {
       label: 'Egresos',
       data: tipos.map(t => resumenEgresos.value[t]),
-      backgroundColor: '#e76f51'
+      backgroundColor: '#ef5769'
     }
   ]
 }))

@@ -1,9 +1,16 @@
 <template>
   <div class="requiere-login-container">
     <div class="mensaje">
-      <h1 class="titulo">Acceso restringido</h1>
-      <p class="subtitulo">Por favor, inicia sesión para poder ingresar.</p>
-      <router-link :to="{ name: 'login' }" class="btn-principal">
+      <h1 class="titulo">
+        Acceso restringido
+      </h1>
+      <p class="subtitulo">
+        Por favor, inicia sesión para poder ingresar.
+      </p>
+      <router-link
+        :to="{ name: 'login' }"
+        class="btn-principal"
+      >
         Ir a iniciar sesión
       </router-link>
     </div>

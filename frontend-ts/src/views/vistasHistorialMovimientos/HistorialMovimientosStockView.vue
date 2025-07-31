@@ -1,69 +1,120 @@
 <template>
-  <div v-if="store.Logueado" class="contenido-app">
-    <div v-if="store.Rol == 'administrador'">
-      <NavBar />
-      <div class="container py-4">
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
+    <NavBar />
+    <div class="container py-4">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <h1 class="titulo">
+          Historial de Movimientos de Stock
+        </h1>
+      </div>
 
-        <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-          <h1 class="titulo">Historial de Movimientos de Stock</h1>
+      <!-- Cargando -->
+      <div
+        v-if="cargando"
+        class="text-center my-4"
+      >
+        <div
+          class="spinner-border"
+          role="status"
+          style="color: rgb(70, 40, 110); vertical-align: middle;"
+        />
+        <span style="margin-left: 8px; vertical-align: middle;">Cargando...</span>
+      </div>
+
+
+      <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+        <label class="form-label fw-semibold">Filtro:</label>
+
+        <input
+          v-model="datoAFiltar"
+          type="text"
+          class="form-control"
+          placeholder="Buscar por tipo producto, nombre o color"
+          style="max-width: 650px;"
+        >
+
+        <div>
+          <label class="form-label fw-semibold">Fecha inicial:</label>
+          <input
+            v-model="fechaInicial"
+            type="date"
+            class="form-control"
+          >
         </div>
 
-        <!-- Cargando -->
-        <div v-if="cargando" class="text-center my-4">
-          <div class="spinner-border" role="status" style="color: rgb(70, 40, 110); vertical-align: middle;"></div>
-          <span style="margin-left: 8px; vertical-align: middle;">Cargando...</span>
+        <div>
+          <label class="form-label fw-semibold">Fecha final:</label>
+          <input
+            v-model="fechaFinal"
+            type="date"
+            class="form-control"
+          >
         </div>
 
-        <div v-if="traerStock.length == 0">
-          <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+        <div class="d-flex gap-2">
+          <button
+            class="btn btn-gris-a-blanco"
+            @click="traerStock"
+          >
+            Buscar
+          </button>
+          <button
+            class="btn btn-gris-a-blanco"
+            @click="limpiarFechas"
+          >
+            Limpiar Fechas
+          </button>
         </div>
-        <div v-else>
-           <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
-
-          <label class="form-label fw-semibold">Filtro:</label>
-
-          <input type="text" v-model="datoAFiltar" class="form-control"
-            placeholder="Buscar por tipo producto, nombre o color" style="max-width: 650px;" />
-
-          <div>
-            <label class="form-label fw-semibold">Fecha inicial:</label>
-            <input type="date" class="form-control" v-model="fechaInicial" />
-          </div>
-
-          <div>
-            <label class="form-label fw-semibold">Fecha final:</label>
-            <input type="date" class="form-control" v-model="fechaFinal" />
-          </div>
-
-          <div class="d-flex gap-2">
-            <button class="btn btn-gris-a-blanco" @click="traerStock">Buscar</button>
-            <button class="btn btn-gris-a-blanco" @click="limpiarFechas">Limpiar Fechas</button>
-          </div>
-
-        </div>
-
-
+      </div>
+      <div v-if="listaStock.length == 0">
+        <p class="subtitulo-1 m-0 ">
+          No hay datos disponibles para mostrar
+        </p>
+      </div>
+      <div v-else>
         <div class="d-flex mb-4 flex-wrap gap-3">
-
           <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
             <label class="form-label me-2">Mostrar:</label>
-            <select class="form-select" style="width: auto;" v-model="totalPorpagina"
-              @change="cambiarCantidadPorPagina">
-              <option :value="10">10 por página</option>
-              <option :value="20">20 por página</option>
-              <option :value="50">50 por página</option>
+            <select
+              v-model="totalPorpagina"
+              class="form-select"
+              style="width: auto;"
+              @change="cambiarCantidadPorPagina"
+            >
+              <option :value="10">
+                10 por página
+              </option>
+              <option :value="20">
+                20 por página
+              </option>
+              <option :value="50">
+                50 por página
+              </option>
             </select>
           </div>
 
           <!-- Botón exportar página -->
           <div class="d-flex align-items-end">
-            <button class="btn btn-exportar-pagina" @click="exportarAExcel">Exportar Página</button>
+            <button
+              class="btn btn-exportar-pagina"
+              @click="exportarAExcel"
+            >
+              Exportar Página
+            </button>
           </div>
 
           <!-- Botón exportar todo -->
           <div class="d-flex align-items-end">
-            <button class="btn btn-exportar-todo" @click="exportarHistorialCompletoAExcel">Exportar Todo</button>
+            <button
+              class="btn btn-exportar-todo"
+              @click="exportarHistorialCompletoAExcel"
+            >
+              Exportar Todo
+            </button>
           </div>
         </div>
 
@@ -83,17 +134,24 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(stock, index) in listaStock" :key="index" :class="{
-                'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
-                'fila-egreso': stock.tipoMovimiento === 'EGRESO', 'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
-              }"><!--Puse esa clases fila-ingreso fila-egreso para darle color verde o rojo-->
+              <tr
+                v-for="(stock, index) in listaStock"
+                :key="index"
+                :class="{
+                  'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
+                  'fila-egreso': stock.tipoMovimiento === 'EGRESO', 'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
+                }"
+              >
+                <!--Puse esa clases fila-ingreso fila-egreso para darle color verde o rojo-->
                 <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
                 <td>{{ stock.tipoProducto }}</td>
                 <td>{{ stock.nombre }}</td>
                 <td>{{ stock.color }}</td>
                 <td>{{ stock.tipoMovimiento }}</td>
                 <td>{{ stock.cantidad }}</td>
-                <td class="fw-bold">{{ stock.stockFinal }}</td>
+                <td class="fw-bold">
+                  {{ stock.stockFinal }}
+                </td>
                 <td>{{ stock.observacion }}</td>
               </tr>
             </tbody>
@@ -103,28 +161,46 @@
         <!-- Paginación -->
         <nav class="d-flex justify-content-center mt-4">
           <ul class="pagination">
-            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-              <button class="page-link" @click="cambiarPagina(paginaActual - 1)">«</button>
+            <li
+              class="page-item"
+              :class="{ disabled: paginaActual === 1 }"
+            >
+              <button
+                class="page-link"
+                @click="cambiarPagina(paginaActual - 1)"
+              >
+                «
+              </button>
             </li>
 
-            <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
-              :class="{ active: pagina === paginaActual }">
-              <button class="page-link" @click="cambiarPagina(pagina)">{{ pagina }}</button>
+            <li
+              v-for="pagina in paginasTotales"
+              :key="pagina"
+              class="page-item"
+              :class="{ active: pagina === paginaActual }"
+            >
+              <button
+                class="page-link"
+                @click="cambiarPagina(pagina)"
+              >
+                {{ pagina }}
+              </button>
             </li>
 
-            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-              <button class="page-link" @click="cambiarPagina(paginaActual + 1)">»</button>
+            <li
+              class="page-item"
+              :class="{ disabled: paginaActual === paginasTotales }"
+            >
+              <button
+                class="page-link"
+                @click="cambiarPagina(paginaActual + 1)"
+              >
+                »
+              </button>
             </li>
           </ul>
         </nav>
-
-        </div>
-       
-
       </div>
-    </div>
-    <div v-else>
-      <RequiereRol />
     </div>
   </div>
   <div v-else>
@@ -298,7 +374,7 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ff6b8a;
+  color: rgb(70, 40, 110);
   font-weight: 600;
 }
 

@@ -3,7 +3,6 @@
     <NavBar />
 
     <div class="home-container">
-
       <!-- Hero -->
       <section class="hero">
         <h1>Gestión inteligente para tu fábrica</h1>
@@ -12,8 +11,14 @@
 
       <!-- Tarjetas de Productos -->
       <section class="productos">
-        <div class="producto-card" @click="irA('Piedra')">
-          <img src="@/imagenes/piedra.jpg" alt="Piedra" />
+        <div
+          class="producto-card piedra"
+          @click="irA('Piedra')"
+        >
+          <img
+            src="@/imagenes/piedra.jpg"
+            alt="Piedra"
+          >
           <div class="producto-info">
             <h3>Piedras</h3>
             <p>Controlá el stock de piedras decorativas</p>
@@ -21,139 +26,196 @@
           </div>
         </div>
 
-        <div class="producto-card" @click="irA('Piso')">
-          <img src="@/imagenes/piso.jpg" alt="Piso" />
+        <div
+          class="producto-card piso"
+          @click="irA('Piso')"
+        >
+          <img
+            src="@/imagenes/piso.jpg"
+            alt="Piso"
+          >
           <div class="producto-info">
             <h3>Pisos</h3>
             <p>Visualizá los movimientos y cantidades</p> <!--Pisos flotantes evolution de alta calidad y durabilidad-->
           </div>
         </div>
 
-        <div class="producto-card" @click="irA('Placa')">
-          <img src="@/imagenes/placa.jpg" alt="Placa" />
+        <div
+          class="producto-card placa"
+          @click="irA('Placa')"
+        >
+          <img
+            src="@/imagenes/placa.jpg"
+            alt="Placa"
+          >
           <div class="producto-info">
             <h3>Placas</h3>
             <p>Organizá la producción y entrega</p> <!--Placas anti-humedad para protección y aislamiento-->
           </div>
         </div>
-
       </section>
 
-      <!--Acceso a gráficos: -->
 
-      <section class="acciones-rapidas">
-        <h2>Gráficos de Ingresos y Egresos</h2>
-        <div class="acciones-grid">
-          <div class="accion" @click="router.push('/datosIngresosPorProductos')">
-            <i class="bi bi-box-arrow-in-down"></i>
-            <span>Productos con más ingresos</span>
-          </div>
-          <div class="accion" @click="router.push('/datosEgresosPorProductos')">
-            <i class="bi bi-box-arrow-up"></i>
-            <span>Productos con más egresos</span>
-          </div>
-          <div class="accion" @click="router.push('/datosIngresosVsEgresosPorProductos')">
-            <i class="bi bi-box-arrow-up me-1"></i>
-            <i class="bi bi-box-arrow-down me-2"></i>
-            <span>Ingresos vs Egresos - Por Producto -</span>
-          </div>
-          <div class="accion" @click="router.push('/datosIngresosPorTipo')">
-            <i class="bi bi-arrow-up-square-fill"></i>
-            <span>Ingresos por tipo de producto</span>
-          </div>
-          <div class="accion" @click="router.push('/datosEgresosPorTipo')">
-            <i class="bi bi-arrow-down-square-fill"></i>
-            <span>Egresos por tipo de producto</span>
-          </div>
-          <div class="accion" @click="router.push('/datosIngresosVsEgresosPorTipo')">
-            <i class="bi bi-arrow-up-square-fill"></i>
-            <i class="bi bi-arrow-down-square-fill"></i>
-            <span>Ingresos vs Egresos - Por Producto -</span>
-          </div>
-        </div>
-      </section>
 
-      <!-- Acciones rápidas: -->
+<!-- Acciones rápidas: -->
 
-      <section class="acciones-rapidas">
-        <h2>Acciones rápidas</h2>
+<div class="titulo-seccion acciones-rapidas2">
+  <i class="bi bi-lightning-charge-fill icono-titulo"></i>
+  <h2>Accesos clave para tu gestión</h2>
+  <p>Administra usuarios, materiales, sucursales y consulta movimientos al instante</p>
+  <section class="acciones-rapidas">
         <div class="row g-4 justify-content-center align-items-stretch">
           <!-- Materiales -->
           <div class="col-12 col-md-6 col-lg-3">
-            <router-link to="/gestionarMateriales"
-              class="barra-acceso-admin barra-violeta d-block text-decoration-none h-100">
+            <router-link
+              to="/gestionarMateriales"
+              class="barra-acceso-admin barra-violeta d-block text-decoration-none h-100"
+            >
               <div class="contenido-barra d-flex align-items-center gap-3">
-                <i class="bi bi-boxes icono-accion barra-rosa-icon"></i>
+                <i class="bi bi-boxes icono-accion barra-violeta-icon" />
                 <div>
-                  <h5 class="mb-1 fw-bold">Materiales</h5>
-                  <p class="mb-0">Gestiona tu catálogo</p>
+                  <h5 class="mb-1 fw-bold">
+                    Materiales
+                  </h5>
+                  <p class="mb-0">
+                    Gestiona tu catálogo
+                  </p>
                 </div>
               </div>
-              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill" /></span>
             </router-link>
           </div>
 
           <!-- Usuarios -->
           <div class="col-12 col-md-6 col-lg-3">
-            <router-link to="/traerUsuarios"
-              class="barra-acceso-admin barra-rosa d-block text-decoration-none h-100">
+            <router-link
+              to="/traerUsuarios"
+              class="barra-acceso-admin barra-rosa d-block text-decoration-none h-100"
+            >
               <div class="contenido-barra d-flex align-items-center gap-3">
-                <i class="bi bi-person-fill-check icono-accion barra-violeta-icon"></i>
+                <i class="bi bi-person-fill-check icono-accion barra-rosa-icon" />
                 <div>
-                  <h5 class="mb-1 fw-bold">Usuarios</h5>
-                  <p class="mb-0">Controla permisos</p>
+                  <h5 class="mb-1 fw-bold">
+                    Usuarios
+                  </h5>
+                  <p class="mb-0">
+                    Controla permisos
+                  </p>
                 </div>
               </div>
-              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill" /></span>
             </router-link>
           </div>
 
           <!-- Sucursales -->
           <div class="col-12 col-md-6 col-lg-3">
-            <router-link to="/traerSucursales" class="barra-acceso-admin barra-violeta d-block text-decoration-none h-100">
+            <router-link
+              to="/traerSucursales"
+              class="barra-acceso-admin barra-violeta d-block text-decoration-none h-100"
+            >
               <div class="contenido-barra d-flex align-items-center gap-3">
-                <i class="bi bi-buildings-fill icono-accion barra-rosa-icon"></i>
+                <i class="bi bi-buildings-fill icono-accion barra-violeta-icon" />
                 <div>
-                  <h5 class="mb-1 fw-bold">Sucursales</h5>
-                  <p class="mb-0">Administra ubicaciones</p>
+                  <h5 class="mb-1 fw-bold">
+                    Sucursales
+                  </h5>
+                  <p class="mb-0">
+                    Administra ubicaciones
+                  </p>
                 </div>
               </div>
-              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill" /></span>
             </router-link>
           </div>
 
           <!-- Movimientos -->
           <div class="col-12 col-md-6 col-lg-3">
-            <router-link to="/historialMovimientosDeStock"
-              class="barra-acceso-admin barra-rosa d-block text-decoration-none h-100">
+            <router-link
+              to="/historialMovimientosDeStock"
+              class="barra-acceso-admin barra-rosa d-block text-decoration-none h-100"
+            >
               <div class="contenido-barra d-flex align-items-center gap-3">
-                <i class="bi bi-clipboard-data icono-accion barra-violeta-icon"></i>
+                <i class="bi bi-clipboard-data icono-accion barra-rosa-icon" />
                 <div>
-                  <h5 class="mb-1 fw-bold">Movimientos</h5>
-                  <p class="mb-0">Visualiza entradas y salidas de productos</p>
+                  <h5 class="mb-1 fw-bold">
+                    Movimientos
+                  </h5>
+                  <p class="mb-0">
+                    Visualiza entradas y salidas de productos
+                  </p>
                 </div>
               </div>
-              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill"></i></span>
+              <span class="flecha-icono float-end"><i class="bi bi-arrow-up-right-square-fill" /></span>
             </router-link>
           </div>
         </div>
       </section>
+</div>
+
+      <!--Acceso a gráficos: -->
+<div class="titulo-seccion acciones-rapidas2">
+  <i class="bi bi-graph-up-arrow icono-titulo"></i>
+  <h2>Panel de análisis visual</h2>
+  <p>Gráficos claros para tomar mejores decisiones</p>
+  <section class="acciones-rapidas">
+        <div class="acciones-grid">
+          <div
+            class="accion barra-violeta"
+            @click="router.push('/datosIngresosPorProductos')"
+          >
+            <i class="bi bi-box-arrow-in-down" />
+            <span>Productos con más ingresos</span>
+          </div>
+          <div
+            class="accion barra-violeta"
+            @click="router.push('/datosEgresosPorProductos')"
+          >
+            <i class="bi bi-box-arrow-up" />
+            <span>Productos con más egresos</span>
+          </div>
+          <div
+            class="accion barra-violeta"
+            @click="router.push('/datosIngresosVsEgresosPorProductos')"
+          >
+            <i class="bi bi-box-arrow-up me-1" />
+            <i class="bi bi-box-arrow-down me-2" />
+            <span>Ingresos vs Egresos - Por Producto -</span>
+          </div>
+          <div
+            class="accion barra-violeta"
+            @click="router.push('/datosIngresosPorTipo')"
+          >
+            <i class="bi bi-arrow-down-square-fill" />
+            <span>Ingresos por tipo de producto</span>
+          </div>
+          <div
+            class="accion barra-violeta"
+            @click="router.push('/datosEgresosPorTipo')"
+          >
+            <i class="bi bi-arrow-up-square-fill" />
+            <span>Egresos por tipo de producto</span>
+          </div>
+          <div
+            class="accion barra-violeta"
+            @click="router.push('/datosIngresosVsEgresosPorTipo')"
+          >
+            <i class="bi bi-arrow-up-square-fill" />
+            <i class="bi bi-arrow-down-square-fill" />
+            <span>Ingresos vs Egresos - Por Tipo Producto -</span>
+          </div>
+        </div>
+      </section>
+</div>
+
 
 
     </div>
-
   </div>
-
-
-
-
 
   <div v-else>
     <RequiereLogin />
   </div>
 </template>
-
-
 
 <script setup lang="ts">
 import RequiereLogin from '@/components/RequiereLogin.vue';
@@ -174,6 +236,7 @@ const irA = (tipo: string) => {
 <style scoped>
 .home-container {
   padding: 2rem;
+  padding-top: 90px;
   min-height: 100vh;
   background-image: linear-gradient(135deg, #f3f4f6aa, #d9dee4aa), url(~@/imagenes/fondo.jpg);
   background-size: auto;
@@ -181,8 +244,6 @@ const irA = (tipo: string) => {
   background-position: top left;
   background-blend-mode: overlay;
 }
-
-
 
 .hero {
   text-align: center;
@@ -217,6 +278,7 @@ const irA = (tipo: string) => {
 .producto-card {
   background: white;
   border-radius: 20px;
+  border: 2px solid #c3c3c3; 
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   width: 280px;
@@ -229,6 +291,19 @@ const irA = (tipo: string) => {
 .producto-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+  border-color: #a393ab;  
+}
+
+.piedra:hover {
+  background: #eddeff;
+}
+
+.piso:hover {
+  background: #e4e4e4;
+}
+
+.placa:hover {
+  background: #f6d7db;
 }
 
 .producto-card img {
@@ -257,6 +332,13 @@ const irA = (tipo: string) => {
 .acciones-rapidas {
   margin-top: 2rem;
   text-align: center;
+}
+
+.acciones-rapidas2 {
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  padding: 2rem 1rem;
+  margin-top: 3rem;
 }
 
 .acciones-rapidas h2 {
@@ -307,7 +389,6 @@ const irA = (tipo: string) => {
 /*Estilo de acciones rápidas para opción 2*/
 
 .barra-acceso-admin {
-  border-left: 6px solid;
   border-radius: 10px;
   padding: 1rem 1.5rem;
   color: #fff;
@@ -331,7 +412,8 @@ const irA = (tipo: string) => {
 /* Colores personalizados */
 
 .barra-rosa {
-  background: linear-gradient(90deg, #fae6f4, #f2cce9);
+  background: radial-gradient(closest-side at center, #fae6f4 0%, #f2cce9 100%);
+
   border-color: #dea5cf;
   color: #882a6b;
 }
@@ -341,7 +423,7 @@ const irA = (tipo: string) => {
 }
 
 .barra-violeta {
-  background: linear-gradient(90deg, #ede9f9, #d8d1f2);
+  background: radial-gradient(closest-side at center, #ede9f9 0%, #c0b7e1 100%);
   border-color: #573c9d;
   color: #392667;
 }
@@ -357,12 +439,8 @@ const irA = (tipo: string) => {
   flex-shrink: 0;
 }
 
-.barra-verde-icon {
-  color: #4caf50;
-}
-
 .barra-rosa-icon {
-  color: #dea5cf;
+  color: #882a6b;
 }
 
 .barra-violeta-icon {
@@ -387,4 +465,46 @@ const irA = (tipo: string) => {
     margin-bottom: 1rem;
   }
 }
+
+
+
+
+
+.titulo-seccion {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.titulo-seccion h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 0.3rem;
+}
+
+.titulo-seccion h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background: #573c9d;
+  margin: 0.5rem auto;
+  border-radius: 4px;
+}
+
+
+.titulo-seccion p {
+  font-size: 1rem;
+  color: #555;
+  margin: 0;
+}
+
+.icono-titulo {
+  font-size: 2.5rem;
+  color: #573c9d;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+
+
 </style>

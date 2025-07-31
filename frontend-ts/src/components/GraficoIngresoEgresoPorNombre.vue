@@ -4,46 +4,83 @@
     <div class="d-flex flex-wrap gap-3 mb-4 align-items-end">
       <div>
         <label class="form-label fw-semibold">Buscar producto:</label>
-        <input v-model="busqueda" type="text" class="form-control" placeholder="Nombre del producto" />
+        <input
+          v-model="busqueda"
+          type="text"
+          class="form-control"
+          placeholder="Nombre del producto"
+        >
       </div>
 
       <div>
         <label class="form-label fw-semibold">Cantidad de productos:</label>
-        <select v-model="limite" class="form-select">
-          <option :value="5">5</option>
-          <option :value="10">10</option>
-          <option :value="20">20</option>
-          <option :value="50">50</option>
+        <select
+          v-model="limite"
+          class="form-select"
+        >
+          <option :value="5">
+            5
+          </option>
+          <option :value="10">
+            10
+          </option>
+          <option :value="20">
+            20
+          </option>
+          <option :value="50">
+            50
+          </option>
         </select>
-      </div>
-
- <!-- Botón Exportar -->
-      <div class="ms-auto">
-        <button class="btn btn-exportar-pagina" @click="exportarAExcel">Exportar a Excel</button>
       </div>
     </div>
 
-        <!-- Botón descargar gráfico como imagen -->
-<button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button>
-
     <!-- Gráfico -->
-    <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
-    <p v-else>No hay datos disponibles para mostrar.</p>
+    <Bar datosGrafico.labels :data="datosGrafico" :options="opcionesGrafico" />
+
+    <!-- Botones de exportación (solo si hay datos) -->
+    <div
+      datosGrafico.labels.length
+      class="my-3 d-flex gap-3"
+    >
+      <button
+        class="btn btn-exportar-todo"
+        @click="exportarGraficoComoPNG"
+      >
+        Descargar gráfico
+      </button>
+      <button
+        class="btn btn-exportar-pagina"
+        @click="exportarAExcel"
+      >
+        Exportar tabla a Excel
+      </button>
+    </div>
 
     <!-- Tabla -->
-    <table v-if="tablaFiltrada.length" class="table table-bordered table-striped mt-4">
+    <table class="table table-bordered table-striped mt-4">
       <thead class="table-light">
         <tr>
           <th>Producto</th>
-          <th class="text-end">Ingresos</th>
-          <th class="text-end">Egresos</th>
+          <th class="text-end">
+            Ingresos
+          </th>
+          <th class="text-end">
+            Egresos
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(dato, index) in tablaFiltrada" :key="index">
+        <tr
+          v-for="(dato, index) in tablaFiltrada"
+          :key="index"
+        >
           <td>{{ dato.nombre }}</td>
-          <td class="text-end">{{ dato.ingresos }}</td>
-          <td class="text-end">{{ dato.egresos }}</td>
+          <td class="text-end">
+            {{ dato.ingresos }}
+          </td>
+          <td class="text-end">
+            {{ dato.egresos }}
+          </td>
         </tr>
       </tbody>
     </table>
@@ -109,12 +146,12 @@ const datosGrafico = computed(() => ({
     {
       label: 'Ingresos',
       data: nombresFiltradosOrdenados.value.map(n => resumenIngresos.value[n] || 0),
-      backgroundColor: '#52b788'
+      backgroundColor: '#573c9d'
     },
     {
       label: 'Egresos',
       data: nombresFiltradosOrdenados.value.map(n => resumenEgresos.value[n] || 0),
-      backgroundColor: '#e76f51'
+      backgroundColor: '#ef5769'
     }
   ]
 }))

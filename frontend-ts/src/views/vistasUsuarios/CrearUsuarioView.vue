@@ -1,55 +1,93 @@
 <template>
-  <div v-if="store.Logueado" class="contenido-app">
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
 
       <div class="container py-4">
         <div class="mb-4 text-center">
-          <h1 class="titulo">Crear Usuario</h1>
-          <p class="subtitulo subtitulo-1">Formulario para registrar un nuevo usuario.</p>
+          <h1 class="titulo">
+            Crear Usuario
+          </h1>
+          <p class="subtitulo subtitulo-1">
+            Formulario para registrar un nuevo usuario.
+          </p>
         </div>
 
-        <div class="mx-auto" style="max-width: 400px;">
-          <form @submit.prevent="crearUsuario" class="d-flex flex-column gap-3">
+        <div
+          class="mx-auto"
+          style="max-width: 400px;"
+        >
+          <form
+            class="d-flex flex-column gap-3"
+            @submit.prevent="crearUsuario"
+          >
             <input
               v-model="usuarioACrear.nombreUsuario"
               type="text"
               placeholder="Nombre de usuario"
               required
               class="form-control"
-            />
+            >
             <input
               v-model="usuarioACrear.email"
               type="email"
               placeholder="Email"
               required
               class="form-control"
-            />
+            >
             <input
               v-model="usuarioACrear.contrasenia"
               type="password"
               placeholder="Contraseña"
               required
               class="form-control"
-            />
+            >
 
             <!-- Etiqueta arriba del select -->
-<label for="rol" class="form-label mt-3">Seleccione un rol</label>
-<select
-  id="rol"
-  v-model="usuarioACrear.rol"
-  class="form-select"
->
-  <option disabled value="">-- Elegir rol --</option>
-  <option value="vendedor">Vendedor</option>
-  <option value="encargado">Encargado</option>
-</select>
+            <label
+              for="rol"
+              class="form-label mt-3"
+            >Seleccione un rol</label>
+            <select
+              id="rol"
+              v-model="usuarioACrear.rol"
+              class="form-select"
+            >
+              <option
+                disabled
+                value=""
+              >
+                -- Elegir rol --
+              </option>
+              <option value="vendedor">
+                Vendedor
+              </option>
+              <option value="encargado">
+                Encargado
+              </option>
+            </select>
 
 
             <div class="d-flex flex-column flex-md-row gap-3 justify-content-center mt-3">
-              <button type="submit" class="btn btn-rosa-a-blanco w-100">Crear Usuario</button>
-              <router-link to="/traerUsuarios" class="w-100">
-                <button type="button" class="btn btn-gris-a-blanco w-100">Volver</button>
+              <button
+                type="submit"
+                class="btn btn-rosa-a-blanco w-100"
+              >
+                Crear Usuario
+              </button>
+              <router-link
+                to="/traerUsuarios"
+                class="w-100"
+              >
+                <button
+                  type="button"
+                  class="btn btn-gris-a-blanco w-100"
+                >
+                  Volver
+                </button>
               </router-link>
             </div>
           </form>

@@ -29,7 +29,8 @@ export const traerTodosLosMovimientosStock = async (req: Request, res: Response)
             query.$or = [
                 { tipoProducto: new RegExp(datoAFiltar.toString(), 'i') },
                 { nombre: new RegExp(datoAFiltar.toString(), 'i') },
-                { tipoMovimiento: new RegExp(datoAFiltar.toString(), 'i') }
+                { tipoMovimiento: new RegExp(datoAFiltar.toString(), 'i') },
+                { color: new RegExp(datoAFiltar.toString(), 'i') }
             ];
         }
 

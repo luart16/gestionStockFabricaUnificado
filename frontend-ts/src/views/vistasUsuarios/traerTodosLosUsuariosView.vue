@@ -12,7 +12,7 @@
           </router-link>
         </div>
 
-        <div v-if="traerTodos.length == 0">
+        <div v-if="usuariosExistentes.length == 0">
           <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
         </div>
         <div v-else>
@@ -111,7 +111,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -211,7 +210,7 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ef5769;
+  color: rgb(70, 40, 110);
   font-weight: 600;
 }
 

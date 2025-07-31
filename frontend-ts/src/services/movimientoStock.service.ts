@@ -5,7 +5,7 @@ export const servicioMovimientoStock = {
   traerTodos: async (pagina = 1, limite = 10, datoAFiltar = '', fechaInicio='', fechaFinal='') => {
     const respuesta = await axios.get('http://localhost:3000/api/movimientoStock/traerTodosLosMovimientosStock',
       {
-        params: { pagina, limite, datoAFiltar, fechaInicio, fechaFinal } // ← Parámetros correctos
+        params: { pagina, limite, datoAFiltar, fechaInicio, fechaFinal } 
       }
     );
     return respuesta.data;

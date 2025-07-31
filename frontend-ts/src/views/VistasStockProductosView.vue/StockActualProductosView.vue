@@ -1,55 +1,93 @@
 <template>
-  <div v-if="store.Logueado" class="contenido-app">
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
       <div class="container py-4">
-
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
-          <h1 class="titulo">Stock Actual de Productos</h1>
+          <h1 class="titulo">
+            Stock Actual de Productos
+          </h1>
           <router-link to="/historialMovimientosDeStock">
-            <button class="btn btn-gris-a-blanco">Historial de Movimientos</button>
+            <button class="btn btn-gris-a-blanco">
+              Historial de Movimientos
+            </button>
           </router-link>
         </div>
 
-        <div v-if="traerStock.length == 0">
-          <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
-        </div>
-        <div v-else>
-          <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
 
-            <!-- Filtro -->
-            <label class="form-label fw-semibold">Filtro:</label>
-            <input type="text" v-model="datoAFiltar" class="form-control"
-              placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;" />
+        <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+          <!-- Filtro -->
+          <label class="form-label fw-semibold">Filtro:</label>
+          <input
+            v-model="datoAFiltar"
+            type="text"
+            class="form-control"
+            placeholder="Buscar por tipo producto, nombre o color"
+            style="max-width: 400px;"
+          >
 
-            <!-- Selector de cantidad por página -->
-            <div class="d-flex align-items-end">
-              <label class="form-label me-2">Mostrar:</label>
-              <select class="form-select" style="width: auto;" v-model="totalPorpagina"
-                @change="cambiarCantidadPorPagina">
-                <option :value="10">10 por página</option>
-                <option :value="20">20 por página</option>
-                <option :value="50">50 por página</option>
-              </select>
-            </div>
-
-            <!-- Botón exportar página -->
-            <div class="d-flex align-items-end">
-              <button class="btn btn-exportar-pagina" @click="exportarAExcel">Exportar Página</button>
-            </div>
-            <!-- Botón exportar todo -->
-            <div class="d-flex align-items-end">
-              <button class="btn btn-rosa-a-blanco" @click="exportarStockCompletoAExcel">Exportar Todo</button>
-            </div>
-
+          <!-- Selector de cantidad por página -->
+          <div class="d-flex align-items-end">
+            <label class="form-label me-2">Mostrar:</label>
+            <select
+              v-model="totalPorpagina"
+              class="form-select"
+              style="width: auto;"
+              @change="cambiarCantidadPorPagina"
+            >
+              <option :value="10">
+                10 por página
+              </option>
+              <option :value="20">
+                20 por página
+              </option>
+              <option :value="50">
+                50 por página
+              </option>
+            </select>
           </div>
 
+          <!-- Botón exportar página -->
+          <div class="d-flex align-items-end">
+            <button
+              class="btn btn-exportar-pagina"
+              @click="exportarAExcel"
+            >
+              Exportar Página
+            </button>
+          </div>
+          <!-- Botón exportar todo -->
+          <div class="d-flex align-items-end">
+            <button
+              class="btn btn-exportar-todo"
+              @click="exportarStockCompletoAExcel"
+            >
+              Exportar Todo
+            </button>
+          </div>
+        </div>
+
+        <div v-if="listaStock.length == 0">
+          <p class="subtitulo-1 m-0 ">
+            No hay datos disponibles para mostrar
+          </p>
+        </div>
+        <div v-else>
           <!-- Botones mostrar/ocultar -->
           <div class="d-flex align-items-end gap-2">
-            <button class="btn btn-outline-secondary" @click="mostrarCapacidadProduccion = !mostrarCapacidadProduccion">
+            <button
+              class="btn btn-outline-secondary"
+              @click="mostrarCapacidadProduccion = !mostrarCapacidadProduccion"
+            >
               {{ mostrarCapacidadProduccion ? 'Ocultar' : 'Mostrar' }} Capacidad de Producción
             </button>
-            <button class="btn btn-outline-secondary" @click="mostrarEmbalaje = !mostrarEmbalaje">
+            <button
+              class="btn btn-outline-secondary"
+              @click="mostrarEmbalaje = !mostrarEmbalaje"
+            >
               {{ mostrarEmbalaje ? 'Ocultar' : 'Mostrar' }} Embalaje
             </button>
           </div>
@@ -59,76 +97,158 @@
             <table class="table table-hover table-bordered align-middle">
               <thead class="table-light">
                 <tr>
-                  <th rowspan="2">Tipo Producto</th>
-                  <th rowspan="2">Producto</th>
-                  <th rowspan="2">Color</th>
+                  <th rowspan="2">
+                    Tipo Producto
+                  </th>
+                  <th rowspan="2">
+                    Producto
+                  </th>
+                  <th rowspan="2">
+                    Color
+                  </th>
 
-                  <th v-if="mostrarCapacidadProduccion" colspan="3" class="text-center align-middle">
+                  <th
+                    v-if="mostrarCapacidadProduccion"
+                    colspan="3"
+                    class="text-center align-middle"
+                  >
                     Capacidad de Producción
                   </th>
 
-                  <th v-if="mostrarEmbalaje" colspan="3" class="text-center align-middle">
+                  <th
+                    v-if="mostrarEmbalaje"
+                    colspan="3"
+                    class="text-center align-middle"
+                  >
                     Embalaje
                   </th>
 
-                  <th rowspan="2">Stock<br>Sin<br>Reserva</th>
-                  <th rowspan="2">Stock<br>Con<br>Reserva</th>
-                  <th rowspan="2">Stock<br>Final</th>
-                  <th rowspan="2">Acciones</th>
+                  <th rowspan="2">
+                    Stock<br>Sin<br>Reserva
+                  </th>
+                  <th rowspan="2">
+                    Stock<br>Con<br>Reserva
+                  </th>
+                  <th rowspan="2">
+                    Stock<br>Final
+                  </th>
+                  <th rowspan="2">
+                    Acciones
+                  </th>
                 </tr>
                 <tr>
                   <template v-if="mostrarCapacidadProduccion">
-                    <th class="text-center th-subtitulo">Moldes</th>
-                    <th class="text-center th-subtitulo">M2/Molde</th>
-                    <th class="text-center th-subtitulo">M2 totales</th>
+                    <th class="text-center th-subtitulo">
+                      Moldes
+                    </th>
+                    <th class="text-center th-subtitulo">
+                      M2/Molde
+                    </th>
+                    <th class="text-center th-subtitulo">
+                      M2 totales
+                    </th>
                   </template>
 
                   <template v-if="mostrarEmbalaje">
-                    <th class="text-center th-subtitulo">Unid./paquete</th>
-                    <th class="text-center th-subtitulo">M2/paquete</th>
-                    <th class="text-center th-subtitulo">Kg/paquete</th>
+                    <th class="text-center th-subtitulo">
+                      Unid./paquete
+                    </th>
+                    <th class="text-center th-subtitulo">
+                      M2/paquete
+                    </th>
+                    <th class="text-center th-subtitulo">
+                      Kg/paquete
+                    </th>
                   </template>
                 </tr>
               </thead>
 
               <!--cuerpo de la tabla:-->
               <tbody>
-                <tr v-for="stock in listaStock" :key="stock._id">
-                  <td class="resaltar-celda">{{ stock.tipoProducto }}</td>
-                  <td class="resaltar-celda">{{ stock.nombre }}</td>
-                  <td class="resaltar-celda">{{ stock.color }}</td>
+                <tr
+                  v-for="stock in listaStock"
+                  :key="stock._id"
+                >
+                  <td class="resaltar-celda">
+                    {{ stock.tipoProducto }}
+                  </td>
+                  <td class="resaltar-celda">
+                    {{ stock.nombre }}
+                  </td>
+                  <td class="resaltar-celda">
+                    {{ stock.color }}
+                  </td>
 
-                  <td v-if="mostrarCapacidadProduccion">{{ stock.moldes }}</td>
-                  <td v-if="mostrarCapacidadProduccion">{{ stock.m2PorMolde }}</td>
-                  <td v-if="mostrarCapacidadProduccion">{{ stock.capacidadTotal }}</td>
+                  <td v-if="mostrarCapacidadProduccion">
+                    {{ stock.moldes }}
+                  </td>
+                  <td v-if="mostrarCapacidadProduccion">
+                    {{ stock.m2PorMolde }}
+                  </td>
+                  <td v-if="mostrarCapacidadProduccion">
+                    {{ stock.capacidadTotal }}
+                  </td>
 
-                  <td v-if="mostrarEmbalaje">{{ stock.unidadesPorPaquete }}</td>
-                  <td v-if="mostrarEmbalaje">{{ stock.m2PorPaquete }}</td>
-                  <td v-if="mostrarEmbalaje">{{ stock.kgPorPaquete }}</td>
+                  <td v-if="mostrarEmbalaje">
+                    {{ stock.unidadesPorPaquete }}
+                  </td>
+                  <td v-if="mostrarEmbalaje">
+                    {{ stock.m2PorPaquete }}
+                  </td>
+                  <td v-if="mostrarEmbalaje">
+                    {{ stock.kgPorPaquete }}
+                  </td>
 
                   <td>{{ stock.stockSinCompromiso }}</td>
                   <td>{{ stock.comprometido }}</td>
-                  <td :class="[
-                    'fw-bold resaltar-celda',
-                    stock.stockFinal < 0 ? 'text-danger' :
+                  <td
+                    :class="[
+                      'fw-bold resaltar-celda',
+                      stock.stockFinal < 0 ? 'text-danger' :
                       stock.stockFinal === 0 ? 'text-warning' :
-                        'text-success'
-                  ]">{{ stock.stockFinal }}</td>
+                      'text-success'
+                    ]"
+                  >
+                    {{ stock.stockFinal }}
+                  </td>
                   <td>
                     <div class="dropdown">
-                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                      <button
+                        class="btn btn-outline-secondary dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                      >
                         Opciones
                       </button>
                       <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#" @click.prevent="abrirModal(stock, 'INGRESO')">+
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            @click.prevent="abrirModal(stock, 'INGRESO')"
+                          >+
                             Agregar</a>
                         </li>
-                        <li><a class="dropdown-item" href="#" @click.prevent="abrirModal(stock, 'EGRESO')">- Quitar</a>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            @click.prevent="abrirModal(stock, 'EGRESO')"
+                          >- Quitar</a>
                         </li>
-                        <li><a class="dropdown-item" href="#"
-                            @click.prevent="abrirModal(stock, 'COMPROMETIDO')">Reservar</a></li>
-                        <li><a class="dropdown-item" href="#"
-                            @click.prevent="abrirModal(stock, 'DESCOMPROMETIDO')">Quitar Reserva</a>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            @click.prevent="abrirModal(stock, 'COMPROMETIDO')"
+                          >Reservar</a>
+                        </li>
+                        <li>
+                          <a
+                            class="dropdown-item"
+                            href="#"
+                            @click.prevent="abrirModal(stock, 'DESCOMPROMETIDO')"
+                          >Quitar Reserva</a>
                         </li>
                       </ul>
                     </div>
@@ -140,51 +260,101 @@
           <!-- Paginacion-->
           <nav class="d-flex justify-content-center mt-4">
             <ul class="pagination">
-              <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+              <li
+                class="page-item"
+                :class="{ disabled: paginaActual === 1 }"
+              >
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="cambiarPagina(paginaActual - 1)"
+                >&laquo;</a>
               </li>
-              <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
-                :class="{ active: pagina === paginaActual }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+              <li
+                v-for="pagina in paginasTotales"
+                :key="pagina"
+                class="page-item"
+                :class="{ active: pagina === paginaActual }"
+              >
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="cambiarPagina(pagina)"
+                >{{ pagina }}</a>
               </li>
-              <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+              <li
+                class="page-item"
+                :class="{ disabled: paginaActual === paginasTotales }"
+              >
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="cambiarPagina(paginaActual + 1)"
+                >&raquo;</a>
               </li>
             </ul>
           </nav>
 
-          <div v-if="mostrarModal" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+          <div
+            v-if="mostrarModal"
+            class="modal fade show d-block"
+            tabindex="-1"
+            style="background: rgba(0,0,0,0.5);"
+          >
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title">{{ tipoMovimiento === 'COMPROMETIDO' ? 'Reservar' : tipoMovimiento ===
-                    'DESCOMPROMETIDO' ? 'Quitar Reserva' : tipoMovimiento === 'EGRESO' ? 'Quitar' : 'Agregar' }} Stock
+                  <h5 class="modal-title">
+                    {{ tipoMovimiento === 'COMPROMETIDO' ? 'Reservar' : tipoMovimiento ===
+                      'DESCOMPROMETIDO' ? 'Quitar Reserva' : tipoMovimiento === 'EGRESO' ? 'Quitar' : 'Agregar' }} Stock
                   </h5>
-                  <button type="button" class="btn-close" @click="cerrarModal"></button>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    @click="cerrarModal"
+                  />
                 </div>
                 <div class="modal-body">
-                  <p>Producto: <strong>{{ stockSeleccionado?.nombre }}</strong> - Color: <strong>{{
-                    stockSeleccionado?.color }}</strong></p>
+                  <p>
+                    Producto: <strong>{{ stockSeleccionado?.nombre }}</strong> - Color: <strong>{{
+                      stockSeleccionado?.color }}</strong>
+                  </p>
                   <div class="mb-3">
                     <label class="form-label">Cantidad:</label>
-                    <input type="number" class="form-control" v-model.number="cantidadMovimiento" min="1">
+                    <input
+                      v-model.number="cantidadMovimiento"
+                      type="number"
+                      class="form-control"
+                      min="1"
+                    >
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Observación:</label>
-                    <input type="text" class="form-control" v-model="observacion">
+                    <input
+                      v-model="observacion"
+                      type="text"
+                      class="form-control"
+                    >
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button class="btn btn-gris-a-blanco" @click="cerrarModal">Cancelar</button>
-                  <button class="btn btn-rosa-a-blanco" @click="confirmarMovimiento">Confirmar</button>
+                  <button
+                    class="btn btn-gris-a-blanco"
+                    @click="cerrarModal"
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    class="btn btn-rosa-a-blanco"
+                    @click="confirmarMovimiento"
+                  >
+                    Confirmar
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
-
       </div>
     </div>
     <div v-else>
@@ -395,7 +565,7 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ef5769;
+  color: rgb(70, 40, 110);
   font-weight: 600;
 }
 

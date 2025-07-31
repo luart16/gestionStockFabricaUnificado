@@ -1,34 +1,54 @@
-<!-- <template>
-  <div style="max-width: 800px; margin: auto;"> -->
-    <!-- Botón exportar a excel -->
-    <!-- <div class="text-end mb-3">
-      <button class="btn btn-exportar-pagina" @click="exportarResumenAExcel">Exportar a Excel</button>
-    </div> -->
-
-     <!-- Botón descargar gráfico como imagen -->
-<!-- <button class="btn btn-outline-secondary" @click="exportarGraficoComoPNG">Descargar gráfico</button> -->
-
+<template>
+  <div style="max-width: 800px; margin: auto;">
     <!-- Gráfico -->
-    <!-- <Bar v-if="datosGrafico.labels.length" :data="datosGrafico" :options="opcionesGrafico" />
-    <p v-else>No hay datos disponibles para mostrar.</p> -->
+    <Bar datosGrafico.labels.length :data="datosGrafico" :options="opcionesGrafico" />
 
-    <!-- Tabla de datos -->
-    <!-- <table v-if="tablaDatos.length" class="table table-bordered table-striped mt-4">
+    <!-- Botones de exportación (solo si hay datos) -->
+    <div
+      v-if="datosGrafico.labels.length"
+      class="my-3 d-flex gap-3"
+    >
+      <button
+        class="btn btn-exportar-todo"
+        @click="exportarGraficoComoPNG"
+      >
+        Descargar gráfico
+      </button>
+      <button
+        class="btn btn-exportar-pagina"
+        @click="exportarResumenAExcel"
+      >
+        Exportar a Excel
+      </button>
+    </div>
+
+    
+
+    <!-- Tabla -->
+    <table class="table table-bordered table-striped mt-4">
       <thead class="table-light">
         <tr>
           <th>Tipo de Producto</th>
-          <th class="text-end">Cantidad Ingresada</th>
+          <th class="text-end">
+            {{ labelColumna }}
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(fila, index) in tablaDatos" :key="index">
+        <tr
+          v-for="(fila, index) in tablaDatos"
+          :key="index"
+        >
           <td>{{ fila.tipo }}</td>
-          <td class="text-end">{{ fila.cantidad }}</td>
+          <td class="text-end">
+            {{ fila.cantidad }}
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 </template>
+
 
 <script setup lang="ts">
 import { computed } from 'vue'
@@ -47,7 +67,10 @@ import {
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
 const props = defineProps<{
-  ingresos: { tipoProducto: string; cantidad: number }[]
+  movimientos: { tipoProducto: string; cantidad: number }[]
+  tituloGrafico: string
+  labelColumna: string
+  nombreArchivoExcel: string
 }>()
 
 const resumen = computed(() => {
@@ -57,7 +80,7 @@ const resumen = computed(() => {
     piso: 0
   }
 
-  props.ingresos.forEach(item => {
+  props.movimientos.forEach(item => {
     const tipo = item.tipoProducto.toLowerCase()
     if (resumen[tipo] !== undefined) {
       resumen[tipo] += item.cantidad || 0
@@ -70,9 +93,9 @@ const resumen = computed(() => {
 const datosGrafico = computed(() => ({
   labels: ['Piedra', 'Placa', 'Piso'],
   datasets: [{
-    label: 'Cantidad Ingresada',
+    label: props.labelColumna,
     data: [resumen.value.piedra, resumen.value.placa, resumen.value.piso],
-    backgroundColor: ['#d62828', '#f77f00', '#fcbf49']
+    backgroundColor: ['#573c9d', '#ef5769', '#6c757d']
   }]
 }))
 
@@ -85,17 +108,13 @@ const tablaDatos = computed(() => [
 const exportarResumenAExcel = () => {
   const hoja = XLSX.utils.json_to_sheet(tablaDatos.value)
   const libro = XLSX.utils.book_new()
-  XLSX.utils.book_append_sheet(libro, hoja, 'ResumenIngresosTipoProducto')
-  XLSX.writeFile(libro, 'Resumen_Ingresos_TipoProducto.xlsx')
+  XLSX.utils.book_append_sheet(libro, hoja, props.nombreArchivoExcel)
+  XLSX.writeFile(libro, `${props.nombreArchivoExcel}.xlsx`)
 }
-
-/*Función para exportar el gráfico de excel como imagen: */
 
 const exportarGraficoComoPNG = () => {
   const canvas = document.querySelector('canvas')
   if (!canvas) return
-
-  const backgroundColor = '#ffffff' // Fondo blanco
 
   const exportCanvas = document.createElement('canvas')
   exportCanvas.width = canvas.width
@@ -104,14 +123,10 @@ const exportarGraficoComoPNG = () => {
   const ctx = exportCanvas.getContext('2d')
   if (!ctx) return
 
-  // Poner fondo blanco
-  ctx.fillStyle = backgroundColor
+  ctx.fillStyle = '#ffffff'
   ctx.fillRect(0, 0, exportCanvas.width, exportCanvas.height)
-
-  // Copiar el contenido original
   ctx.drawImage(canvas, 0, 0)
 
-  // Descargar la imagen
   const enlace = document.createElement('a')
   enlace.download = 'grafico.png'
   enlace.href = exportCanvas.toDataURL('image/png')
@@ -124,7 +139,7 @@ const opcionesGrafico = {
     legend: { position: 'top' as const },
     title: {
       display: true,
-      text: 'Comparativa de Ingresos por Tipo de Producto',
+      text: props.tituloGrafico,
       color: '#353535',
       font: { size: 20 }
     }
@@ -143,4 +158,4 @@ const opcionesGrafico = {
     }
   }
 }
-</script> -->
+</script>

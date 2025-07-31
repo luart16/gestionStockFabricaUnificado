@@ -12,29 +12,30 @@
         </router-link>
       </div>
 
-      <div v-if="traerTodos.length == 0">
+
+      <!-- Filtro -->
+      <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
+
+        <label class="form-label fw-semibold">Filtro:</label>
+        <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color"
+          style="max-width: 400px;" />
+
+        <!-- Selector de cantidad por página -->
+        <div class="d-flex align-items-end">
+          <label class="form-label me-2">Mostrar:</label>
+          <select class="form-select" style="width: auto;" v-model="totalPorpagina" @change="cambiarCantidadPorPagina">
+            <option :value="10">10 por página</option>
+            <option :value="20">20 por página</option>
+            <option :value="50">50 por página</option>
+          </select>
+        </div>
+
+      </div>
+
+      <div v-if="materialesExistentes.length == 0">
         <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
       </div>
       <div v-else>
-        <!-- Filtro -->
-        <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
-
-          <label class="form-label fw-semibold">Filtro:</label>
-          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color"
-            style="max-width: 400px;" />
-
-          <!-- Selector de cantidad por página -->
-          <div class="d-flex align-items-end">
-            <label class="form-label me-2">Mostrar:</label>
-            <select class="form-select" style="width: auto;" v-model="totalPorpagina"
-              @change="cambiarCantidadPorPagina">
-              <option :value="10">10 por página</option>
-              <option :value="20">20 por página</option>
-              <option :value="50">50 por página</option>
-            </select>
-          </div>
-
-        </div>
 
         <!-- Tabla Materiales -->
         <div class="table-responsive">
@@ -86,11 +87,13 @@
               <div class="modal-body">
                 <div class="mb-3">
                   <label class="form-label">Nombre</label>
-                  <input type="text" class="form-control" v-model="materialAEditar.nombreMaterial">
+                  <input type="text" class="form-control" v-model="materialAEditar.nombreMaterial"
+                    @input="materialAEditar.nombreMaterial = materialAEditar.nombreMaterial.toUpperCase()">
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Color</label>
-                  <input type="text" class="form-control" v-model="materialAEditar.color">
+                  <input type="text" class="form-control" v-model="materialAEditar.color"
+                    @input="materialAEditar.color = materialAEditar.color.toUpperCase()">
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Descripción</label>
@@ -98,11 +101,11 @@
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Precio</label>
-                  <input type="number" class="form-control" v-model="materialAEditar.precio">
+                  <input type="number" step="0.01" class="form-control" v-model="materialAEditar.precio">
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Stock</label>
-                  <input type="number" class="form-control" v-model="materialAEditar.stock">
+                  <input type="number" step="0.01" class="form-control" v-model="materialAEditar.stock">
                 </div>
               </div>
               <div class="modal-footer">
@@ -310,7 +313,7 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ef5769;
+  color: rgb(70, 40, 110);
   font-weight: 600;
 }
 

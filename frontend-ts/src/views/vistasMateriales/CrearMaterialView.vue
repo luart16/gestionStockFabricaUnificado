@@ -1,44 +1,94 @@
 <template>
-  <div v-if="store.Logueado" class="contenido-app">
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
       <div class="container py-4">
         <div class="text-center mb-4">
-          <h1 class="titulo">Crear Material</h1>
-          <p class="subtitulo">Formulario para registrar un nuevo material.</p>
+          <h1 class="titulo">
+            Crear Material
+          </h1>
+          <p class="subtitulo">
+            Formulario para registrar un nuevo material.
+          </p>
         </div>
 
-        <div class="card shadow p-4 mx-auto" style="max-width: 500px;">
+        <div
+          class="card shadow p-4 mx-auto"
+          style="max-width: 500px;"
+        >
           <form @submit.prevent="crearMaterial">
             <div class="mb-3">
               <label class="form-label fw-semibold">Nombre del material:</label>
-              <input v-model="materialACrear.nombreMaterial" type="text" class="form-control" placeholder="Nombre del material" required />
+              <input
+                v-model="materialACrear.nombreMaterial"
+                type="text"
+                class="form-control"
+                placeholder="Nombre del material"
+                required
+                @input="materialACrear.nombreMaterial = materialACrear.nombreMaterial.toUpperCase()"
+              >
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Color:</label>
-              <input v-model="materialACrear.color" type="text" class="form-control" placeholder="Color" />
+              <input
+                v-model="materialACrear.color"
+                type="text"
+                class="form-control"
+                placeholder="Color"
+                @input="materialACrear.color = materialACrear.color.toUpperCase()"
+              >
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Descripción:</label>
-              <input v-model="materialACrear.descripcion" type="text" class="form-control" placeholder="Descripción del material" />
+              <input
+                v-model="materialACrear.descripcion"
+                type="text"
+                class="form-control"
+                placeholder="Descripción del material"
+              >
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Precio:</label>
-              <input v-model="materialACrear.precio" type="number" class="form-control" placeholder="Precio" />
+              <input
+                v-model="materialACrear.precio"
+                type="number"
+                step="0.01"
+                class="form-control"
+                placeholder="Precio"
+              >
             </div>
 
             <div class="mb-3">
               <label class="form-label fw-semibold">Stock:</label>
-              <input v-model="materialACrear.stock" type="number" class="form-control" placeholder="Precio" />
+              <input
+                v-model="materialACrear.stock"
+                type="number"
+                step="0.01"
+                class="form-control"
+                placeholder="Precio"
+              >
             </div>
 
             <div class="d-flex gap-2 justify-content-end">
-              <button type="submit" class="btn btn-rosa-a-blanco">Crear Material</button>
+              <button
+                type="submit"
+                class="btn btn-rosa-a-blanco"
+              >
+                Crear Material
+              </button>
               <router-link to="/GestionarMateriales">
-                <button type="button" class="btn btn-gris-a-blanco">Volver</button>
+                <button
+                  type="button"
+                  class="btn btn-gris-a-blanco"
+                >
+                  Volver
+                </button>
               </router-link>
             </div>
           </form>

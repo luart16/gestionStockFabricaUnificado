@@ -1,19 +1,38 @@
 <template>
-  <div v-if="store.Logueado" class="contenido-app">
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
       <div class="container py-4">
         <div class="text-center mb-4">
-          <h1 class="titulo">Crear Producto</h1>
-          <p class="subtitulo">Formulario para registrar un nuevo producto en el sistema.</p>
+          <h1 class="titulo">
+            Crear Producto
+          </h1>
+          <p class="subtitulo">
+            Formulario para registrar un nuevo producto en el sistema.
+          </p>
         </div>
 
-        <div class="card shadow p-4 mx-auto" style="max-width: 800px;">
+        <div
+          class="card shadow p-4 mx-auto"
+          style="max-width: 800px;"
+        >
           <form @submit.prevent="crearProducto">
             <div class="mb-3">
               <label class="subtitulo subtitulo-1">Tipo de producto:</label>
-              <select v-model="productoACrear.tipoProducto" class="form-select" required>
-                <option disabled value="">Seleccione una opción</option>
+              <select
+                v-model="productoACrear.tipoProducto"
+                class="form-select"
+                required
+              >
+                <option
+                  disabled
+                  value=""
+                >
+                  Seleccione una opción
+                </option>
                 <option>Piedra</option>
                 <option>Placa</option>
                 <option>Piso</option>
@@ -23,64 +42,137 @@
             <div class="row mb-3">
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Nombre de producto:</label>
-                <input type="text" v-model="productoACrear.nombre" @input="productoACrear.nombre = productoACrear.nombre.toUpperCase()" class="form-control" placeholder="Nombre del producto" required />
+                <input
+                  v-model="productoACrear.nombre"
+                  type="text"
+                  class="form-control"
+                  placeholder="Nombre del producto"
+                  required
+                  @input="productoACrear.nombre = productoACrear.nombre.toUpperCase()"
+                >
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Color:</label>
-                <input type="text" v-model="productoACrear.color" @input="productoACrear.color = productoACrear.color.toUpperCase()" class="form-control" placeholder="Color del producto" required />
+                <input
+                  v-model="productoACrear.color"
+                  type="text"
+                  class="form-control"
+                  placeholder="Color del producto"
+                  required
+                  @input="productoACrear.color = productoACrear.color.toUpperCase()"
+                >
               </div>
             </div>
 
             <div class="mb-3">
               <label class="subtitulo subtitulo-1">Descripción:</label>
-              <input type="text" v-model="productoACrear.descripcion" class="form-control" placeholder="Descripción breve" />
+              <input
+                v-model="productoACrear.descripcion"
+                type="text"
+                class="form-control"
+                placeholder="Descripción breve"
+              >
             </div>
 
             <div class="row mb-3">
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Precio:</label>
-                <input type="number" step="0.01" v-model="productoACrear.precio" class="form-control" placeholder="Precio unitario" />
+                <input
+                  v-model="productoACrear.precio"
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  placeholder="Precio unitario"
+                >
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Stock inicial:</label>
-                <input type="number" step="0.01" v-model="productoACrear.stockSinCompromiso" class="form-control" placeholder="Cantidad inicial" />
+                <input
+                  v-model="productoACrear.stockSinCompromiso"
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  placeholder="Cantidad inicial"
+                >
               </div>
             </div>
 
-            <h5 class="subtitulo subtitulo-1 mt-4">Capacidad de Producción</h5>
+            <h5 class="subtitulo subtitulo-1 mt-4">
+              Capacidad de Producción
+            </h5>
             <div class="row mb-3">
               <div class="col-md-6">
                 <label class="form-label fw-semibold">Cantidad de moldes:</label>
-                <input type="number" v-model="productoACrear.moldes" class="form-control" placeholder="Cantidad de moldes" />
+                <input
+                  v-model="productoACrear.moldes"
+                  type="number"
+                  class="form-control"
+                  placeholder="Cantidad de moldes"
+                >
               </div>
               <div class="col-md-6">
                 <label class="form-label fw-semibold">M2 por molde:</label>
-                <input type="number" step="0.01" v-model="productoACrear.m2PorMolde" class="form-control" placeholder="Metros cuadrados por molde" />
+                <input
+                  v-model="productoACrear.m2PorMolde"
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  placeholder="Metros cuadrados por molde"
+                >
               </div>
             </div>
 
-            <hr class="my-4" />
+            <hr class="my-4">
 
-            <h5 class="subtitulo subtitulo-1">Embalaje</h5>
+            <h5 class="subtitulo subtitulo-1">
+              Embalaje
+            </h5>
             <div class="row mb-3">
               <div class="col-md-4">
                 <label class="form-label fw-semibold">Unidades por paquete:</label>
-                <input type="number" v-model="productoACrear.unidadesPorPaquete" class="form-control" placeholder="Unidades por paquete" />
+                <input
+                  v-model="productoACrear.unidadesPorPaquete"
+                  type="number"
+                  class="form-control"
+                  placeholder="Unidades por paquete"
+                >
               </div>
               <div class="col-md-4">
                 <label class="form-label fw-semibold">M2 por paquete:</label>
-                <input type="number" step="0.01" v-model="productoACrear.m2PorPaquete" class="form-control" placeholder="Metros cuadrados por paquete" />
+                <input
+                  v-model="productoACrear.m2PorPaquete"
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  placeholder="Metros cuadrados por paquete"
+                >
               </div>
               <div class="col-md-4">
                 <label class="form-label fw-semibold">Kg por paquete:</label>
-                <input type="number" step="0.01" v-model="productoACrear.kgPorPaquete" class="form-control" placeholder="Kilogramos por paquete" />
+                <input
+                  v-model="productoACrear.kgPorPaquete"
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  placeholder="Kilogramos por paquete"
+                >
               </div>
             </div>
 
             <div class="d-flex gap-2 justify-content-end mt-4">
-              <button type="submit" class="btn btn-rosa-a-blanco">Crear Producto</button>
+              <button
+                type="submit"
+                class="btn btn-rosa-a-blanco"
+              >
+                Crear Producto
+              </button>
               <router-link to="/gestionarProductos">
-                <button type="button" class="btn btn-gris-a-blanco">Cancelar</button>
+                <button
+                  type="button"
+                  class="btn btn-gris-a-blanco"
+                >
+                  Cancelar
+                </button>
               </router-link>
             </div>
           </form>

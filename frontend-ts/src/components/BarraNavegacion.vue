@@ -1,32 +1,67 @@
 <template>
   <nav class="navbar navbar-expand-lg nav-elegante fixed-top">
     <div class="container">
-      <router-link to="/home" class="navbar-brand d-flex flex-row align-items-center" @click="cerrarMenu">
-  <img src="@/imagenes/logoPirka.png" alt="Logo Pirka" class="logo-img" />
- 
-</router-link>
- <span class="usuario-nombre ms-3 d-flex align-items-center">
-    <i class="bi bi-person-check me-1"></i>{{ store.Usuario }}
-  </span>
+      <router-link
+        to="/home"
+        class="navbar-brand d-flex flex-row align-items-center"
+        @click="cerrarMenu"
+      >
+        <img
+          src="@/imagenes/logoPirka.png"
+          alt="Logo Pirka"
+          class="logo-img"
+        >
+      </router-link>
+      <span class="usuario-nombre ms-3 d-flex align-items-center">
+        <i class="bi bi-person-check me-1" />{{ store.Usuario }}
+      </span>
 
       <button
         class="navbar-toggler"
         type="button"
-        @click="cambiarEstadoMenu"
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
+        @click="cambiarEstadoMenu"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon" />
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent" ref="elementoMenu">
+      <div
+        id="navbarSupportedContent"
+        ref="elementoMenu"
+        class="collapse navbar-collapse"
+      >
         <div class="navbar-nav ms-auto align-items-center">
-          <router-link to="/home" class="nav-link" @click="cerrarMenu">Inicio</router-link>
-          <router-link v-if="store.Rol == 'administrador'" to="/gestionarProductos" class="nav-link" @click="cerrarMenu">Gestionar Productos</router-link>          
-          <router-link v-if="store.Rol == 'administrador'" to="/stockActualDeProductos" class="nav-link" @click="cerrarMenu">Gestionar Stock</router-link>
-          <button class="btn-logout" @click="deslogueo" title="Cerrar sesión">
-            <i class="bi bi-box-arrow-right"></i>
+          <router-link
+            to="/home"
+            class="nav-link"
+            @click="cerrarMenu"
+          >
+            Inicio
+          </router-link>
+          <router-link
+            v-if="store.Rol == 'administrador'"
+            to="/gestionarProductos"
+            class="nav-link"
+            @click="cerrarMenu"
+          >
+            Gestionar Productos
+          </router-link>          
+          <router-link
+            v-if="store.Rol == 'administrador'"
+            to="/stockActualDeProductos"
+            class="nav-link"
+            @click="cerrarMenu"
+          >
+            Gestionar Stock
+          </router-link>
+          <button
+            class="btn-logout"
+            title="Cerrar sesión"
+            @click="deslogueo"
+          >
+            <i class="bi bi-box-arrow-right" />
           </button>
         </div>
       </div>

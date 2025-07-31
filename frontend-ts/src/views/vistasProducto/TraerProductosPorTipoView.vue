@@ -1,35 +1,56 @@
 <template>
-  <div v-if="store.Logueado" class="contenido-app">
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
     <NavBar />
     <div class="container py-4">
-
       <div class="mb-4">
-        <h1 class="titulo mb-1">Productos registrados en sistema</h1>
-        <p class="subtitulo subtitulo-1 m-0">Tipo de producto: {{ tipo }}</p>
+        <h1 class="titulo mb-1">
+          Productos registrados en sistema
+        </h1>
+        <p class="subtitulo subtitulo-1 m-0">
+          Tipo de producto: {{ tipo }}
+        </p>
       </div>
 
-      <div v-if="traerTodosPorTipo.length == 0">
-        <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
+      <div v-if="productosExistentes.length == 0">
+        <p class="subtitulo-1 m-0 ">
+          No hay datos disponibles para mostrar
+        </p>
       </div>
       <div v-else>
         <!-- Filtro -->
         <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
-
           <label class="form-label fw-semibold">Filtro:</label>
-          <input type="text" v-model="datoAFiltar" class="form-control" placeholder="Buscar por nombre o color"
-            style="max-width: 400px;" />
+          <input
+            v-model="datoAFiltar"
+            type="text"
+            class="form-control"
+            placeholder="Buscar por nombre o color"
+            style="max-width: 400px;"
+          >
 
           <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
             <label class="form-label me-2">Mostrar:</label>
-            <select class="form-select" style="width: auto;" v-model="totalPorPagina"
-              @change="cambiarCantidadPorPagina">
-              <option :value="10">10 por página</option>
-              <option :value="20">20 por página</option>
-              <option :value="50">50 por página</option>
+            <select
+              v-model="totalPorPagina"
+              class="form-select"
+              style="width: auto;"
+              @change="cambiarCantidadPorPagina"
+            >
+              <option :value="10">
+                10 por página
+              </option>
+              <option :value="20">
+                20 por página
+              </option>
+              <option :value="50">
+                50 por página
+              </option>
             </select>
           </div>
-
         </div>
 
         <!-- Tabla -->
@@ -46,7 +67,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="producto in productosExistentes" :key="producto._id">
+              <tr
+                v-for="producto in productosExistentes"
+                :key="producto._id"
+              >
                 <td>{{ producto.tipoProducto }}</td>
                 <td>{{ producto.nombre }}</td>
                 <td>{{ producto.color }}</td>
@@ -61,22 +85,42 @@
         <!-- Paginación -->
         <nav class="d-flex justify-content-center mt-4">
           <ul class="pagination">
-            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+            <li
+              class="page-item"
+              :class="{ disabled: paginaActual === 1 }"
+            >
+              <a
+                class="page-link"
+                href="#"
+                @click.prevent="cambiarPagina(paginaActual - 1)"
+              >&laquo;</a>
             </li>
-            <li class="page-item" v-for="pagina in paginasTotales" :key="pagina"
-              :class="{ active: pagina === paginaActual }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+            <li
+              v-for="pagina in paginasTotales"
+              :key="pagina"
+              class="page-item"
+              :class="{ active: pagina === paginaActual }"
+            >
+              <a
+                class="page-link"
+                href="#"
+                @click.prevent="cambiarPagina(pagina)"
+              >{{ pagina }}</a>
             </li>
-            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+            <li
+              class="page-item"
+              :class="{ disabled: paginaActual === paginasTotales }"
+            >
+              <a
+                class="page-link"
+                href="#"
+                @click.prevent="cambiarPagina(paginaActual + 1)"
+              >&raquo;</a>
             </li>
           </ul>
         </nav>
       </div>
     </div>
-
-
   </div>
 
   <div v-else>
@@ -160,14 +204,14 @@ onMounted(() => {
 <style scoped>
 .titulo {
   font-size: 36px;
-  color: #ff6b8a;
+  color:rgb(70, 40, 110);
   font-weight: 600;
   text-align: left !important;
 }
 
 .subtitulo {
   font-size: 28px;
-  color: rgb(70, 40, 110);
+  color:  #ff6b8a;
   margin-bottom: 20px;
   font-weight: 300;
   letter-spacing: -0.5px;

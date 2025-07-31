@@ -1,29 +1,72 @@
 <template>
-  <div v-if="store.Logueado" class="contenido-app">
+  <div
+    v-if="store.Logueado"
+    class="contenido-app"
+  >
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
 
       <div class="container py-4">
         <div class="mb-4 text-center">
-          <h1 class="titulo">Crear Sucursal</h1>
-          <p class="subtitulo subtitulo-1">Formulario para registrar una nueva sucursal.</p>
+          <h1 class="titulo">
+            Crear Sucursal
+          </h1>
+          <p class="subtitulo subtitulo-1">
+            Formulario para registrar una nueva sucursal.
+          </p>
         </div>
 
-        <div class="mx-auto" style="max-width: 400px;">
-          <form @submit.prevent="crearSucursal" class="d-flex flex-column gap-3">
-            <input v-model="sucursalACrear.nombreSucursal" type="text" placeholder="Nombre de sucursal" required class="form-control" />
-            <input v-model="sucursalACrear.direccion" type="text" placeholder="Dirección" required class="form-control" />
-            <input v-model="sucursalACrear.telefono" type="text" placeholder="Teléfono" required class="form-control" />
+        <div
+          class="mx-auto"
+          style="max-width: 400px;"
+        >
+          <form
+            class="d-flex flex-column gap-3"
+            @submit.prevent="crearSucursal"
+          >
+            <input
+              v-model="sucursalACrear.nombreSucursal"
+              type="text"
+              placeholder="Nombre de sucursal"
+              required
+              class="form-control"
+            >
+            <input
+              v-model="sucursalACrear.direccion"
+              type="text"
+              placeholder="Dirección"
+              required
+              class="form-control"
+            >
+            <input
+              v-model="sucursalACrear.telefono"
+              type="text"
+              placeholder="Teléfono"
+              required
+              class="form-control"
+            >
 
             <div class="d-flex flex-column flex-md-row gap-3 justify-content-center mt-3">
-              <button type="submit" class="btn btn-rosa-a-blanco w-100">Crear Sucursal</button>
-              <router-link to="/traerSucursales" class="w-100">
-                <button type="button" class="btn btn-gris-a-blanco w-100">Volver</button>
+              <button
+                type="submit"
+                class="btn btn-rosa-a-blanco w-100"
+              >
+                Crear Sucursal
+              </button>
+              <router-link
+                to="/traerSucursales"
+                class="w-100"
+              >
+                <button
+                  type="button"
+                  class="btn btn-gris-a-blanco w-100"
+                >
+                  Volver
+                </button>
               </router-link>
             </div>
           </form>
         </div>
-
       </div>
     </div>
     <div v-else>
