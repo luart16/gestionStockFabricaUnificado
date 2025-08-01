@@ -7,6 +7,9 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "moduleResolution": "node", // AÑADIR ESTO
+    "types": ["node"] // AÑADIR ESTO
+  },
+  "include": ["src/**/*.ts"] // AÑADIR ESTO
 }

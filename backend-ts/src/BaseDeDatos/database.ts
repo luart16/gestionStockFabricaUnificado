@@ -14,12 +14,12 @@
 
 //conexión en la nube con mongo Atlas:
 
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 export const conectarDB = async () => {
     try {
-        const uri = process.env.MONGO_URI as string;
-        await mongoose.connect(uri)
+       const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/tudb';
+mongoose.connect(MONGODB_URI)
         .then(() => console.log('✅ Conectado a MongoDB Atlas'))
         .catch((err: any) => console.error('❌ Error al conectar a MongoDB Atlas:', err));
     } catch (error) {
