@@ -7,6 +7,8 @@ import sucursalRuta from './rutas/sucursal.ruta';
 import productoRuta from './rutas/producto.rutas';
 import movimientoStockRuta from './rutas/movimientoStock.ruta';
 import loginRuta from './rutas/login.ruta'; 
+import 'dotenv/config';
+
 
 const app = express(); //le digo que la app use express
 const PORT = 3000; //le digo que use el puerto 3000

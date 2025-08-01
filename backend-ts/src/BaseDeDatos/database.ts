@@ -18,9 +18,10 @@ const mongoose = require('mongoose');
 
 export const conectarDB = async () => {
     try {
-        await mongoose.connect('mongodb+srv://adminPirka:Pirka31889290@cluster0.z8wja6f.mongodb.net/stock-fabrica?retryWrites=true&w=majority&appName=Cluster0')
-            .then(() => console.log('✅ Conectado a MongoDB Atlas'))
-            .catch((err: any) => console.error('❌ Error al conectar a MongoDB Atlas:', err));
+        const uri = process.env.MONGO_URI as string;
+        await mongoose.connect(uri)
+        .then(() => console.log('✅ Conectado a MongoDB Atlas'))
+        .catch((err: any) => console.error('❌ Error al conectar a MongoDB Atlas:', err));
     } catch (error) {
         console.error('Error al conectar a base de datos.', error);
     }
