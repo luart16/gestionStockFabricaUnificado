@@ -1,6 +1,6 @@
 import Usuario from "../../modelos/Usuario"; //importo el modelo que define cómo es un usuario (Usuario es el 'molde' para crear usuarios y guardarlo en MongoDB)
 import { Response, Request } from "express"; //para decirle a TypeScript: 'esto es lo que entra y esto lo que sale'
-import bcrypt from "bcryptjs" //librería para encriptar las contraseñas de forma segura
+import bcrypt from "bcrypt" //librería para encriptar las contraseñas de forma segura
 
 //Defino los datos que espero recibir(le digo a TypeScript: cuando alguien mande los datos de un nuevo usuario, tienen que venir con estos 4 campos y con esos tipos):
 //No estoy creando un objeto, sino que le estoy diciendo a TypeScript que este es el molde que deben seguir los objetos que representen un usuario
