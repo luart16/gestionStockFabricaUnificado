@@ -8,8 +8,8 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
-    "moduleResolution": "node", // AÑADIR ESTO
-    "types": ["node"] // AÑADIR ESTO
+    "moduleResolution": "node",
+    "typeRoots": ["./node_modules/@types"]  // <-- Añade esta línea
   },
-  "include": ["src/**/*.ts"] // AÑADIR ESTO
+  "include": ["src/**/*.ts"]  // <-- Asegúrate de incluir esto
 }
