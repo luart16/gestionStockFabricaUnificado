@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: backend-ts
+    env: node
+    rootDir: backend  # 👈 IMPORTANTE: ajustá si tu carpeta no se llama exactamente "backend"
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+  - key: MONGO_URI
+    value: mongodb+srv://adminPirka:Pirka31889290@cluster0.z8wja6f.mongodb.net/stock-fabrica?retryWrites=true&w=majority&appName=Cluster0
