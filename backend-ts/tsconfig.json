@@ -9,9 +9,8 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
-    "typeRoots": [
-      "./node_modules/@types"
-    ]
+    "typeRoots": ["./node_modules/@types"],
+    "types": ["node"]  // Solo especifica los tipos globales necesarios
   },
   "include": ["src/**/*.ts"]
 }
