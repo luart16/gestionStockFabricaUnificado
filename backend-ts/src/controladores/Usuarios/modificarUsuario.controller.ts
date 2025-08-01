@@ -1,6 +1,6 @@
 import Usuario from "../../modelos/Usuario";
 import { Response, Request } from "express";
-import bcrypt from 'bcryptjs';
+import bcrypt from 'bcrypt';
 
 export const modificarUsuarioPorId = async (req: Request, res: Response) => {
     try {
