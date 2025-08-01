@@ -12,8 +12,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@types/bcryptjs": "^3.0.0",
-    "@types/mongoose": "^5.11.97",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
@@ -24,8 +22,10 @@
     "multer": "^2.0.1"
   },
   "devDependencies": {
+    "@types/bcryptjs": "^3.0.0",
     "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.1",
+    "@types/express": "^5.0.3",
+    "@types/mongoose": "^5.11.97",
     "@types/multer": "^2.0.0",
     "@types/node": "^22.15.6",
     "nodemon": "^3.1.10",

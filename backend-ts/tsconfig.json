@@ -9,7 +9,9 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "moduleResolution": "node",
-    "typeRoots": ["./node_modules/@types"]  // <-- Añade esta línea
+    "typeRoots": [
+      "./node_modules/@types"
+    ]
   },
-  "include": ["src/**/*.ts"]  // <-- Asegúrate de incluir esto
+  "include": ["src/**/*.ts"]
 }
