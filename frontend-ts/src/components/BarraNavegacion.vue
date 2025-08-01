@@ -134,6 +134,23 @@ onMounted(() => {
   color: #46286e;
 }
 
+/* Mejora visual del texto "Usuario: ..." al lado del logo */
+/* .usuario-nombre {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 1.3rem;
+  color: #46286e; /* púrpura más claro que el logo */
+  /* margin-top: 0.25rem;
+  margin-left: 4px;
+  opacity: 0.9;
+} */ 
+
+.usuario-nombre {
+  color: #46286e;
+}
+
+
+
 /* Enlaces navbar */
 .nav-link {
   color: #46286e;
@@ -176,16 +193,6 @@ onMounted(() => {
   color: #444;
 }
 
-/* Mejora visual del texto "Usuario: ..." al lado del logo */
-.usuario-nombre {
-  font-family: 'Poppins', sans-serif;
-  font-weight: 400;
-  font-size: 1.3rem;
-  color: #46286e; /* púrpura más claro que el logo */
-  margin-top: 0.25rem;
-  margin-left: 4px;
-  opacity: 0.9;
-}
 
 
 

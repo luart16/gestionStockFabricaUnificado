@@ -376,9 +376,8 @@ onMounted(() => {
   font-size: 36px;
   color: rgb(70, 40, 110);
   font-weight: 600;
+  font-family: 'Poppins', sans-serif;
 }
-
-
 
 /*Color verde, rojo gris para las filas ingreso, egreso, etc */
 table.table tr.fila-ingreso td {

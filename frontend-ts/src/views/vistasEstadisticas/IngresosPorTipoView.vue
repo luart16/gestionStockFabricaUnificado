@@ -47,6 +47,12 @@
             Filtrar
           </button>
         </div>
+
+         <div class="d-flex align-items-end">
+          <button class="btn btn-gris-a-blanco" @click="limpiarFechas">
+            Limpiar Fechas
+          </button>
+        </div>
       </div>
 
       <div>
@@ -106,8 +112,8 @@ const filtrarPorFecha = async () => {
     cargando.value = true
     const todos = await servicioMovimientoStock.traerTodosMovimientosSinPaginacion()
 
-    const fechaInicio = fechaInicial.value ? new Date(fechaInicial.value) : null
-    const fechaFin = fechaFinal.value ? new Date(fechaFinal.value) : null
+    const fechaInicio = fechaInicial.value ? new Date(fechaInicial.value + 'T00:00:00') : null
+const fechaFin = fechaFinal.value ? new Date(fechaFinal.value + 'T23:59:59') : null
 
     listaMovimientos.value = todos.filter((mov: DatosHistorialMovimientosStock) => {
 
@@ -122,6 +128,12 @@ const filtrarPorFecha = async () => {
     cargando.value = false
 }
 
+// Limpiar filtros de fecha
+const limpiarFechas = () => {
+  fechaInicial.value = ''
+  fechaFinal.value = ''
+  traerMovimientosIngresos()
+}
 
 onMounted(() => {
     traerMovimientosIngresos()
@@ -135,9 +147,11 @@ onMounted(() => {
     font-size: 36px;
     color: rgb(70, 40, 110);
     font-weight: 600;
+    font-family: 'Poppins', sans-serif;
 }
 
 .text-rosado {
     color: #ef5769 !important;
+    font-family: 'Poppins', sans-serif;
 }
 </style>

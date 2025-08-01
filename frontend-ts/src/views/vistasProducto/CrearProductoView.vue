@@ -264,16 +264,19 @@ const crearProducto = async () => {
   font-size: 36px;
   color: #ef5769;
   font-weight: 600;
+  font-family: 'Poppins', sans-serif;
 }
 
 .subtitulo {
   font-size: 18px;
   color: rgb(70, 40, 110);
+  font-family: 'Poppins', sans-serif;
 }
 
 .subtitulo-1 {
   font-weight: 600;
   margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
 }
 
 /*Borde rosa sobre el input: */

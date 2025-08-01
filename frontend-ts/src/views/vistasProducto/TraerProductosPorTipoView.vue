@@ -207,6 +207,7 @@ onMounted(() => {
   color:rgb(70, 40, 110);
   font-weight: 600;
   text-align: left !important;
+  font-family: 'Poppins', sans-serif;
 }
 
 .subtitulo {
@@ -216,6 +217,7 @@ onMounted(() => {
   font-weight: 300;
   letter-spacing: -0.5px;
   text-align: left !important;
+  font-family: 'Poppins', sans-serif;
 }
 
 /*Resto de los estilos están en archivo globar style.css */

@@ -6,7 +6,7 @@
       <!-- Hero -->
       <section class="hero">
         <h1>Gestión inteligente para tu fábrica</h1>
-        <p>Controlá productos, stock y movimientos de forma simple y visual.</p>
+        <p>Visualizá ingresos, egresos y disponibilidad al instante.</p>
       </section>
 
       <!-- Tarjetas de Productos -->
@@ -246,24 +246,21 @@ const irA = (tipo: string) => {
 }
 
 .hero {
+  padding: 3rem 1rem;
   text-align: center;
-  margin-bottom: 3rem;
-  background: rgba(255, 255, 255, 0.6);
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
-
 .hero h1 {
-  font-size: 2.7rem;
-  color: #2c3e50;
-  margin-bottom: 0.5rem;
+font-family: 'Poppins', sans-serif;
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: #4b2a88;
+}
+.hero p {
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  color: #6a6a6a;
 }
 
-.hero p {
-  color: #555;
-  font-size: 1.15rem;
-}
 
 /* PRODUCTOS: */
 
@@ -328,14 +325,14 @@ const irA = (tipo: string) => {
   font-size: 0.95rem;
 }
 
-/* ACCIONES RÁPIDAS */
+/* ACCIONES RÁPIDAS  rgba(255, 255, 255, 0.6);*/
 .acciones-rapidas {
   margin-top: 2rem;
   text-align: center;
 }
 
 .acciones-rapidas2 {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(190, 183, 167, 0.6);
   border-radius: 20px;
   padding: 2rem 1rem;
   margin-top: 3rem;

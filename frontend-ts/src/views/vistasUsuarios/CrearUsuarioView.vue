@@ -144,6 +144,7 @@ const crearUsuario = async () => {
   font-size: 36px;
   color: #ef5769;
   font-weight: 600;
+  font-family: 'Poppins', sans-serif;
 }
 
 .subtitulo {
@@ -151,10 +152,12 @@ const crearUsuario = async () => {
   color: rgb(70, 40, 110);
   line-height: 1.5;
   margin: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 .subtitulo-1 {
   font-weight: 600;
+  font-family: 'Poppins', sans-serif;
 }
 
 input::placeholder,

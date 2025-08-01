@@ -160,11 +160,13 @@ const crearMaterial = async () => {
   font-size: 36px;
   color: #ef5769;
   font-weight: 600;
+  font-family: 'Poppins', sans-serif;
 }
 
 .subtitulo {
   font-size: 18px;
   color: rgb(70, 40, 110);
+  font-family: 'Poppins', sans-serif;
 }
 
 /*Para el borde rosa del input: */
