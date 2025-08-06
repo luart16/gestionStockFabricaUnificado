@@ -1,10 +1,10 @@
-import axios from "axios";
 import type { DatosMateriales } from "@/modelos/material";
+import api from "./api"
 
 export const servicioMaterial = {
     crear: async (material: DatosMateriales) => {
         try {
-            const respuesta = await axios.post('http://localhost:3000/api/material/crear', material);
+            const respuesta = await api.post('/material/crear', material);
             console.log('Material creado exitosamente.')
             return respuesta.data;
         }
@@ -16,7 +16,7 @@ export const servicioMaterial = {
 
     traerTodos:  async (pagina = 1, limite = 10, datoAFiltar = '') => {
         try {
-            const respuesta = await axios.get('http://localhost:3000/api/material/traerTodosLosMateriales',{
+            const respuesta = await api.get('/material/traerTodosLosMateriales',{
                     params: { pagina, limite, datoAFiltar } // ← Parámetros correctos
                 });
             return respuesta.data;
@@ -28,7 +28,7 @@ export const servicioMaterial = {
 
     traerTodosSinPaginacion:  async (pagina = 1, limite = 10, datoAFiltar = '') => {
         try {
-            const respuesta = await axios.get('http://localhost:3000/api/material/traerTodosLosMaterialesSinPaginacion',{
+            const respuesta = await api.get('/material/traerTodosLosMaterialesSinPaginacion',{
                  params: { pagina, limite, datoAFiltar }
             });
             return respuesta.data;
@@ -40,7 +40,7 @@ export const servicioMaterial = {
 
     traerNombreMateriales: async () => {
         try {
-            const respuesta = await axios.get('http://localhost:3000/api/producto/traerNombresDeProductos');
+            const respuesta = await api.get('/producto/traerNombresDeProductos');
             return respuesta.data;
         } catch (error) {
             console.error(error, 'Error al traer los nombres de productos.');
@@ -49,7 +49,7 @@ export const servicioMaterial = {
 
     eliminar: async (materialId: string) => {
         try {
-            const respuesta = await axios.delete('http://localhost:3000/api/material/eliminarMaterial/' + materialId);
+            const respuesta = await api.delete('/material/eliminarMaterial/' + materialId);
             console.log('Material eliminado.')
             return respuesta.data;
         }
@@ -61,7 +61,7 @@ export const servicioMaterial = {
 
     editar: async (materialId: string, material: DatosMateriales) => {
         try {
-            const respuesta = await axios.put(`http://localhost:3000/api/material/modificarMaterial/${materialId}`, material);
+            const respuesta = await api.put(`/material/modificarMaterial/${materialId}`, material);
             console.log('Cambio guardado con éxito.')
             return respuesta.data;
         }
@@ -72,8 +72,8 @@ export const servicioMaterial = {
 
     traerMaterialPorId: async (materialId: string) => {
         try {
-            const respuesta = await axios.get(`http://localhost:3000/api/material/traerMaterialPorId/${materialId}`);
-            console.log('Cambio guardado con éxito.')
+            const respuesta = await api.get(`/material/traerMaterialPorId/${materialId}`);
+            console.log('Material obtenido correctamente.')
             return respuesta.data
         }
         catch (error) {

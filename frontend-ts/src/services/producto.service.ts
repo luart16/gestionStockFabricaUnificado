@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "./api"
 import type { DatosProductos } from "@/modelos/producto";
 import type { DatosProductosEditar } from "@/modelos/productoEditar";
 import type { MovimientoStock } from "@/modelos/movimientoStock";
@@ -6,7 +6,7 @@ import type { MovimientoStock } from "@/modelos/movimientoStock";
 export const servicioProducto = {
     crear: async (producto: DatosProductos) => {
         try {
-            const respuesta = await axios.post('http://localhost:3000/api/producto/crear', producto);
+            const respuesta = await api.post('/producto/crear', producto);
             console.log('Producto creado exitosamente.')
             return respuesta.data;
         }
@@ -19,8 +19,8 @@ export const servicioProducto = {
     //para traer con paginación y filto:
     traerTodos: async (pagina = 1, limite = 10, datoAFiltar = '') => {
         try {
-            const respuesta = await axios.get(
-                'http://localhost:3000/api/producto/traerTodosLosProductos',
+            const respuesta = await api.get(
+                '/producto/traerTodosLosProductos',
                 {
                     params: { pagina, limite, datoAFiltar } // ← Parámetros correctos
                 }
@@ -34,7 +34,7 @@ export const servicioProducto = {
     //para traer todo sin paginación ni filtro:
     traerTodosSinPaginacion: async () => {
     try {
-        const respuesta = await axios.get('http://localhost:3000/api/producto/traerTodosLosProductosSinPaginacion');
+        const respuesta = await api.get('/producto/traerTodosLosProductosSinPaginacion');
         return respuesta.data;
     } catch (error) {
         console.error(error, 'Error al traer todos los productos sin paginación.');
@@ -45,7 +45,7 @@ export const servicioProducto = {
     
   traerPorTipo: async (tipo: string, pagina = 1, limite = 10, datoAFiltar = '') => {
     try {
-        const respuesta = await axios.get(`http://localhost:3000/api/producto/traerPorTipo`, {
+        const respuesta = await api.get(`/producto/traerPorTipo`, {
             params: { tipo, pagina, limite, datoAFiltar }
         });
         return respuesta.data;
@@ -56,7 +56,7 @@ export const servicioProducto = {
 
     traerNombreProductos: async () => {
         try {
-            const respuesta = await axios.get('http://localhost:3000/api/producto/traerNombresDeProductos');
+            const respuesta = await api.get('/producto/traerNombresDeProductos');
             return respuesta.data;
         } catch (error) {
             console.error(error, 'Error al traer los nombres de productos.');
@@ -65,7 +65,7 @@ export const servicioProducto = {
 
     eliminar: async (productoId: string) => {
         try {
-            const respuesta = await axios.delete('http://localhost:3000/api/producto/eliminarProducto/' + productoId);
+            const respuesta = await api.delete('/producto/eliminarProducto/' + productoId);
             console.log('Producto eliminado.')
             return respuesta.data;
         }
@@ -77,7 +77,7 @@ export const servicioProducto = {
 
     editar: async (productoId: string, producto: DatosProductosEditar) => {
         try {
-            const respuesta = await axios.put(`http://localhost:3000/api/producto/modificarProducto/${productoId}`, producto);
+            const respuesta = await api.put(`/producto/modificarProducto/${productoId}`, producto);
             console.log('Cambio guardado con éxito.')
             return respuesta.data;
         }
@@ -88,7 +88,7 @@ export const servicioProducto = {
 
     calcularStock: async (productoId: string, movimiento: MovimientoStock) => {
         try {
-            await axios.put(`http://localhost:3000/api/producto/modificarStockDeProducto/${productoId}`, movimiento);
+            await api.put(`/producto/modificarStockDeProducto/${productoId}`, movimiento);
             console.log('Cambio guardado con éxito.')
         }
         catch (error) {
@@ -97,7 +97,7 @@ export const servicioProducto = {
     },
     traerProductoPorId: async (productoId: string) => {
         try {
-            const respuesta = await axios.get(`http://localhost:3000/api/producto/traerProductoPorId/${productoId}`);
+            const respuesta = await api.get(`/producto/traerProductoPorId/${productoId}`);
             console.log('Cambio guardado con éxito.')
             return respuesta.data
         }

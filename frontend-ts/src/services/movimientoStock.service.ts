@@ -1,9 +1,9 @@
-import axios from 'axios';
+import api from "./api"
 
 export const servicioMovimientoStock = {
   //traer el historial por página:
   traerTodos: async (pagina = 1, limite = 10, datoAFiltar = '', fechaInicio='', fechaFinal='') => {
-    const respuesta = await axios.get('http://localhost:3000/api/movimientoStock/traerTodosLosMovimientosStock',
+    const respuesta = await api.get('/movimientoStock/traerTodosLosMovimientosStock',
       {
         params: { pagina, limite, datoAFiltar, fechaInicio, fechaFinal } 
       }
@@ -13,7 +13,7 @@ export const servicioMovimientoStock = {
 
   traerTodosMovimientosSinPaginacion: async () => {
     try {
-      const respuesta = await axios.get('http://localhost:3000/api/movimientoStock/traerTodosLosMovimientosSinPaginacion');
+      const respuesta = await api.get('/movimientoStock/traerTodosLosMovimientosSinPaginacion');
       return respuesta.data;
     } catch (error) {
       console.error(error, 'Error al traer todos los movimientos sin paginación.');

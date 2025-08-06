@@ -1,10 +1,11 @@
-import axios from "axios";
+import api from "./api"
+
 import type { DatosSucursales } from "@/modelos/sucursal";
 
 export const servicioSucursal = {
      crear: async (sucursal: DatosSucursales) => {
          try {
-             const respuesta = await axios.post('http://localhost:3000/api/sucursal/crear', sucursal);
+             const respuesta = await api.post('/sucursal/crear', sucursal);
              console.log('Sucursal creada exitosamente.')
              return respuesta.data;
         }
@@ -16,7 +17,7 @@ export const servicioSucursal = {
 
      traerTodos: async () => {
          try {
-             const respuesta = await axios.get('http://localhost:3000/api/sucursal/traerTodasLasSucursales');
+             const respuesta = await api.get('/sucursal/traerTodasLasSucursales');
              return respuesta.data;
          }
          catch (error) {
@@ -26,7 +27,7 @@ export const servicioSucursal = {
 
      traerNombreSucursales: async () => {
         try {
-            const respuesta = await axios.get('http://localhost:3000/api/sucursal/traerNombresDeSucursales');
+            const respuesta = await api.get('/sucursal/traerNombresDeSucursales');
             return respuesta.data;
         } catch (error) {
             console.error(error, 'Error al traer los nombres de sucursales.');
@@ -35,7 +36,7 @@ export const servicioSucursal = {
 
          traerSucursalPorId: async (sucursalId: string) => {
         try {
-            const respuesta = await axios.get(`http://localhost:3000/api/sucursal/traerSucursalPorId/${sucursalId}`);
+            const respuesta = await api.get(`/sucursal/traerSucursalPorId/${sucursalId}`);
             console.log('Sucursal encontrada con éxito.')
             return respuesta.data
         }
@@ -47,7 +48,7 @@ export const servicioSucursal = {
 
      eliminar: async (sucursalId: string) => {
          try {
-             const respuesta = await axios.delete('http://localhost:3000/api/sucursal/eliminarSucursal/' + sucursalId);
+             const respuesta = await api.delete('/sucursal/eliminarSucursal/' + sucursalId);
              console.log('Sucursal eliminada.')
              return respuesta.data;
          }
@@ -59,7 +60,7 @@ export const servicioSucursal = {
 
      editar: async (sucursalId: string, sucursal: DatosSucursales ) => {
          try{
-             const respuesta = await axios.put(`http://localhost:3000/api/sucursal/modificarSucursal/${sucursalId}`,sucursal);
+             const respuesta = await api.put(`/sucursal/modificarSucursal/${sucursalId}`,sucursal);
              console.log('Cambio guardado con éxito.')
              return respuesta.data;
          }

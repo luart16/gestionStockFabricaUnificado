@@ -1,10 +1,11 @@
-import axios from "axios";
+import api from "./api"
+
 import type { DatosUsuarios } from "@/modelos/usuario";
 import type {DatosUsuariosEditar} from "@/modelos/usuarioEditar"
 export const servicioUsuario = {
     crear: async (usuario: DatosUsuarios) => {
         try {
-            const respuesta = await axios.post('http://localhost:3000/api/usuario/crear', usuario);
+            const respuesta = await api.post('/usuario/crear', usuario);
             console.log('Usuario creado exitosamente.')
             return respuesta.data;
         }
@@ -16,7 +17,7 @@ export const servicioUsuario = {
 
     traerTodos: async () => {
         try {
-            const respuesta = await axios.get('http://localhost:3000/api/usuario/traerTodosLosUsuarios');
+            const respuesta = await api.get('/usuario/traerTodosLosUsuarios');
             return respuesta.data;
         }
         catch (error) {
@@ -26,7 +27,7 @@ export const servicioUsuario = {
 
     eliminar: async (usuarioId: string) => {
         try {
-            const respuesta = await axios.delete('http://localhost:3000/api/usuario/eliminarUsuario/' + usuarioId);
+            const respuesta = await api.delete('/usuario/eliminarUsuario/' + usuarioId);
             console.log('Usuario eliminado.')
             return respuesta.data;
         }
@@ -38,7 +39,7 @@ export const servicioUsuario = {
 
     editar: async (usuarioId: string, usuario: DatosUsuariosEditar ) => {
         try{
-            const respuesta = await axios.put(`http://localhost:3000/api/usuario/modificarUsuario/${usuarioId}`,usuario);
+            const respuesta = await api.put(`/usuario/modificarUsuario/${usuarioId}`,usuario);
             console.log('Usuario eliminado.')
             return respuesta.data;
 
@@ -50,7 +51,7 @@ export const servicioUsuario = {
 
         traerUsuarioPorId: async (usuarioId: string) => {
         try {
-            const respuesta = await axios.get(`http://localhost:3000/api/usuario/traerUsuarioPorId/${usuarioId}`);
+            const respuesta = await api.get(`/usuario/traerUsuarioPorId/${usuarioId}`);
             console.log('Usuario encontrado con éxito.')
             return respuesta.data
         }

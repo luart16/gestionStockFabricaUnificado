@@ -1,9 +1,8 @@
-import axios from "axios";
-
+import api from "./api"
 export const servicioLogin = {
     login: async (email: string, contrasenia: string) => {
         try {
-            const respuesta = await axios.post('http://localhost:3000/api/login', { email, contrasenia });
+            const respuesta = await api.post('/login', { email, contrasenia });
                 console.log('logueado exitoso')
             return respuesta.data;
         }
