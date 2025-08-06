@@ -3,6 +3,6 @@ import { logincontroller } from "../controladores/Autenticacion/login.controller
 
 const loginRuta = Router();
 
-loginRuta.post('/login', logincontroller);
+loginRuta.post('/api/login', logincontroller);
 
 export default loginRuta;
