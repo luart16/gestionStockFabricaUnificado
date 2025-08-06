@@ -15,6 +15,7 @@ const pinia= createPinia() //Creo una nueva instancia de Pinia para usar en mi a
 pinia.use(piniaPluginPersistedstate) // esto es para la persistencia (que no se desloguee al recargar)
 
 
+
 createApp(App).use(router).use(pinia).use(HighchartsVue).use(Toast,{
 position: "top-center",
   timeout: 2451,
