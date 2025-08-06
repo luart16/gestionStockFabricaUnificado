@@ -54,33 +54,53 @@
         </div>
 
         <!-- Tabla -->
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Tipo</th>
-                <th>Nombre</th>
-                <th>Color</th>
-                <th>Descripción</th>
-                <th>Precio</th>
-                <th>Stock</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="producto in productosExistentes"
-                :key="producto._id"
-              >
-                <td>{{ producto.tipoProducto }}</td>
-                <td>{{ producto.nombre }}</td>
-                <td>{{ producto.color }}</td>
-                <td>{{ producto.descripcion }}</td>
-                <td>{{ producto.precio }}</td>
-                <td>{{ producto.stockFinal }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <!-- Vista tipo tarjeta para móviles -->
+<div class="d-md-none">
+  <div
+    class="card mb-3"
+    v-for="producto in productosExistentes"
+    :key="producto._id"
+  >
+    <div class="card-body">
+      <p class="mb-1"><strong>Tipo:</strong> {{ producto.tipoProducto }}</p>
+      <p class="mb-1"><strong>Nombre:</strong> {{ producto.nombre }}</p>
+      <p class="mb-1"><strong>Color:</strong> {{ producto.color }}</p>
+      <p class="mb-1"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+      <p class="mb-1"><strong>Precio:</strong> {{ producto.precio }}</p>
+      <p class="mb-1"><strong>Stock:</strong> {{ producto.stockFinal }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Vista tabla solo en dispositivos medianos en adelante -->
+<div class="table-responsive d-none d-md-block">
+  <table class="table table-hover table-bordered align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Tipo</th>
+        <th>Nombre</th>
+        <th>Color</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Stock</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="producto in productosExistentes"
+        :key="producto._id"
+      >
+        <td>{{ producto.tipoProducto }}</td>
+        <td>{{ producto.nombre }}</td>
+        <td>{{ producto.color }}</td>
+        <td>{{ producto.descripcion }}</td>
+        <td>{{ producto.precio }}</td>
+        <td>{{ producto.stockFinal }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 
         <!-- Paginación -->
         <nav class="d-flex justify-content-center mt-4">
