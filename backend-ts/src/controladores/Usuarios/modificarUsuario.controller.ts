@@ -5,7 +5,7 @@ import bcrypt from 'bcrypt';
 export const modificarUsuarioPorId = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { nombreUsuario, email, contrasenia, rol } = req.body;
+        const { nombreUsuario, email, telefono, contrasenia, rol } = req.body;
 
         //Buscar el usuario
         const usuario = await Usuario.findById(id);
@@ -19,6 +19,9 @@ export const modificarUsuarioPorId = async (req: Request, res: Response) => {
         }
         if (email) {
             usuario.email = email;
+        }
+        if (telefono) {
+            usuario.telefono = telefono;
         }
         if (contrasenia) {
             usuario.contrasenia = await bcrypt.hash(contrasenia, 10);

@@ -13,6 +13,7 @@ export const traerUsuarioPorId = async (req: Request, res: Response) => {
             _id: usuario._id,
             nombreUsuario: usuario.nombreUsuario,
             email: usuario.email,
+            telefono: usuario.telefono,
             contrasenia: usuario.contrasenia,
             rol: usuario.rol,
         })

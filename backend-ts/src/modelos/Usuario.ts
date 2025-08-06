@@ -7,6 +7,7 @@ import { model, Schema } from 'mongoose' //1°: importo de mongoose las herramie
 const esquemaUsuario = new Schema({
    nombreUsuario: { type: String, required: true, unique: true },
    email: { type: String, required: true, unique: true },
+   telefono: { type: String},
    contrasenia: { type: String, required: true },
    rol: { type: String, required: true, enum: ['administrador', 'vendedor'] }
 });

@@ -22,6 +22,7 @@
                 <tr>
                   <th>Nombre Usuario</th>
                   <th>Email</th>
+                  <th>Teléfono</th>
                   <th>Rol</th>
                   <th v-if="store.Rol == 'administrador'">Acciones</th>
                 </tr>
@@ -30,6 +31,7 @@
                 <tr v-for="usuario in usuariosExistentes" :key="usuario._id">
                   <td>{{ usuario.nombreUsuario }}</td>
                   <td>{{ usuario.email }}</td>
+                  <td>{{ usuario.telefono }}</td>
                   <td>{{ usuario.rol }}</td>
                   <td v-if="store.Rol == 'administrador'">
                     <div class="dropdown">
@@ -69,6 +71,10 @@
                   <div class="mb-3">
                     <label class="form-label">Email</label>
                     <input type="text" class="form-control" v-model="usuarioAEditar.email">
+                  </div>
+                  <div class="mb-3">
+                    <label class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" v-model="usuarioAEditar.telefono">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Rol</label>
@@ -143,6 +149,7 @@ const usuarioAEditar = ref<DatosUsuariosEditar>({
   _id: '',
   nombreUsuario: '',
   email: '',
+  telefono: '',
   contrasenia: '',
   rol: 'vendedor',
 })

@@ -39,6 +39,13 @@
               class="form-control"
             >
             <input
+              v-model="usuarioACrear.telefono"
+              type="telefono"
+              placeholder="Teléfono"
+              required
+              class="form-control"
+            >
+            <input
               v-model="usuarioACrear.contrasenia"
               type="password"
               placeholder="Contraseña"
@@ -121,6 +128,7 @@ const usuarioACrear = ref<DatosUsuarios>({
   _id: '',
   nombreUsuario: '',
   email: '',
+  telefono: '',
   contrasenia: '',
   rol: 'vendedor',
 })

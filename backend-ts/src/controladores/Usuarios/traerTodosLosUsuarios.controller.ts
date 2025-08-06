@@ -13,6 +13,7 @@ export const traerTodosLosUsuarios = async (req: Request, res: Response) => {
             nombreUsuario: usuario.nombreUsuario,
             contrasenia: usuario.contrasenia,
             email: usuario.email,
+            telefono: usuario.telefono,
             rol: usuario.rol
         }));
         res.status(200).json(todosLosUsuarios);

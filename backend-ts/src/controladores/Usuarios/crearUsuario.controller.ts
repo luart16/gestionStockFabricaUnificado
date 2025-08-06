@@ -7,6 +7,7 @@ import bcrypt from "bcrypt" //librería para encriptar las contraseñas de forma
 interface DatosUsuarios {
     nombreUsuario: string
     email: string
+    telefono: string
     contrasenia: string
     rol: 'administrador' | 'vendedor',
 }
@@ -14,12 +15,13 @@ interface DatosUsuarios {
 //Función principal del controlador:
 export const crearUsuario = async (req: Request, res: Response) => {
     try {
-        const { nombreUsuario, email, contrasenia, rol } = req.body as DatosUsuarios; //extraigo los datos del cuerpo del pedido
+        const { nombreUsuario, email, telefono, contrasenia, rol } = req.body as DatosUsuarios; //extraigo los datos del cuerpo del pedido
         const contraseniaEncriptada = await bcrypt.hash(contrasenia, 10); //encripto la contraseña para que no se vea en la BD
         //creo un nuevo usuario y lo guardo en la DB con .save:
         const nuevoUsuario = new Usuario({
             nombreUsuario,
             email,
+            telefono,
             contrasenia: contraseniaEncriptada,
             rol
         })
