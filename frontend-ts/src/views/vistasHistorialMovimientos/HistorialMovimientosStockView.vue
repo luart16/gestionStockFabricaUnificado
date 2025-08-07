@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="store.Logueado"
-    class="contenido-app"
-  >
+  <div v-if="store.Logueado" class="contenido-app">
     <NavBar />
     <div class="container py-4">
       <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
@@ -12,15 +9,8 @@
       </div>
 
       <!-- Cargando -->
-      <div
-        v-if="cargando"
-        class="text-center my-4"
-      >
-        <div
-          class="spinner-border"
-          role="status"
-          style="color: rgb(70, 40, 110); vertical-align: middle;"
-        />
+      <div v-if="cargando" class="text-center my-4">
+        <div class="spinner-border" role="status" style="color: rgb(70, 40, 110); vertical-align: middle;" />
         <span style="margin-left: 8px; vertical-align: middle;">Cargando...</span>
       </div>
 
@@ -28,43 +18,24 @@
       <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
         <label class="form-label fw-semibold">Filtro:</label>
 
-        <input
-          v-model="datoAFiltar"
-          type="text"
-          class="form-control"
-          placeholder="Buscar por tipo producto, nombre o color"
-          style="max-width: 650px;"
-        >
+        <input v-model="datoAFiltar" type="text" class="form-control"
+          placeholder="Buscar por tipo producto, nombre o color" style="max-width: 650px;">
 
         <div>
           <label class="form-label fw-semibold">Fecha inicial:</label>
-          <input
-            v-model="fechaInicial"
-            type="date"
-            class="form-control"
-          >
+          <input v-model="fechaInicial" type="date" class="form-control">
         </div>
 
         <div>
           <label class="form-label fw-semibold">Fecha final:</label>
-          <input
-            v-model="fechaFinal"
-            type="date"
-            class="form-control"
-          >
+          <input v-model="fechaFinal" type="date" class="form-control">
         </div>
 
         <div class="d-flex gap-2">
-          <button
-            class="btn btn-gris-a-blanco"
-            @click="traerStock"
-          >
+          <button class="btn btn-gris-a-blanco" @click="traerStock">
             Buscar
           </button>
-          <button
-            class="btn btn-gris-a-blanco"
-            @click="limpiarFechas"
-          >
+          <button class="btn btn-gris-a-blanco" @click="limpiarFechas">
             Limpiar Fechas
           </button>
         </div>
@@ -74,134 +45,122 @@
           No hay datos disponibles para mostrar
         </p>
       </div>
-      <div v-else>
-        <div class="d-flex mb-4 flex-wrap gap-3">
-          <!-- Selector de cantidad por página -->
-          <div class="d-flex align-items-end">
-            <label class="form-label me-2">Mostrar:</label>
-            <select
-              v-model="totalPorpagina"
-              class="form-select"
-              style="width: auto;"
-              @change="cambiarCantidadPorPagina"
-            >
-              <option :value="10">
-                10 por página
-              </option>
-              <option :value="20">
-                20 por página
-              </option>
-              <option :value="50">
-                50 por página
-              </option>
-            </select>
-          </div>
 
-          <!-- Botón exportar página -->
-          <div class="d-flex align-items-end">
-            <button
-              class="btn btn-exportar-pagina"
-              @click="exportarAExcel"
-            >
-              Exportar Página
-            </button>
-          </div>
-
-          <!-- Botón exportar todo -->
-          <div class="d-flex align-items-end">
-            <button
-              class="btn btn-exportar-todo"
-              @click="exportarHistorialCompletoAExcel"
-            >
-              Exportar Todo
-            </button>
-          </div>
+      <div class="d-flex mb-4 flex-wrap gap-3">
+        <!-- Selector de cantidad por página -->
+        <div class="d-flex align-items-end">
+          <label class="form-label me-2">Mostrar:</label>
+          <select v-model="totalPorpagina" class="form-select" style="width: auto;" @change="cambiarCantidadPorPagina">
+            <option :value="10">
+              10 por página
+            </option>
+            <option :value="20">
+              20 por página
+            </option>
+            <option :value="50">
+              50 por página
+            </option>
+          </select>
         </div>
 
-
-        <div class="table-responsive">
-          <table class="table table-hover table-bordered align-middle">
-            <thead class="table-light">
-              <tr>
-                <th>Fecha</th>
-                <th>Tipo Producto</th>
-                <th>Producto</th>
-                <th>Color</th>
-                <th>Tipo Movimiento</th>
-                <th>Cantidad</th>
-                <th>Stock Final</th>
-                <th>Observación</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(stock, index) in listaStock"
-                :key="index"
-                :class="{
-                  'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
-                  'fila-egreso': stock.tipoMovimiento === 'EGRESO', 'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
-                }"
-              >
-                <!--Puse esa clases fila-ingreso fila-egreso para darle color verde o rojo-->
-                <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
-                <td>{{ stock.tipoProducto }}</td>
-                <td>{{ stock.nombre }}</td>
-                <td>{{ stock.color }}</td>
-                <td>{{ stock.tipoMovimiento }}</td>
-                <td>{{ stock.cantidad }}</td>
-                <td class="fw-bold">
-                  {{ stock.stockFinal }}
-                </td>
-                <td>{{ stock.observacion }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <!-- Botón exportar página -->
+        <div class="d-flex align-items-end">
+          <button class="btn btn-exportar-pagina" @click="exportarAExcel">
+            Exportar Página
+          </button>
         </div>
 
-        <!-- Paginación -->
-        <nav class="d-flex justify-content-center mt-4">
-          <ul class="pagination">
-            <li
-              class="page-item"
-              :class="{ disabled: paginaActual === 1 }"
-            >
-              <button
-                class="page-link"
-                @click="cambiarPagina(paginaActual - 1)"
-              >
-                «
-              </button>
-            </li>
-
-            <li
-              v-for="pagina in paginasTotales"
-              :key="pagina"
-              class="page-item"
-              :class="{ active: pagina === paginaActual }"
-            >
-              <button
-                class="page-link"
-                @click="cambiarPagina(pagina)"
-              >
-                {{ pagina }}
-              </button>
-            </li>
-
-            <li
-              class="page-item"
-              :class="{ disabled: paginaActual === paginasTotales }"
-            >
-              <button
-                class="page-link"
-                @click="cambiarPagina(paginaActual + 1)"
-              >
-                »
-              </button>
-            </li>
-          </ul>
-        </nav>
+        <!-- Botón exportar todo -->
+        <div class="d-flex align-items-end">
+          <button class="btn btn-exportar-todo" @click="exportarHistorialCompletoAExcel">
+            Exportar Todo
+          </button>
+        </div>
       </div>
+
+
+      <!-- Responsivo para móvil: Cards -->
+      <div v-else class="d-md-none">
+        <div class="card mb-3" v-for="(stock, index) in listaStock" :key="index" :class="{
+          'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
+          'fila-egreso': stock.tipoMovimiento === 'EGRESO',
+          'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
+        }">
+          <div class="card-body">
+            <p class="mb-1"><strong>Fecha:</strong> {{ new Date(stock.fecha).toLocaleDateString('es-ES', {
+              timeZone:
+              'UTC' }) }}</p>
+            <p class="mb-1"><strong>Tipo Producto:</strong> {{ stock.tipoProducto }}</p>
+            <p class="mb-1"><strong>Producto:</strong> {{ stock.nombre }}</p>
+            <p class="mb-1"><strong>Color:</strong> {{ stock.color }}</p>
+            <p class="mb-1"><strong>Tipo Movimiento:</strong> {{ stock.tipoMovimiento }}</p>
+            <p class="mb-1"><strong>Cantidad:</strong> {{ stock.cantidad }}</p>
+            <p class="mb-1"><strong>Stock Final:</strong> {{ stock.stockFinal }}</p>
+            <p class="mb-1"><strong>Observación:</strong> {{ stock.observacion }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Si es escritorio se muestra como tabla en lugar de card -->
+      <div class="table-responsive d-none d-md-block">
+        <table class="table table-hover table-bordered align-middle">
+          <thead class="table-light">
+            <tr>
+              <th>Fecha</th>
+              <th>Tipo Producto</th>
+              <th>Producto</th>
+              <th>Color</th>
+              <th>Tipo Movimiento</th>
+              <th>Cantidad</th>
+              <th>Stock Final</th>
+              <th>Observación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(stock, index) in listaStock" :key="index" :class="{
+              'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
+              'fila-egreso': stock.tipoMovimiento === 'EGRESO',
+              'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
+            }">
+              <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
+              <td>{{ stock.tipoProducto }}</td>
+              <td>{{ stock.nombre }}</td>
+              <td>{{ stock.color }}</td>
+              <td>{{ stock.tipoMovimiento }}</td>
+              <td>{{ stock.cantidad }}</td>
+              <td class="fw-bold">{{ stock.stockFinal }}</td>
+              <td>{{ stock.observacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+
+      <!-- Paginación -->
+      <nav class="d-flex justify-content-center mt-4">
+        <ul class="pagination">
+          <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+            <button class="page-link" @click="cambiarPagina(paginaActual - 1)">
+              «
+            </button>
+          </li>
+
+          <li v-for="pagina in paginasTotales" :key="pagina" class="page-item"
+            :class="{ active: pagina === paginaActual }">
+            <button class="page-link" @click="cambiarPagina(pagina)">
+              {{ pagina }}
+            </button>
+          </li>
+
+          <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+            <button class="page-link" @click="cambiarPagina(paginaActual + 1)">
+              »
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
+  </div>
   </div>
   <div v-else>
     <RequiereLogin />
@@ -396,6 +355,18 @@ table.table tr.fila-compromiso td {
 .table thead th {
   line-height: 3;
 }
+
+/*Para que la tabla convertida a cards en móviles muestre los colores: */
+.card.fila-ingreso {
+  background-color: #aeeea7 !important;
+}
+.card.fila-egreso {
+  background-color: #f8d7d7 !important;
+}
+.card.fila-compromiso {
+  background-color: #ece39c !important;
+}
+
 
 /*El resto de los estilos están en el archivo styles.css porque son globales */
 </style>
