@@ -425,7 +425,10 @@ table.table tr.fila-compromiso td {
   background-color: #ece39c !important;
 }
 
-
-
+.card.fila-ingreso *,
+.card.fila-egreso *,
+.card.fila-compromiso * {
+  background-color: transparent !important;
+}
 /*El resto de los estilos están en el archivo styles.css porque son globales */
 </style>
