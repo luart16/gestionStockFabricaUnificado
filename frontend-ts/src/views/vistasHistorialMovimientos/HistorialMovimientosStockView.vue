@@ -415,15 +415,16 @@ table.table tr.fila-compromiso td {
 }
 
 /*Colores para tabla convertida a card en celular: */
-.card.fila-ingreso {
+.card.fila-ingreso .card-body {
   background-color: #aeeea7 !important;
 }
-.card.fila-egreso {
+.card.fila-egreso .card-body {
   background-color: #f8d7d7 !important;
 }
-.card.fila-compromiso {
+.card.fila-compromiso .card-body {
   background-color: #ece39c !important;
 }
+
 
 
 /*El resto de los estilos están en el archivo styles.css porque son globales */
