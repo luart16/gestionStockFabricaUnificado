@@ -56,8 +56,10 @@
             No hay datos disponibles para mostrar
           </p>
         </div>
+
         <div v-else>
-          <div class="table-responsive">
+          <!-- Tabla para vista en computadora -->
+          <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-bordered align-middle">
               <thead class="table-light">
                 <tr>
@@ -123,6 +125,43 @@
             </table>
           </div>
         </div>
+
+        <!-- Cards para vista en móviles -->
+          <div class="d-md-none">
+            <div
+              v-for="producto in productosExistentes"
+              :key="'card-' + producto._id"
+              class="card mb-3"
+            >
+              <div class="card-body">
+                <h5 class="card-title mb-2">{{ producto.nombre }} ({{ producto.tipoProducto }})</h5>
+                <p class="card-text mb-1"><strong>Color:</strong> {{ producto.color }}</p>
+                <p class="card-text mb-1"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+                <p class="card-text mb-1"><strong>Precio:</strong> {{ producto.precio }}</p>
+                <p class="card-text mb-1"><strong>Moldes:</strong> {{ producto.moldes }}</p>
+                <p class="card-text mb-1"><strong>M² por Molde:</strong> {{ producto.m2PorMolde }}</p>
+                <p class="card-text mb-1"><strong>M² totales:</strong> {{ producto.capacidadTotal }}</p>
+                <p class="card-text mb-1"><strong>Unidades por paquete:</strong> {{ producto.unidadesPorPaquete }}</p>
+                <p class="card-text mb-1"><strong>M² por paquete:</strong> {{ producto.m2PorPaquete }}</p>
+                <p class="card-text mb-1"><strong>Kg por paquete:</strong> {{ producto.kgPorPaquete }}</p>
+
+                <div class="mt-3">
+                  <button
+                    class="btn btn-outline-secondary me-2"
+                    @click="activarModalEditarProducto(producto._id)"
+                  >
+                    Editar
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    @click="activarModalEliminarrProducto(producto._id)"
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
 
         <!-- MODAL EDITAR PRODUCTO -->
         <div
