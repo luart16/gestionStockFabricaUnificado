@@ -15,8 +15,10 @@
         <div v-if="usuariosExistentes.length == 0">
           <p class="subtitulo-1 m-0 ">No hay datos disponibles para mostrar</p>
         </div>
+
         <div v-else>
-          <div class="table-responsive">
+          <!-- Tabla para pantallas de computadora -->
+          <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-bordered align-middle">
               <thead class="table-light">
                 <tr>
@@ -52,6 +54,24 @@
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          <!-- Vista tipo tarjeta para pantallas pequeñas -->
+          <div class="d-md-none">
+            <div v-for="usuario in usuariosExistentes" :key="'card-' + usuario._id" class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title mb-2">{{ usuario.nombreUsuario }}</h5>
+                <p class="card-text mb-1"><strong>Email:</strong> {{ usuario.email }}</p>
+                <p class="card-text mb-1"><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+                <p class="card-text mb-1"><strong>Rol:</strong> {{ usuario.rol }}</p>
+
+                <div v-if="store.Rol == 'administrador'" class="mt-2">
+                  <button class="btn btn-outline-secondary me-2"
+                    @click="activarModalEditar(usuario._id)">Editar</button>
+                  <button class="btn btn-danger" @click="activarModalEliminar(usuario._id)">Eliminar</button>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- MODAL EDITAR USUARIO -->
