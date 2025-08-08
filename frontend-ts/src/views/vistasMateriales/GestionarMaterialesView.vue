@@ -37,8 +37,8 @@
       </div>
       <div v-else>
 
-        <!-- Tabla Materiales -->
-        <div class="table-responsive">
+        <!-- Tabla Materiales para vista de computadora-->
+        <div class="table-responsive d-none d-md-block">
           <table class="table table-hover table-bordered align-middle">
             <thead class="table-light">
               <tr>
@@ -73,6 +73,28 @@
               </tr>
             </tbody>
           </table>
+        </div>
+
+         <!-- Vista tipo tarjeta para pantallas de celular -->
+        <div class="d-md-none">
+          <div
+            v-for="material in materialesExistentes"
+            :key="'card-' + material._id"
+            class="card mb-3"
+          >
+            <div class="card-body">
+              <h5 class="card-title mb-2">{{ material.nombreMaterial }} ({{ material.color }})</h5>
+              <p class="card-text mb-1"><strong>Descripción:</strong> {{ material.descripcion }}</p>
+              <p class="card-text mb-1"><strong>Precio:</strong> {{ material.precio }}</p>
+              <p class="card-text mb-1"><strong>Stock:</strong> {{ material.stock }}</p>
+
+              <!-- Mostrar botones solo si es admin -->
+              <div v-if="store.Rol == 'administrador'" class="mt-2">
+                <button class="btn btn-outline-secondary me-2" @click="activarModalEditarMaterial(material._id)">Editar</button>
+                <button class="btn btn-danger" @click="activarModalEliminarrMaterial(material._id)">Eliminar</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- MODAL EDITAR MATERIAL -->

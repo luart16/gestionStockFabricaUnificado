@@ -6,7 +6,7 @@
       <!-- Hero -->
       <section class="hero">
         <h1>Gestión inteligente para tu fábrica</h1>
-        <p>Visualizá ingresos, egresos y disponibilidad al instante.</p>
+        <p>Visualiza ingresos, egresos y disponibilidad al instante.</p>
       </section>
 
       <!-- Tarjetas de Productos -->
@@ -20,8 +20,8 @@
             alt="Piedra"
           >
           <div class="producto-info">
-            <h3>Piedras</h3>
-            <p>Controlá el stock de piedras decorativas</p>
+            <h3>PIEDRAS</h3>
+            <p>Explora todas las piedras decorativas con sus precios y stock</p>
             <!--Piedra ecológica liviana para construcción sustentable-->
           </div>
         </div>
@@ -35,8 +35,8 @@
             alt="Piso"
           >
           <div class="producto-info">
-            <h3>Pisos</h3>
-            <p>Visualizá los movimientos y cantidades</p> <!--Pisos flotantes evolution de alta calidad y durabilidad-->
+            <h3>PISOS</h3>
+            <p>Descubre todos los pisos disponibles y su stock actualizado</p> <!--Pisos flotantes evolution de alta calidad y durabilidad-->
           </div>
         </div>
 
@@ -49,8 +49,8 @@
             alt="Placa"
           >
           <div class="producto-info">
-            <h3>Placas</h3>
-            <p>Organizá la producción y entrega</p> <!--Placas anti-humedad para protección y aislamiento-->
+            <h3>PLACAS</h3>
+            <p>Encuentra todas las placas y consulta su disponibilidad</p> <!--Placas anti-humedad para protección y aislamiento-->
           </div>
         </div>
       </section>

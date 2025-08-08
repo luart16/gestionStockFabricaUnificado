@@ -31,7 +31,7 @@
           v-model="datoAFiltar"
           type="text"
           class="form-control"
-          placeholder="Buscar por tipo producto, nombre o color"
+          placeholder="Buscar por tipo producto, movimiento, nombre o color"
           style="max-width: 650px;"
         >
 
