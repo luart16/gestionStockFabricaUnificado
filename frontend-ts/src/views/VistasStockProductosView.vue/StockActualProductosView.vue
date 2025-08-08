@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="store.Logueado"
-    class="contenido-app"
-  >
+  <div v-if="store.Logueado" class="contenido-app">
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
       <div class="container py-4">
@@ -21,23 +18,14 @@
         <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
           <!-- Filtro -->
           <label class="form-label fw-semibold">Filtro:</label>
-          <input
-            v-model="datoAFiltar"
-            type="text"
-            class="form-control"
-            placeholder="Buscar por tipo producto, nombre o color"
-            style="max-width: 400px;"
-          >
+          <input v-model="datoAFiltar" type="text" class="form-control"
+            placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;">
 
           <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
             <label class="form-label me-2">Mostrar:</label>
-            <select
-              v-model="totalPorpagina"
-              class="form-select"
-              style="width: auto;"
-              @change="cambiarCantidadPorPagina"
-            >
+            <select v-model="totalPorpagina" class="form-select" style="width: auto;"
+              @change="cambiarCantidadPorPagina">
               <option :value="10">
                 10 por página
               </option>
@@ -52,19 +40,13 @@
 
           <!-- Botón exportar página -->
           <div class="d-flex align-items-end">
-            <button
-              class="btn btn-exportar-pagina"
-              @click="exportarAExcel"
-            >
+            <button class="btn btn-exportar-pagina" @click="exportarAExcel">
               Exportar Página
             </button>
           </div>
           <!-- Botón exportar todo -->
           <div class="d-flex align-items-end">
-            <button
-              class="btn btn-exportar-todo"
-              @click="exportarStockCompletoAExcel"
-            >
+            <button class="btn btn-exportar-todo" @click="exportarStockCompletoAExcel">
               Exportar Todo
             </button>
           </div>
@@ -77,23 +59,17 @@
         </div>
         <div v-else>
           <!-- Botones mostrar/ocultar -->
-          <div class="d-flex align-items-end gap-2">
-            <button
-              class="btn btn-outline-secondary"
-              @click="mostrarCapacidadProduccion = !mostrarCapacidadProduccion"
-            >
+          <div class="d-flex align-items-end gap-2 mb-3">
+            <button class="btn btn-outline-secondary" @click="mostrarCapacidadProduccion = !mostrarCapacidadProduccion">
               {{ mostrarCapacidadProduccion ? 'Ocultar' : 'Mostrar' }} Capacidad de Producción
             </button>
-            <button
-              class="btn btn-outline-secondary"
-              @click="mostrarEmbalaje = !mostrarEmbalaje"
-            >
+            <button class="btn btn-outline-secondary" @click="mostrarEmbalaje = !mostrarEmbalaje">
               {{ mostrarEmbalaje ? 'Ocultar' : 'Mostrar' }} Embalaje
             </button>
           </div>
 
-          <!--Tabla de stock:-->
-          <div class="table-responsive">
+          <!--Tabla de stock para vista en computadora:-->
+          <div class="table-responsive d-none d-md-block">
             <table class="table table-hover table-bordered align-middle">
               <thead class="table-light">
                 <tr>
@@ -107,19 +83,11 @@
                     Color
                   </th>
 
-                  <th
-                    v-if="mostrarCapacidadProduccion"
-                    colspan="3"
-                    class="text-center align-middle"
-                  >
+                  <th v-if="mostrarCapacidadProduccion" colspan="3" class="text-center align-middle">
                     Capacidad de Producción
                   </th>
 
-                  <th
-                    v-if="mostrarEmbalaje"
-                    colspan="3"
-                    class="text-center align-middle"
-                  >
+                  <th v-if="mostrarEmbalaje" colspan="3" class="text-center align-middle">
                     Embalaje
                   </th>
 
@@ -165,10 +133,7 @@
 
               <!--cuerpo de la tabla:-->
               <tbody>
-                <tr
-                  v-for="stock in listaStock"
-                  :key="stock._id"
-                >
+                <tr v-for="stock in listaStock" :key="stock._id">
                   <td class="resaltar-celda">
                     {{ stock.tipoProducto }}
                   </td>
@@ -201,54 +166,34 @@
 
                   <td>{{ stock.stockSinCompromiso }}</td>
                   <td>{{ stock.comprometido }}</td>
-                  <td
-                    :class="[
-                      'fw-bold resaltar-celda',
-                      stock.stockFinal < 0 ? 'text-danger' :
+                  <td :class="[
+                    'fw-bold resaltar-celda',
+                    stock.stockFinal < 0 ? 'text-danger' :
                       stock.stockFinal === 0 ? 'text-warning' :
-                      'text-success'
-                    ]"
-                  >
+                        'text-success'
+                  ]">
                     {{ stock.stockFinal }}
                   </td>
                   <td>
                     <div class="dropdown">
-                      <button
-                        class="btn btn-outline-secondary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                      >
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                         Opciones
                       </button>
                       <ul class="dropdown-menu">
                         <li>
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="abrirModal(stock, 'INGRESO')"
-                          >+
+                          <a class="dropdown-item" href="#" @click.prevent="abrirModal(stock, 'INGRESO')">+
                             Agregar</a>
                         </li>
                         <li>
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="abrirModal(stock, 'EGRESO')"
-                          >- Quitar</a>
+                          <a class="dropdown-item" href="#" @click.prevent="abrirModal(stock, 'EGRESO')">- Quitar</a>
                         </li>
                         <li>
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="abrirModal(stock, 'COMPROMETIDO')"
-                          >Reservar</a>
+                          <a class="dropdown-item" href="#"
+                            @click.prevent="abrirModal(stock, 'COMPROMETIDO')">Reservar</a>
                         </li>
                         <li>
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="abrirModal(stock, 'DESCOMPROMETIDO')"
-                          >Quitar Reserva</a>
+                          <a class="dropdown-item" href="#" @click.prevent="abrirModal(stock, 'DESCOMPROMETIDO')">Quitar
+                            Reserva</a>
                         </li>
                       </ul>
                     </div>
@@ -257,50 +202,81 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Cards para vista con móviles -->
+          <div class="d-md-none">
+            <div v-for="stock in listaStock" :key="'card-' + stock._id" class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title mb-2">
+                  {{ stock.nombre }} ({{ stock.tipoProducto }})
+                </h5>
+                <p class="card-text mb-1"><strong>Color:</strong> {{ stock.color }}</p>
+
+                <template v-if="mostrarCapacidadProduccion">
+                  <p class="card-text mb-1"><strong>Capacidad de Producción:</strong></p>
+                  <ul class="ps-3 mb-2">
+                    <li><strong>Moldes:</strong> {{ stock.moldes }}</li>
+                    <li><strong>M2/Molde:</strong> {{ stock.m2PorMolde }}</li>
+                    <li><strong>M2 totales:</strong> {{ stock.capacidadTotal }}</li>
+                  </ul>
+                </template>
+
+                <template v-if="mostrarEmbalaje">
+                  <p class="card-text mb-1"><strong>Embalaje:</strong></p>
+                  <ul class="ps-3 mb-2">
+                    <li><strong>Unid./paquete:</strong> {{ stock.unidadesPorPaquete }}</li>
+                    <li><strong>M2/paquete:</strong> {{ stock.m2PorPaquete }}</li>
+                    <li><strong>Kg/paquete:</strong> {{ stock.kgPorPaquete }}</li>
+                  </ul>
+                </template>
+
+                <p class="card-text mb-1"><strong>Stock Sin Reserva:</strong> {{ stock.stockSinCompromiso }}</p>
+                <p class="card-text mb-1"><strong>Stock Con Reserva:</strong> {{ stock.comprometido }}</p>
+                <p class="card-text mb-2 fw-bold" :class="{
+                  'text-danger': stock.stockFinal < 0,
+                  'text-warning': stock.stockFinal === 0,
+                  'text-success': stock.stockFinal > 0,
+                }">
+                  <strong>Stock Final:</strong> {{ stock.stockFinal }}
+                </p>
+
+                <div class="d-flex gap-2 flex-wrap">
+                  <button class="btn btn-outline-secondary flex-grow-1" @click="abrirModal(stock, 'INGRESO')">
+                    +
+                    Agregar
+                  </button>
+                  <button class="btn btn-outline-secondary flex-grow-1" @click="abrirModal(stock, 'EGRESO')">
+                    -
+                    Quitar
+                  </button>
+                  <button class="btn btn-outline-secondary flex-grow-1" @click="abrirModal(stock, 'COMPROMETIDO')">
+                    Reservar
+                  </button>
+                  <button class="btn btn-outline-secondary flex-grow-1" @click="abrirModal(stock, 'DESCOMPROMETIDO')">
+                    Quitar Reserva
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <!-- Paginacion-->
           <nav class="d-flex justify-content-center mt-4">
             <ul class="pagination">
-              <li
-                class="page-item"
-                :class="{ disabled: paginaActual === 1 }"
-              >
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="cambiarPagina(paginaActual - 1)"
-                >&laquo;</a>
+              <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
               </li>
-              <li
-                v-for="pagina in paginasTotales"
-                :key="pagina"
-                class="page-item"
-                :class="{ active: pagina === paginaActual }"
-              >
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="cambiarPagina(pagina)"
-                >{{ pagina }}</a>
+              <li v-for="pagina in paginasTotales" :key="pagina" class="page-item"
+                :class="{ active: pagina === paginaActual }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
               </li>
-              <li
-                class="page-item"
-                :class="{ disabled: paginaActual === paginasTotales }"
-              >
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="cambiarPagina(paginaActual + 1)"
-                >&raquo;</a>
+              <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
               </li>
             </ul>
           </nav>
 
-          <div
-            v-if="mostrarModal"
-            class="modal fade show d-block"
-            tabindex="-1"
-            style="background: rgba(0,0,0,0.5);"
-          >
+          <div v-if="mostrarModal" class="modal fade show d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
@@ -308,11 +284,7 @@
                     {{ tipoMovimiento === 'COMPROMETIDO' ? 'Reservar' : tipoMovimiento ===
                       'DESCOMPROMETIDO' ? 'Quitar Reserva' : tipoMovimiento === 'EGRESO' ? 'Quitar' : 'Agregar' }} Stock
                   </h5>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    @click="cerrarModal"
-                  />
+                  <button type="button" class="btn-close" @click="cerrarModal" />
                 </div>
                 <div class="modal-body">
                   <p>
@@ -321,33 +293,18 @@
                   </p>
                   <div class="mb-3">
                     <label class="form-label">Cantidad:</label>
-                    <input
-                      v-model.number="cantidadMovimiento"
-                      type="number"
-                      class="form-control"
-                      min="1"
-                    >
+                    <input v-model.number="cantidadMovimiento" type="number" class="form-control" min="1">
                   </div>
                   <div class="mb-3">
                     <label class="form-label">Observación:</label>
-                    <input
-                      v-model="observacion"
-                      type="text"
-                      class="form-control"
-                    >
+                    <input v-model="observacion" type="text" class="form-control">
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button
-                    class="btn btn-gris-a-blanco"
-                    @click="cerrarModal"
-                  >
+                  <button class="btn btn-gris-a-blanco" @click="cerrarModal">
                     Cancelar
                   </button>
-                  <button
-                    class="btn btn-rosa-a-blanco"
-                    @click="confirmarMovimiento"
-                  >
+                  <button class="btn btn-rosa-a-blanco" @click="confirmarMovimiento">
                     Confirmar
                   </button>
                 </div>
