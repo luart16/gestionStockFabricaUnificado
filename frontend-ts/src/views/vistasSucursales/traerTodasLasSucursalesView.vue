@@ -25,8 +25,10 @@
           No hay datos disponibles para mostrar
         </p>
       </div>
+
       <div v-else>
-        <div class="table-responsive">
+        <!-- Tabla para vista en computadora -->
+        <div class="table-responsive d-none d-md-block">
           <table class="table table-hover table-bordered align-middle">
             <thead class="table-light">
               <tr>
@@ -80,6 +82,36 @@
               </tr>
             </tbody>
           </table>
+        </div>
+
+        <!-- Cards para vista en móviles -->
+        <div class="d-md-none">
+          <div
+            v-for="sucursal in sucursalesExistentes"
+            :key="'card-' + sucursal._id"
+            class="card mb-3"
+          >
+            <div class="card-body">
+              <h5 class="card-title mb-2">{{ sucursal.nombreSucursal }}</h5>
+              <p class="card-text mb-1"><strong>Dirección:</strong> {{ sucursal.direccion }}</p>
+              <p class="card-text mb-1"><strong>Teléfono:</strong> {{ sucursal.telefono }}</p>
+
+              <div v-if="store.Rol == 'administrador'" class="mt-2">
+                <button
+                  class="btn btn-outline-secondary me-2"
+                  @click="activarModalEditar(sucursal._id)"
+                >
+                  Editar
+                </button>
+                <button
+                  class="btn btn-danger"
+                  @click="activarModalEliminar(sucursal._id)"
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- MODAL EDITAR SUCURSAL -->
