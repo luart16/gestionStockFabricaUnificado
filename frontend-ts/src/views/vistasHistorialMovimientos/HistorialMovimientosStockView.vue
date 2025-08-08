@@ -157,9 +157,9 @@
             :key="'card-' + index"
             class="card mb-3"
             :class="{
-              'border-success': stock.tipoMovimiento === 'INGRESO',
-              'border-danger': stock.tipoMovimiento === 'EGRESO',
-              'border-warning': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
+              'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
+              'fila-egreso': stock.tipoMovimiento === 'EGRESO',
+              'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
             }"
           >
             <div class="card-body">
@@ -425,10 +425,5 @@ table.table tr.fila-compromiso td {
   background-color: #ece39c !important;
 }
 
-.card.fila-ingreso *,
-.card.fila-egreso *,
-.card.fila-compromiso * {
-  background-color: transparent !important;
-}
 /*El resto de los estilos están en el archivo styles.css porque son globales */
 </style>
