@@ -41,7 +41,7 @@ export const calcularStockActual = async (req: Request, res: Response) => {
             nombre: producto.nombre,
             cantidad,
             observacion,
-            fecha: new Date(),
+            fecha: new Date().toLocaleDateString('es-ES', { timeZone: 'UTC' }),
             stockFinal: producto.stockFinal,
         })
         await movimientoStock.save();

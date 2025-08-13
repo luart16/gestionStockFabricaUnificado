@@ -67,7 +67,7 @@ export const crearProducto = async (req: Request, res: Response) => {
             tipoMovimiento: "INGRESO",
             cantidad: stockFinal,
             observacion: 'Creación de producto.',
-            fecha: new Date()
+            fecha: new Date().toLocaleDateString('es-ES', { timeZone: 'UTC' })
         })
         await movimientoStock.save();
         res.status(201).json({ message: 'Movimiento de stock y Producto creado exitosamente.' });
