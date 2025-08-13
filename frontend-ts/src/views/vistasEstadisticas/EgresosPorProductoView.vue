@@ -72,7 +72,6 @@ const fechaFinal = ref('')
 const listaMovimientos = ref<DatosHistorialMovimientosStock[]>([])
 const cargando = ref(true)
 
-const movimientosFiltradosIngreso = ref<DatosHistorialMovimientosStock[]>([])
 const movimientosFiltradosEgreso = ref<DatosHistorialMovimientosStock[]>([])
 
 const traerMovimientosEgresos = async () => {

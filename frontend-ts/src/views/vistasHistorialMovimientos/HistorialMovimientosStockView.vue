@@ -231,7 +231,6 @@ import * as XLSX from 'xlsx'
 
 import NavBar from '@/components/BarraNavegacion.vue'
 import RequiereLogin from '@/components/RequiereLogin.vue'
-import RequiereRol from '@/components/RequiereRol.vue'
 import { userStore } from '@/store/user'
 import { DatosHistorialMovimientosStock } from '@/modelos/historialMovimientoStock'
 import { servicioMovimientoStock } from '@/services/movimientoStock.service'
@@ -274,11 +273,11 @@ const traerStock = async () => {
     cargando.value = true
     // Convertir fechas a formato ISO sin ajustes de zona horaria
     const fechaInicioISO = fechaInicial.value
-      ? new Date(fechaInicial.value).toISOString().split('T')[0]
+      ? new Date(fechaInicial.value).toLocaleDateString('es-ES', { timeZone: 'UTC' }).split('T')[0]
       : ''
 
     const fechaFinISO = fechaFinal.value
-      ? new Date(fechaFinal.value).toISOString().split('T')[0]
+      ? new Date(fechaFinal.value).toLocaleDateString('es-ES', { timeZone: 'UTC' }).split('T')[0]
       : ''
 
     const respuesta = await servicioMovimientoStock.traerTodos(
