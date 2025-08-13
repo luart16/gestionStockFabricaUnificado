@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="store.Logueado"
-    class="contenido-app"
-  >
+  <div v-if="store.Logueado" class="contenido-app">
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
 
@@ -18,27 +15,17 @@
           </router-link>
         </div>
 
-        
         <!-- Filtro -->
         <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
           <label class="form-label fw-semibold">Filtro:</label>
-          <input
-            v-model="datoAFiltar"
-            type="text"
-            class="form-control"
-            placeholder="Buscar por tipo producto, nombre o color"
-            style="max-width: 400px;"
-          >
+          <input v-model="datoAFiltar" type="text" class="form-control"
+            placeholder="Buscar por tipo producto, nombre o color" style="max-width: 400px;">
 
           <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
             <label class="form-label me-2">Mostrar:</label>
-            <select
-              v-model="totalPorpagina"
-              class="form-select"
-              style="width: auto;"
-              @change="cambiarCantidadPorPagina"
-            >
+            <select v-model="totalPorpagina" class="form-select" style="width: auto;"
+              @change="cambiarCantidadPorPagina">
               <option :value="10">
                 10 por página
               </option>
@@ -78,10 +65,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr
-                  v-for="producto in productosExistentes"
-                  :key="producto._id"
-                >
+                <tr v-for="producto in productosExistentes" :key="producto._id">
                   <td>{{ producto.tipoProducto }}</td>
                   <td>{{ producto.nombre }}</td>
                   <td>{{ producto.color }}</td>
@@ -95,27 +79,17 @@
                   <td>{{ producto.kgPorPaquete }}</td>
                   <td>
                     <div class="dropdown">
-                      <button
-                        class="btn btn-outline-secondary dropdown-toggle"
-                        type="button"
-                        data-bs-toggle="dropdown"
-                      >
+                      <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
                         Opciones
                       </button>
                       <ul class="dropdown-menu">
                         <li>
-                          <a
-                            class="dropdown-item"
-                            href="#"
-                            @click.prevent="activarModalEditarProducto(producto._id)"
-                          >Editar</a>
+                          <a class="dropdown-item" href="#"
+                            @click.prevent="activarModalEditarProducto(producto._id)">Editar</a>
                         </li>
                         <li>
-                          <a
-                            class="dropdown-item text-danger"
-                            href="#"
-                            @click.prevent="activarModalEliminarrProducto(producto._id)"
-                          >Eliminar</a>
+                          <a class="dropdown-item text-danger" href="#"
+                            @click.prevent="activarModalEliminarrProducto(producto._id)">Eliminar</a>
                         </li>
                       </ul>
                     </div>
@@ -124,15 +98,10 @@
               </tbody>
             </table>
           </div>
-        </div>
 
-        <!-- Cards para vista en móviles -->
+          <!-- Cards para vista en móviles -->
           <div class="d-md-none">
-            <div
-              v-for="producto in productosExistentes"
-              :key="'card-' + producto._id"
-              class="card mb-3"
-            >
+            <div v-for="producto in productosExistentes" :key="'card-' + producto._id" class="card mb-3">
               <div class="card-body">
                 <h5 class="card-title mb-2">{{ producto.nombre }} ({{ producto.tipoProducto }})</h5>
                 <p class="card-text mb-1"><strong>Color:</strong> {{ producto.color }}</p>
@@ -146,16 +115,10 @@
                 <p class="card-text mb-1"><strong>Kg por paquete:</strong> {{ producto.kgPorPaquete }}</p>
 
                 <div class="mt-3">
-                  <button
-                    class="btn btn-outline-secondary me-2"
-                    @click="activarModalEditarProducto(producto._id)"
-                  >
+                  <button class="btn btn-outline-secondary me-2" @click="activarModalEditarProducto(producto._id)">
                     Editar
                   </button>
-                  <button
-                    class="btn btn-danger"
-                    @click="activarModalEliminarrProducto(producto._id)"
-                  >
+                  <button class="btn btn-danger" @click="activarModalEliminarrProducto(producto._id)">
                     Eliminar
                   </button>
                 </div>
@@ -163,32 +126,42 @@
             </div>
           </div>
 
+
+          <!-- Paginacion-->
+          <nav class="d-flex justify-content-center mt-4">
+            <ul class="pagination">
+              <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+              </li>
+              <li v-for="pagina in paginasTotales" :key="pagina" class="page-item"
+                :class="{ active: pagina === paginaActual }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+              </li>
+              <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+              </li>
+            </ul>
+          </nav>
+
+        </div>
+
+
+
         <!-- MODAL EDITAR PRODUCTO -->
-        <div
-          v-if="mostrarModalEditar"
-          class="modal fade show d-block"
-          tabindex="-1"
-          style="background: rgba(0,0,0,0.5);"
-        >
+        <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title">
                   Editar Producto
                 </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  @click="mostrarModalEditar = false"
-                />
+                <button type="button" class="btn-close" @click="mostrarModalEditar = false" />
               </div>
               <div class="modal-body">
                 <div class="mb-3">
                   <label class="form-label">Tipo de Producto</label>
-                  <select
-                    v-model="productoAEditar.tipoProducto"
-                    class="form-select"
-                  >
+                  <select v-model="productoAEditar.tipoProducto" class="form-select">
                     <option>Piedra</option>
                     <option>Placa</option>
                     <option>Piso</option>
@@ -197,41 +170,24 @@
 
                 <div class="mb-3">
                   <label class="form-label">Nombre</label>
-                  <input
-                    v-model="productoAEditar.nombre"
-                    type="text"
-                    class="form-control"
-                    @input="productoAEditar.nombre = productoAEditar.nombre.toUpperCase()"
-                  >
+                  <input v-model="productoAEditar.nombre" type="text" class="form-control"
+                    @input="productoAEditar.nombre = productoAEditar.nombre.toUpperCase()">
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label">Color</label>
-                  <input
-                    v-model="productoAEditar.color"
-                    type="text"
-                    class="form-control"
-                    @input="productoAEditar.color = productoAEditar.color.toUpperCase()"
-                  >
+                  <input v-model="productoAEditar.color" type="text" class="form-control"
+                    @input="productoAEditar.color = productoAEditar.color.toUpperCase()">
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label">Descripción</label>
-                  <input
-                    v-model="productoAEditar.descripcion"
-                    type="text"
-                    class="form-control"
-                  >
+                  <input v-model="productoAEditar.descripcion" type="text" class="form-control">
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label">Precio</label>
-                  <input
-                    v-model="productoAEditar.precio"
-                    type="number"
-                    step="0.01"
-                    class="form-control"
-                  >
+                  <input v-model="productoAEditar.precio" type="number" step="0.01" class="form-control">
                 </div>
 
                 <h6 class="fw-bold mt-3">
@@ -239,21 +195,12 @@
                 </h6>
                 <div class="mb-3">
                   <label class="form-label">Cantidad de Moldes</label>
-                  <input
-                    v-model="productoAEditar.moldes"
-                    type="number"
-                    class="form-control"
-                  >
+                  <input v-model="productoAEditar.moldes" type="number" class="form-control">
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label">M² por Molde</label>
-                  <input
-                    v-model="productoAEditar.m2PorMolde"
-                    type="number"
-                    step="0.01"
-                    class="form-control"
-                  >
+                  <input v-model="productoAEditar.m2PorMolde" type="number" step="0.01" class="form-control">
                 </div>
 
                 <h6 class="fw-bold mt-3">
@@ -261,44 +208,24 @@
                 </h6>
                 <div class="mb-3">
                   <label class="form-label">Unidades por Paquete</label>
-                  <input
-                    v-model="productoAEditar.unidadesPorPaquete"
-                    type="number"
-                    class="form-control"
-                  >
+                  <input v-model="productoAEditar.unidadesPorPaquete" type="number" class="form-control">
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label">M² por Paquete</label>
-                  <input
-                    v-model="productoAEditar.m2PorPaquete"
-                    type="number"
-                    step="0.01"
-                    class="form-control"
-                  >
+                  <input v-model="productoAEditar.m2PorPaquete" type="number" step="0.01" class="form-control">
                 </div>
 
                 <div class="mb-3">
                   <label class="form-label">Kg por Paquete</label>
-                  <input
-                    v-model="productoAEditar.kgPorPaquete"
-                    type="number"
-                    step="0.01"
-                    class="form-control"
-                  >
+                  <input v-model="productoAEditar.kgPorPaquete" type="number" step="0.01" class="form-control">
                 </div>
               </div>
               <div class="modal-footer">
-                <button
-                  class="btn btn-gris-a-blanco"
-                  @click="mostrarModalEditar = false"
-                >
+                <button class="btn btn-gris-a-blanco" @click="mostrarModalEditar = false">
                   Cancelar
                 </button>
-                <button
-                  class="btn btn-rosa-a-blanco"
-                  @click="mostrarModalConfirmarEdicion = true"
-                >
+                <button class="btn btn-rosa-a-blanco" @click="mostrarModalConfirmarEdicion = true">
                   Guardar
                 </button>
               </div>
@@ -307,38 +234,24 @@
         </div>
 
         <!-- MODAL CONFIRMAR GUARDAR CAMBIOS -->
-        <div
-          v-if="mostrarModalConfirmarEdicion"
-          class="modal fade show d-block"
-          tabindex="-1"
-          style="background: rgba(0,0,0,0.5);"
-        >
+        <div v-if="mostrarModalConfirmarEdicion" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title text-rosado">
                   ¿Desea guardar los cambios?
                 </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  @click="mostrarModalConfirmarEdicion = false"
-                />
+                <button type="button" class="btn-close" @click="mostrarModalConfirmarEdicion = false" />
               </div>
               <div class="modal-body">
                 <p>Se sobrescribirá la información del producto.</p>
               </div>
               <div class="modal-footer">
-                <button
-                  class="btn btn-gris-a-blanco"
-                  @click="mostrarModalConfirmarEdicion = false"
-                >
+                <button class="btn btn-gris-a-blanco" @click="mostrarModalConfirmarEdicion = false">
                   No
                 </button>
-                <button
-                  class="btn btn-rosa-a-blanco"
-                  @click="confirmarEdicion"
-                >
+                <button class="btn btn-rosa-a-blanco" @click="confirmarEdicion">
                   Sí, guardar
                 </button>
               </div>
@@ -346,40 +259,25 @@
           </div>
         </div>
 
-
         <!-- MODAL ELIMINAR PRODUCTO -->
-        <div
-          v-if="mostrarModalEliminar"
-          class="modal fade show d-block"
-          tabindex="-1"
-          style="background: rgba(0,0,0,0.5);"
-        >
+        <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
+          style="background: rgba(0,0,0,0.5);">
           <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title text-danger">
                   ¿Eliminar Producto?
                 </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  @click="mostrarModalEliminar = false"
-                />
+                <button type="button" class="btn-close" @click="mostrarModalEliminar = false" />
               </div>
               <div class="modal-body">
                 <p>Esta acción no se puede deshacer.</p>
               </div>
               <div class="modal-footer">
-                <button
-                  class="btn btn-secondary"
-                  @click="mostrarModalEliminar = false"
-                >
+                <button class="btn btn-secondary" @click="mostrarModalEliminar = false">
                   Cancelar
                 </button>
-                <button
-                  class="btn btn-danger"
-                  @click="eliminarProducto"
-                >
+                <button class="btn btn-danger" @click="eliminarProducto">
                   Eliminar
                 </button>
               </div>
@@ -388,37 +286,15 @@
           <!--Paginación-->
           <nav class="d-flex justify-content-center mt-4">
             <ul class="pagination">
-              <li
-                class="page-item"
-                :class="{ disabled: paginaActual === 1 }"
-              >
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="cambiarPagina(paginaActual - 1)"
-                >&laquo;</a>
+              <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
               </li>
-              <li
-                v-for="pagina in paginasTotales"
-                :key="pagina"
-                class="page-item"
-                :class="{ active: pagina === paginaActual }"
-              >
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="cambiarPagina(pagina)"
-                >{{ pagina }}</a>
+              <li v-for="pagina in paginasTotales" :key="pagina" class="page-item"
+                :class="{ active: pagina === paginaActual }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
               </li>
-              <li
-                class="page-item"
-                :class="{ disabled: paginaActual === paginasTotales }"
-              >
-                <a
-                  class="page-link"
-                  href="#"
-                  @click.prevent="cambiarPagina(paginaActual + 1)"
-                >&raquo;</a>
+              <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
               </li>
             </ul>
           </nav>
