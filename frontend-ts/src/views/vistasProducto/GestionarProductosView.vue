@@ -356,23 +356,30 @@ const productoAEditar = ref<DatosProductosEditar>({
 const productosExistentes = ref<DatosProductos[]>([]);
 
 const traerTodos = async () => {
-  try {
-    const respuesta = await servicioProducto.traerTodos(
-      paginaActual.value,
-      totalPorpagina.value,
-      datoAFiltar.value
-    );
+    try {
+        const respuesta = await servicioProducto.traerTodos(
+            paginaActual.value,
+            totalPorpagina.value,
+            datoAFiltar.value
+        );
 
-    productosExistentes.value = respuesta.resultados;
-    paginasTotales.value = respuesta.paginasTotales;
-    productosExistentes.value.sort(((a, b) =>
-      a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' })))
-    console.log(respuesta)
-  }
-  catch (error) {
-    console.error("Error al traer los productos:", error)
-  }
-}
+        productosExistentes.value = (respuesta.resultados as DatosProductos[]).sort(
+    (a: DatosProductos, b: DatosProductos) => {
+        const tipoCompare = a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' });
+        if (tipoCompare !== 0) {
+            return tipoCompare;
+        }
+        return a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
+    }
+);
+
+
+        paginasTotales.value = respuesta.paginasTotales;
+    } catch (error) {
+        console.error("Error al traer los productos:", error);
+    }
+};
+
 
 const activarModalEliminarrProducto = async (productoId: string) => {
   idProductoAEliminar.value = productoId;
