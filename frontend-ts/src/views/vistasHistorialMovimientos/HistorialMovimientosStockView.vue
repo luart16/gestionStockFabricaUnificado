@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="store.Logueado"
-    class="contenido-app"
-  >
+  <div v-if="store.Logueado" class="contenido-app">
     <NavBar />
     <div class="container py-4">
       <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
@@ -12,58 +9,32 @@
       </div>
 
       <!-- Cargando -->
-      <div
-        v-if="cargando"
-        class="text-center my-4"
-      >
-        <div
-          class="spinner-border"
-          role="status"
-          style="color: rgb(70, 40, 110); vertical-align: middle;"
-        />
+      <div v-if="cargando" class="text-center my-4">
+        <div class="spinner-border" role="status" style="color: rgb(70, 40, 110); vertical-align: middle;" />
         <span style="margin-left: 8px; vertical-align: middle;">Cargando...</span>
       </div>
 
       <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
         <label class="form-label fw-semibold">Filtro:</label>
 
-        <input
-          v-model="datoAFiltar"
-          type="text"
-          class="form-control"
-          placeholder="Buscar por tipo producto, movimiento, nombre o color"
-          style="max-width: 650px;"
-        >
+        <input v-model="datoAFiltar" type="text" class="form-control"
+          placeholder="Buscar por tipo producto, movimiento, nombre o color" style="max-width: 650px;">
 
         <div>
           <label class="form-label fw-semibold">Fecha inicial:</label>
-          <input
-            v-model="fechaInicial"
-            type="date"
-            class="form-control"
-          >
+          <input v-model="fechaInicial" type="date" class="form-control">
         </div>
 
         <div>
           <label class="form-label fw-semibold">Fecha final:</label>
-          <input
-            v-model="fechaFinal"
-            type="date"
-            class="form-control"
-          >
+          <input v-model="fechaFinal" type="date" class="form-control">
         </div>
 
         <div class="d-flex gap-2">
-          <button
-            class="btn btn-gris-a-blanco"
-            @click="traerStock"
-          >
+          <button class="btn btn-gris-a-blanco" @click="traerStock">
             Buscar
           </button>
-          <button
-            class="btn btn-gris-a-blanco"
-            @click="limpiarFechas"
-          >
+          <button class="btn btn-gris-a-blanco" @click="limpiarFechas">
             Limpiar Fechas
           </button>
         </div>
@@ -79,12 +50,8 @@
           <!-- Selector de cantidad por página -->
           <div class="d-flex align-items-end">
             <label class="form-label me-2">Mostrar:</label>
-            <select
-              v-model="totalPorpagina"
-              class="form-select"
-              style="width: auto;"
-              @change="cambiarCantidadPorPagina"
-            >
+            <select v-model="totalPorpagina" class="form-select" style="width: auto;"
+              @change="cambiarCantidadPorPagina">
               <option :value="10">10 por página</option>
               <option :value="20">20 por página</option>
               <option :value="50">50 por página</option>
@@ -93,20 +60,14 @@
 
           <!-- Botón exportar página -->
           <div class="d-flex align-items-end">
-            <button
-              class="btn btn-exportar-pagina"
-              @click="exportarAExcel"
-            >
+            <button class="btn btn-exportar-pagina" @click="exportarAExcel">
               Exportar Página
             </button>
           </div>
 
           <!-- Botón exportar todo -->
           <div class="d-flex align-items-end">
-            <button
-              class="btn btn-exportar-todo"
-              @click="exportarHistorialCompletoAExcel"
-            >
+            <button class="btn btn-exportar-todo" @click="exportarHistorialCompletoAExcel">
               Exportar Todo
             </button>
           </div>
@@ -128,15 +89,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr
-                v-for="(stock, index) in listaStock"
-                :key="index"
-                :class="{
-                  'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
-                  'fila-egreso': stock.tipoMovimiento === 'EGRESO',
-                  'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
-                }"
-              >
+              <tr v-for="(stock, index) in listaStock" :key="index" :class="{
+                'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
+                'fila-egreso': stock.tipoMovimiento === 'EGRESO',
+                'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
+              }">
                 <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
                 <td>{{ stock.tipoProducto }}</td>
                 <td>{{ stock.nombre }}</td>
@@ -152,19 +109,15 @@
 
         <!-- Vista tipo tarjeta para pantallas pequeñas -->
         <div class="d-md-none">
-          <div
-            v-for="(stock, index) in listaStock"
-            :key="'card-' + index"
-            class="card mb-3"
-            :class="{
-              'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
-              'fila-egreso': stock.tipoMovimiento === 'EGRESO',
-              'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
-            }"
-          >
+          <div v-for="(stock, index) in listaStock" :key="'card-' + index" class="card mb-3" :class="{
+            'fila-ingreso': stock.tipoMovimiento === 'INGRESO',
+            'fila-egreso': stock.tipoMovimiento === 'EGRESO',
+            'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
+          }">
             <div class="card-body">
               <h5 class="card-title mb-2">{{ stock.nombre }} ({{ stock.color }})</h5>
-              <p class="card-text mb-1"><strong>Fecha:</strong> {{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</p>
+              <p class="card-text mb-1"><strong>Fecha:</strong> {{ new Date(stock.fecha).toLocaleDateString('es-ES', {
+                timeZone: 'UTC' }) }}</p>
               <p class="card-text mb-1"><strong>Tipo Producto:</strong> {{ stock.tipoProducto }}</p>
               <p class="card-text mb-1"><strong>Movimiento:</strong> {{ stock.tipoMovimiento }}</p>
               <p class="card-text mb-1"><strong>Cantidad:</strong> {{ stock.cantidad }}</p>
@@ -177,40 +130,21 @@
         <!-- Paginación -->
         <nav class="d-flex justify-content-center mt-4">
           <ul class="pagination">
-            <li
-              class="page-item"
-              :class="{ disabled: paginaActual === 1 }"
-            >
-              <button
-                class="page-link"
-                @click="cambiarPagina(paginaActual - 1)"
-              >
+            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+              <button class="page-link" @click="cambiarPagina(paginaActual - 1)">
                 «
               </button>
             </li>
 
-            <li
-              v-for="pagina in paginasTotales"
-              :key="pagina"
-              class="page-item"
-              :class="{ active: pagina === paginaActual }"
-            >
-              <button
-                class="page-link"
-                @click="cambiarPagina(pagina)"
-              >
+            <li v-for="pagina in paginasTotales" :key="pagina" class="page-item"
+              :class="{ active: pagina === paginaActual }">
+              <button class="page-link" @click="cambiarPagina(pagina)">
                 {{ pagina }}
               </button>
             </li>
 
-            <li
-              class="page-item"
-              :class="{ disabled: paginaActual === paginasTotales }"
-            >
-              <button
-                class="page-link"
-                @click="cambiarPagina(paginaActual + 1)"
-              >
+            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+              <button class="page-link" @click="cambiarPagina(paginaActual + 1)">
                 »
               </button>
             </li>
@@ -272,13 +206,9 @@ const traerStock = async () => {
   try {
     cargando.value = true
     // Convertir fechas a formato ISO sin ajustes de zona horaria
-    const fechaInicioISO = fechaInicial.value
-      ? new Date(fechaInicial.value).toISOString().split('T')[0]
-      : ''
+    const fechaInicioISO = fechaInicial.value || ''
+    const fechaFinISO = fechaFinal.value || ''
 
-    const fechaFinISO = fechaFinal.value
-      ? new Date(fechaFinal.value).toISOString().split('T')[0]
-      : ''
 
     const respuesta = await servicioMovimientoStock.traerTodos(
       paginaActual.value,
@@ -417,9 +347,11 @@ table.table tr.fila-compromiso td {
 .card.fila-ingreso .card-body {
   background-color: #aeeea7 !important;
 }
+
 .card.fila-egreso .card-body {
   background-color: #f8d7d7 !important;
 }
+
 .card.fila-compromiso .card-body {
   background-color: #ece39c !important;
 }
