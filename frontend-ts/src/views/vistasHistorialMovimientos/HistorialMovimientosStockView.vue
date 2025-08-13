@@ -273,11 +273,11 @@ const traerStock = async () => {
     cargando.value = true
     // Convertir fechas a formato ISO sin ajustes de zona horaria
     const fechaInicioISO = fechaInicial.value
-      ? new Date(fechaInicial.value).toLocaleDateString('es-ES', { timeZone: 'UTC' }).split('T')[0]
+      ? new Date(fechaInicial.value).toISOString().split('T')[0]
       : ''
 
     const fechaFinISO = fechaFinal.value
-      ? new Date(fechaFinal.value).toLocaleDateString('es-ES', { timeZone: 'UTC' }).split('T')[0]
+      ? new Date(fechaFinal.value).toISOString().split('T')[0]
       : ''
 
     const respuesta = await servicioMovimientoStock.traerTodos(
