@@ -15,6 +15,7 @@
           </router-link>
         </div>
 
+
         <!-- Filtro -->
         <div class="d-flex mb-4 flex-wrap gap-3 align-items-end">
           <label class="form-label fw-semibold">Filtro:</label>
@@ -98,54 +99,34 @@
               </tbody>
             </table>
           </div>
+        </div>
 
-          <!-- Cards para vista en móviles -->
-          <div class="d-md-none">
-            <div v-for="producto in productosExistentes" :key="'card-' + producto._id" class="card mb-3">
-              <div class="card-body">
-                <h5 class="card-title mb-2">{{ producto.nombre }} ({{ producto.tipoProducto }})</h5>
-                <p class="card-text mb-1"><strong>Color:</strong> {{ producto.color }}</p>
-                <p class="card-text mb-1"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
-                <p class="card-text mb-1"><strong>Precio:</strong> {{ producto.precio }}</p>
-                <p class="card-text mb-1"><strong>Moldes:</strong> {{ producto.moldes }}</p>
-                <p class="card-text mb-1"><strong>M² por Molde:</strong> {{ producto.m2PorMolde }}</p>
-                <p class="card-text mb-1"><strong>M² totales:</strong> {{ producto.capacidadTotal }}</p>
-                <p class="card-text mb-1"><strong>Unidades por paquete:</strong> {{ producto.unidadesPorPaquete }}</p>
-                <p class="card-text mb-1"><strong>M² por paquete:</strong> {{ producto.m2PorPaquete }}</p>
-                <p class="card-text mb-1"><strong>Kg por paquete:</strong> {{ producto.kgPorPaquete }}</p>
+        <!-- Cards para vista en móviles -->
+        <div class="d-md-none">
+          <div v-for="producto in productosExistentes" :key="'card-' + producto._id" class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title mb-2">{{ producto.nombre }} ({{ producto.tipoProducto }})</h5>
+              <p class="card-text mb-1"><strong>Color:</strong> {{ producto.color }}</p>
+              <p class="card-text mb-1"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
+              <p class="card-text mb-1"><strong>Precio:</strong> {{ producto.precio }}</p>
+              <p class="card-text mb-1"><strong>Moldes:</strong> {{ producto.moldes }}</p>
+              <p class="card-text mb-1"><strong>M² por Molde:</strong> {{ producto.m2PorMolde }}</p>
+              <p class="card-text mb-1"><strong>M² totales:</strong> {{ producto.capacidadTotal }}</p>
+              <p class="card-text mb-1"><strong>Unidades por paquete:</strong> {{ producto.unidadesPorPaquete }}</p>
+              <p class="card-text mb-1"><strong>M² por paquete:</strong> {{ producto.m2PorPaquete }}</p>
+              <p class="card-text mb-1"><strong>Kg por paquete:</strong> {{ producto.kgPorPaquete }}</p>
 
-                <div class="mt-3">
-                  <button class="btn btn-outline-secondary me-2" @click="activarModalEditarProducto(producto._id)">
-                    Editar
-                  </button>
-                  <button class="btn btn-danger" @click="activarModalEliminarrProducto(producto._id)">
-                    Eliminar
-                  </button>
-                </div>
+              <div class="mt-3">
+                <button class="btn btn-outline-secondary me-2" @click="activarModalEditarProducto(producto._id)">
+                  Editar
+                </button>
+                <button class="btn btn-danger" @click="activarModalEliminarrProducto(producto._id)">
+                  Eliminar
+                </button>
               </div>
             </div>
           </div>
-
-
-          <!-- Paginacion-->
-          <nav class="d-flex justify-content-center mt-4">
-            <ul class="pagination">
-              <li class="page-item" :class="{ disabled: paginaActual === 1 }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
-              </li>
-              <li v-for="pagina in paginasTotales" :key="pagina" class="page-item"
-                :class="{ active: pagina === paginaActual }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
-              </li>
-              <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
-                <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
-              </li>
-            </ul>
-          </nav>
-
         </div>
-
-
 
         <!-- MODAL EDITAR PRODUCTO -->
         <div v-if="mostrarModalEditar" class="modal fade show d-block" tabindex="-1"
@@ -259,6 +240,7 @@
           </div>
         </div>
 
+
         <!-- MODAL ELIMINAR PRODUCTO -->
         <div v-if="mostrarModalEliminar" class="modal fade show d-block" tabindex="-1"
           style="background: rgba(0,0,0,0.5);">
@@ -299,6 +281,22 @@
             </ul>
           </nav>
         </div>
+
+        <!-- Paginación -->
+        <nav class="d-flex justify-content-center mt-4">
+          <ul class="pagination">
+            <li class="page-item" :class="{ disabled: paginaActual === 1 }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual - 1)">&laquo;</a>
+            </li>
+            <li v-for="pagina in paginasTotales" :key="pagina" class="page-item"
+              :class="{ active: pagina === paginaActual }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(pagina)">{{ pagina }}</a>
+            </li>
+            <li class="page-item" :class="{ disabled: paginaActual === paginasTotales }">
+              <a class="page-link" href="#" @click.prevent="cambiarPagina(paginaActual + 1)">&raquo;</a>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
     <div v-else>
@@ -356,30 +354,23 @@ const productoAEditar = ref<DatosProductosEditar>({
 const productosExistentes = ref<DatosProductos[]>([]);
 
 const traerTodos = async () => {
-    try {
-        const respuesta = await servicioProducto.traerTodos(
-            paginaActual.value,
-            totalPorpagina.value,
-            datoAFiltar.value
-        );
+  try {
+    const respuesta = await servicioProducto.traerTodos(
+      paginaActual.value,
+      totalPorpagina.value,
+      datoAFiltar.value
+    );
 
-        productosExistentes.value = (respuesta.resultados as DatosProductos[]).sort(
-    (a: DatosProductos, b: DatosProductos) => {
-        const tipoCompare = a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' });
-        if (tipoCompare !== 0) {
-            return tipoCompare;
-        }
-        return a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' });
-    }
-);
-
-
-        paginasTotales.value = respuesta.paginasTotales;
-    } catch (error) {
-        console.error("Error al traer los productos:", error);
-    }
-};
-
+    productosExistentes.value = respuesta.resultados;
+    paginasTotales.value = respuesta.paginasTotales;
+    productosExistentes.value.sort(((a, b) =>
+      a.tipoProducto.localeCompare(b.tipoProducto, 'es', { sensitivity: 'base' })))
+    console.log(respuesta)
+  }
+  catch (error) {
+    console.error("Error al traer los productos:", error)
+  }
+}
 
 const activarModalEliminarrProducto = async (productoId: string) => {
   idProductoAEliminar.value = productoId;
