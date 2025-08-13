@@ -38,7 +38,7 @@ export const crearProducto = async (req: Request, res: Response) => {
         // Calcular stock final
         const stockFinal: number = stockSinCompromiso - comprometido;
 
-       const capacidadTotal:number = moldes * m2PorMolde
+        const capacidadTotal: number = moldes * m2PorMolde
 
         const nuevoProducto = new Producto({
             tipoProducto,
@@ -48,26 +48,28 @@ export const crearProducto = async (req: Request, res: Response) => {
             precio,
             moldes,
             m2PorMolde,
-            capacidadTotal, 
+            capacidadTotal,
             unidadesPorPaquete,
             m2PorPaquete,
             kgPorPaquete,
             stockSinCompromiso,
             comprometido,
-            stockFinal,            
-                        
+            stockFinal,
+
         });
- 
+
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
         await nuevoProducto.save();
         const movimientoStock = new MovimientoStock({
             tipoProducto,
-            productoId:nuevoProducto._id,
+            productoId: nuevoProducto._id,
             nombre,
             color,
             tipoMovimiento: "INGRESO",
             cantidad: stockFinal,
             observacion: 'Creación de producto.',
-            fecha: new Date().toLocaleDateString('es-ES', { timeZone: 'UTC' })
+            fecha: hoy
         })
         await movimientoStock.save();
         res.status(201).json({ message: 'Movimiento de stock y Producto creado exitosamente.' });
@@ -75,8 +77,8 @@ export const crearProducto = async (req: Request, res: Response) => {
     }
     catch (error: any) {
         if (error.name === 'ValidationError') {
-             res.status(400).json({ error: error.message });
-             return
+            res.status(400).json({ error: error.message });
+            return
         }
         res.status(500).json({
             error: error.message || 'Error al crear el producto.'

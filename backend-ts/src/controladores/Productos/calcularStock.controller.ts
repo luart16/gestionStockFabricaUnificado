@@ -14,7 +14,7 @@ export const calcularStockActual = async (req: Request, res: Response) => {
         }
 
         if (tipoDeMovimiento == "INGRESO") {
-            producto.stockSinCompromiso = producto?.stockSinCompromiso + cantidad;           
+            producto.stockSinCompromiso = producto?.stockSinCompromiso + cantidad;
         }
 
         if (tipoDeMovimiento == "EGRESO") {
@@ -22,15 +22,16 @@ export const calcularStockActual = async (req: Request, res: Response) => {
         }
 
         if (tipoDeMovimiento == "COMPROMETIDO") {
-            producto.comprometido = producto?.comprometido + cantidad;            
+            producto.comprometido = producto?.comprometido + cantidad;
         }
         if (tipoDeMovimiento == "DESCOMPROMETIDO") {
             producto.comprometido = producto.comprometido - cantidad;
             if (producto.comprometido < 0) producto.comprometido = 0; // Evita valores negativos
-            
+
         }
         producto.stockFinal = producto?.stockSinCompromiso - producto.comprometido;
-
+        const hoy = new Date();
+        hoy.setHours(0, 0, 0, 0);
 
         const stockModificado = await producto.save();
         const movimientoStock = new MovimientoStock({
@@ -41,7 +42,7 @@ export const calcularStockActual = async (req: Request, res: Response) => {
             nombre: producto.nombre,
             cantidad,
             observacion,
-            fecha: new Date().toLocaleDateString('es-ES', { timeZone: 'UTC' }),
+            fecha: hoy,
             stockFinal: producto.stockFinal,
         })
         await movimientoStock.save();
