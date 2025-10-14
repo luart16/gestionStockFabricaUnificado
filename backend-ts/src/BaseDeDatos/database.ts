@@ -20,8 +20,8 @@ export const conectarDB = async () => {
     try {
        const MONGODB_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/tudb';
 mongoose.connect(MONGODB_URI)
-        .then(() => console.log('✅ Conectado a MongoDB Atlas'))
-        .catch((err: any) => console.error('❌ Error al conectar a MongoDB Atlas:', err));
+        .then(() => console.log('Conectado a MongoDB Atlas'))
+        .catch((err: any) => console.error('Error al conectar a MongoDB Atlas:', err));
     } catch (error) {
         console.error('Error al conectar a base de datos.', error);
     }

@@ -462,5 +462,12 @@ onMounted(() => {
   color: #ef5769 !important;
 }
 
+.table thead th {
+
+  font-size: 0.85rem;
+  /* Tamaño de fuente un poco más chico */
+
+}
+
 /*Resto de los estilos están en archivo globar style.css */
 </style>
