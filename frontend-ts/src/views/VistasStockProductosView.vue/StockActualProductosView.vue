@@ -148,10 +148,10 @@
                     {{ stock.moldes }}
                   </td>
                   <td v-if="mostrarCapacidadProduccion">
-                    {{ stock.m2PorMolde }}
+                    {{ Number(stock.m2PorMolde || 0).toFixed(2) }}
                   </td>
                   <td v-if="mostrarCapacidadProduccion">
-                    {{ stock.capacidadTotal }}
+                    {{ Number(stock.capacidadTotal || 0).toFixed(2) }}
                   </td>
 
                   <td v-if="mostrarEmbalaje">
@@ -216,8 +216,8 @@
                   <p class="card-text mb-1"><strong>Capacidad de Producción:</strong></p>
                   <ul class="ps-3 mb-2">
                     <li><strong>Moldes:</strong> {{ stock.moldes }}</li>
-                    <li><strong>M2/Molde:</strong> {{ stock.m2PorMolde }}</li>
-                    <li><strong>M2 totales:</strong> {{ stock.capacidadTotal }}</li>
+                    <li><strong>M2/Molde:</strong> {{ Number(stock.m2PorMolde || 0).toFixed(2) }}</li>
+                    <li><strong>M2 totales:</strong> {{ Number(stock.capacidadTotal || 0).toFixed(2) }}</li>
                   </ul>
                 </template>
 
