@@ -35,7 +35,7 @@ export const traerTodosLosMovimientosStock = async (req: Request, res: Response)
         }
 
         const movimientos = await MovimientoStock.find(query)
-            .sort({ fecha: -1, _id: -1 }) // Ordenar por fecha descendente y luego por id
+            .sort({ fecha: -1 }) // Ordenar por fecha descendente
             .skip((Number(pagina) - 1) * Number(limite))
             .limit(Number(limite));
 
@@ -56,7 +56,7 @@ export const traerTodosLosMovimientosStock = async (req: Request, res: Response)
 //traer todos los movimientos sin paginación:
 export const traerTodosLosMovimientosSinPaginacion = async (req: Request, res: Response) => {
     try {
-        const movimientos = await MovimientoStock.find().sort({ fecha: -1, _id: -1 });
+        const movimientos = await MovimientoStock.find().sort({ fecha: -1 });
         res.status(200).json(movimientos);
     } catch (error) {
         console.error(error);
