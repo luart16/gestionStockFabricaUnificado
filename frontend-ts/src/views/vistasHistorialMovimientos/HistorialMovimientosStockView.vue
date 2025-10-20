@@ -94,7 +94,7 @@
                 'fila-egreso': stock.tipoMovimiento === 'EGRESO',
                 'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
               }">
-                <td>{{ formatearFecha(stock.fecha) }}</td>
+                <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
                 <td>{{ stock.tipoProducto }}</td>
                 <td>{{ stock.nombre }}</td>
                 <td>{{ stock.color }}</td>
@@ -116,9 +116,8 @@
           }">
             <div class="card-body">
               <h5 class="card-title mb-2">{{ stock.nombre }} ({{ stock.color }})</h5>
-              <p class="card-text mb-1">
-                <strong>Fecha:</strong> {{ formatearFecha(stock.fecha) }}
-              </p>
+              <p class="card-text mb-1"><strong>Fecha:</strong> {{ new Date(stock.fecha).toLocaleDateString('es-ES', {
+                timeZone: 'UTC' }) }}</p>
               <p class="card-text mb-1"><strong>Tipo Producto:</strong> {{ stock.tipoProducto }}</p>
               <p class="card-text mb-1"><strong>Movimiento:</strong> {{ stock.tipoMovimiento }}</p>
               <p class="card-text mb-1"><strong>Cantidad:</strong> {{ stock.cantidad }}</p>
@@ -312,17 +311,6 @@ const exportarHistorialCompletoAExcel = async () => {
     alert('Error al exportar el historial completo.')
   }
 }
-
-// Formatear fecha (solo día/mes/año en horario Argentina)
-const formatearFecha = (fecha: string | Date) => {
-  if (!fecha) return '';
-  const fechaObj = fecha instanceof Date ? fecha : new Date(fecha);
-  return fechaObj.toLocaleDateString('es-AR', {
-    timeZone: 'America/Argentina/Buenos_Aires'
-  });
-};
-
-
 
 onMounted(() => {
   traerStock()
