@@ -73,8 +73,8 @@
                   <td>{{ producto.descripcion }}</td>
                   <td>{{ producto.precio }}</td>
                   <td>{{ producto.moldes }}</td>
-                  <td>{{ producto.m2PorMolde }}</td>
-                  <td>{{ producto.capacidadTotal }}</td>
+                  <td>{{ producto.m2PorMolde.toFixed(2) }}</td>
+                  <td>{{ producto.capacidadTotal.toFixed(2) }}</td>
                   <td>{{ producto.unidadesPorPaquete }}</td>
                   <td>{{ producto.m2PorPaquete }}</td>
                   <td>{{ producto.kgPorPaquete }}</td>
@@ -110,8 +110,8 @@
               <p class="card-text mb-1"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
               <p class="card-text mb-1"><strong>Precio:</strong> {{ producto.precio }}</p>
               <p class="card-text mb-1"><strong>Moldes:</strong> {{ producto.moldes }}</p>
-              <p class="card-text mb-1"><strong>M² por Molde:</strong> {{ producto.m2PorMolde }}</p>
-              <p class="card-text mb-1"><strong>M² totales:</strong> {{ producto.capacidadTotal }}</p>
+              <p class="card-text mb-1"><strong>M² por Molde:</strong> {{ producto.m2PorMolde.toFixed(2) }}</p>
+              <p class="card-text mb-1"><strong>M² totales:</strong> {{ producto.capacidadTotal.toFixed(2) }}</p>
               <p class="card-text mb-1"><strong>Unidades por paquete:</strong> {{ producto.unidadesPorPaquete }}</p>
               <p class="card-text mb-1"><strong>M² por paquete:</strong> {{ producto.m2PorPaquete }}</p>
               <p class="card-text mb-1"><strong>Kg por paquete:</strong> {{ producto.kgPorPaquete }}</p>
