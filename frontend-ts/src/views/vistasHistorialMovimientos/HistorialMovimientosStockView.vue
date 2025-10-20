@@ -94,7 +94,7 @@
                 'fila-egreso': stock.tipoMovimiento === 'EGRESO',
                 'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
               }">
-                <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
+                <td>{{ new Date(stock.fecha).toLocaleString('es-AR') }}</td>
                 <td>{{ stock.tipoProducto }}</td>
                 <td>{{ stock.nombre }}</td>
                 <td>{{ stock.color }}</td>
@@ -116,8 +116,8 @@
           }">
             <div class="card-body">
               <h5 class="card-title mb-2">{{ stock.nombre }} ({{ stock.color }})</h5>
-              <p class="card-text mb-1"><strong>Fecha:</strong> {{ new Date(stock.fecha).toLocaleDateString('es-ES', {
-                timeZone: 'UTC' }) }}</p>
+              <p class="card-text mb-1"><strong>Fecha:</strong> {{ new Date(stock.fecha).toLocaleString('es-AR') }}</p>
+
               <p class="card-text mb-1"><strong>Tipo Producto:</strong> {{ stock.tipoProducto }}</p>
               <p class="card-text mb-1"><strong>Movimiento:</strong> {{ stock.tipoMovimiento }}</p>
               <p class="card-text mb-1"><strong>Cantidad:</strong> {{ stock.cantidad }}</p>
