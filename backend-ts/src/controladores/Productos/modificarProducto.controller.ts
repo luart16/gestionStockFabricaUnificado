@@ -37,6 +37,7 @@ export const modificarProductoPorId = async (req: Request, res: Response) => {
         producto.moldes = moldes !== undefined ? moldes : producto.moldes;
         producto.m2PorMolde = m2PorMolde !== undefined ? m2PorMolde : producto.m2PorMolde;
         producto.unidadesPorPaquete = unidadesPorPaquete !== undefined ? unidadesPorPaquete : producto.unidadesPorPaquete;
+        producto.m2PorPaquete = m2PorPaquete !== undefined ? m2PorPaquete : producto.m2PorPaquete;
         producto.kgPorPaquete = kgPorPaquete !== undefined ? kgPorPaquete : producto.kgPorPaquete;
         producto.capacidadTotal = moldes * m2PorMolde
 
