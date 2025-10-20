@@ -31,7 +31,6 @@ export const calcularStockActual = async (req: Request, res: Response) => {
         }
         producto.stockFinal = producto?.stockSinCompromiso - producto.comprometido;
         const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
 
         const stockModificado = await producto.save();
         const movimientoStock = new MovimientoStock({

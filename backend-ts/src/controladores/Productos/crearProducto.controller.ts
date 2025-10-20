@@ -38,7 +38,7 @@ export const crearProducto = async (req: Request, res: Response) => {
         // Calcular stock final
         const stockFinal: number = stockSinCompromiso - comprometido;
 
-        const capacidadTotal: number = moldes * m2PorMolde
+        const capacidadTotal: number = moldes * m2PorMolde;
 
         const nuevoProducto = new Producto({
             tipoProducto,
@@ -58,9 +58,10 @@ export const crearProducto = async (req: Request, res: Response) => {
 
         });
 
-        const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
         await nuevoProducto.save();
+         // Guardo fecha y hora exactas:
+        const fechaMovimiento = new Date();
+
         const movimientoStock = new MovimientoStock({
             tipoProducto,
             productoId: nuevoProducto._id,
@@ -69,7 +70,7 @@ export const crearProducto = async (req: Request, res: Response) => {
             tipoMovimiento: "INGRESO",
             cantidad: stockFinal,
             observacion: 'Creación de producto.',
-            fecha: hoy
+            fecha: fechaMovimiento,
         })
         await movimientoStock.save();
         res.status(201).json({ message: 'Movimiento de stock y Producto creado exitosamente.' });
