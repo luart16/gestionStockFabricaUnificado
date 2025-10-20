@@ -58,9 +58,10 @@ export const crearProducto = async (req: Request, res: Response) => {
 
         });
 
-        const hoy = new Date();
-        hoy.setHours(0, 0, 0, 0);
         await nuevoProducto.save();
+// Guardar movimiento de stock con la hora real actual
+        const ahora = new Date(); // fecha y hora exacta
+
         const movimientoStock = new MovimientoStock({
             tipoProducto,
             productoId: nuevoProducto._id,
@@ -69,7 +70,7 @@ export const crearProducto = async (req: Request, res: Response) => {
             tipoMovimiento: "INGRESO",
             cantidad: stockFinal,
             observacion: 'Creación de producto.',
-            fecha: hoy
+            fecha: ahora
         })
         await movimientoStock.save();
         res.status(201).json({ message: 'Movimiento de stock y Producto creado exitosamente.' });

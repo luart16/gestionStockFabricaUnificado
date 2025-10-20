@@ -256,7 +256,6 @@ const crearProducto = async () => {
   }
 }
 
-
 </script>
 
 <style scoped>
