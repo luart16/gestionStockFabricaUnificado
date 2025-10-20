@@ -94,7 +94,7 @@
                 'fila-egreso': stock.tipoMovimiento === 'EGRESO',
                 'fila-compromiso': stock.tipoMovimiento === 'COMPROMETIDO' || stock.tipoMovimiento === 'DESCOMPROMETIDO'
               }">
-                <td>{{ new Date(stock.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }}</td>
+                <td>{{ new Date(stock.fecha).toLocaleDateString('es-AR', { timeZone: 'America/Argentina/Buenos_Aires' }) }}</td>
                 <td>{{ stock.tipoProducto }}</td>
                 <td>{{ stock.nombre }}</td>
                 <td>{{ stock.color }}</td>
