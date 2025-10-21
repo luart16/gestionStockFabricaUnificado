@@ -98,7 +98,7 @@
                     Stock<br>Con<br>Reserva
                   </th>
                   <th rowspan="2">
-                    Stock<br>Final
+                    Stock<br>Final<br>(M2)
                   </th>
                   <th rowspan="2">
                     Acciones
@@ -237,7 +237,7 @@
                   'text-warning': stock.stockFinal === 0,
                   'text-success': stock.stockFinal > 0,
                 }">
-                  <strong>Stock Final:</strong> {{ stock.stockFinal }}
+                  <strong>Stock Final M2:</strong> {{ stock.stockFinal }}
                 </p>
 
                 <div class="d-flex gap-2 flex-wrap">

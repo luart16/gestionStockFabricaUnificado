@@ -454,9 +454,7 @@ onMounted(() => {
 
 </script>
 
-<style>
-
-/* Título principal */
+<style scoped>
 .titulo {
   font-size: 36px;
   color: rgb(70, 40, 110);
@@ -464,30 +462,16 @@ onMounted(() => {
   font-family: 'Poppins', sans-serif;
 }
 
-/* Texto rosado */
 .text-rosado {
   color: #ef5769 !important;
 }
 
-/* Tabla */
 .table thead th {
-  font-size: 0.85rem; /* Tamaño de fuente un poco más chico */
+
+  font-size: 0.85rem;
+  /* Tamaño de fuente un poco más chico */
+
 }
 
-/* Ajuste de márgenes laterales para la vista principal */
-.contenido-app .container {
-  padding-left: 20px;   /* reduce el padding lateral interno */
-  padding-right: 20px;
-  margin: 0 auto;       /* mantiene el contenedor centrado */
-}
-
-/* En pantallas grandes, aumentamos el ancho máximo del contenedor */
-@media (min-width: 1200px) {
-  .contenido-app .container {
-    max-width: 1400px;  /* ancho mayor que el default de Bootstrap */
-  }
-}
-
-/*Resto de los estilos están en archivo global style.css */
-
+/*Resto de los estilos están en archivo globar style.css */
 </style>
