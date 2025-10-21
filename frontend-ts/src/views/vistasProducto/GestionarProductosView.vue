@@ -455,6 +455,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.contenido-app .container {
+  padding-left: 20px;  /* reduce el padding actual unos 2cm */
+  padding-right: 20px;
+}
+
+
 .titulo {
   font-size: 36px;
   color: rgb(70, 40, 110);
