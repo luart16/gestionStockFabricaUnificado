@@ -3,7 +3,7 @@
     <div v-if="store.Rol == 'administrador'">
       <NavBar />
 
-      <div class="container py-4">
+      <div class="container py-4" style="padding-left: 20px !important; padding-right: 20px !important;">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
           <h1 class="titulo">
             Productos
@@ -455,11 +455,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.contenido-app .container {
-  padding-left: 20px;  /* reduce el padding actual unos 2cm */
-  padding-right: 20px;
-}
-
 
 .titulo {
   font-size: 36px;
