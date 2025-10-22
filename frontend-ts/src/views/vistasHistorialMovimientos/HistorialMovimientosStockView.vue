@@ -203,32 +203,50 @@ const cambiarCantidadPorPagina = () => {
 const listaStock = ref<DatosHistorialMovimientosStock[]>([])
 const traerStock = async () => {
   try {
-    cargando.value = true
+    cargando.value = true;
+
+    // 🔍 Mostramos qué fechas tiene actualmente el filtro
+    console.log('Fechas seleccionadas:', {
+      fechaInicial: fechaInicial.value,
+      fechaFinal: fechaFinal.value
+    });
+
     // Convertir fechas a formato ISO sin ajustes de zona horaria
-    const fechaInicioISO = fechaInicial.value || ''
-    const fechaFinISO = fechaFinal.value || ''
+    const fechaInicioISO = fechaInicial.value || '';
+    const fechaFinISO = fechaFinal.value || '';
 
+    // 🔍 Mostramos exactamente qué se va a enviar al backend
+    console.log('Parámetros enviados al backend:', {
+      pagina: paginaActual.value,
+      totalPorpagina: totalPorpagina.value,
+      filtro: datoAFiltar.value,
+      fechaInicioISO,
+      fechaFinISO
+    });
 
+    // Petición al backend
     const respuesta = await servicioMovimientoStock.traerTodos(
       paginaActual.value,
       totalPorpagina.value,
       datoAFiltar.value,
       fechaInicioISO,
       fechaFinISO
-    )
+    );
 
-    listaStock.value = respuesta.resultados
-    paginasTotales.value = respuesta.paginasTotales
+    // 🔍 Mostramos qué devuelve el backend (solo los primeros 3 para no saturar)
+    console.log('Respuesta del backend (primeros 3 movimientos):', respuesta.resultados.slice(0, 3));
 
-    //ordeno la lista de movimientos por fecha más nueva a más antigua:
-    listaStock.value.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime())
+    // Guardamos y ordenamos los resultados
+    listaStock.value = respuesta.resultados;
+    paginasTotales.value = respuesta.paginasTotales;
 
+    listaStock.value.sort((a, b) => new Date(b.fecha).getTime() - new Date(a.fecha).getTime());
   } catch (error) {
-    console.error('Error al traer stock:', error)
+    console.error('Error al traer stock:', error);
   } finally {
-    cargando.value = false
+    cargando.value = false;
   }
-}
+};
 
 // Función debounce genérica (para filtrar mientras se escribe)
 function debounce<T extends (...args: unknown[]) => void>(func: T, delay: number) {
