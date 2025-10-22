@@ -54,7 +54,7 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label fw-semibold">Precio:</label>
+              <label class="form-label fw-semibold">Precio en $:</label>
               <input
                 v-model="materialACrear.precio"
                 type="number"
@@ -65,7 +65,7 @@
             </div>
 
             <div class="mb-3">
-              <label class="form-label fw-semibold">Stock:</label>
+              <label class="form-label fw-semibold">Stock en Unidades:</label>
               <input
                 v-model="materialACrear.stock"
                 type="number"
