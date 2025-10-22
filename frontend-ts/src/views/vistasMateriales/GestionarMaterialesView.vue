@@ -46,7 +46,7 @@
                 <th>Color</th>
                 <th>Descripción</th>
                 <th>Precio ($)</th>
-                <th>Stock<br/>(Unidad)</th>
+                <th>Stock (x Unidad)</th>
                 <th v-if="store.Rol == 'administrador'">Acciones</th>
               </tr>
             </thead>
@@ -126,7 +126,7 @@
                   <input type="number" step="0.01" class="form-control" v-model="materialAEditar.precio">
                 </div>
                 <div class="mb-3">
-                  <label class="form-label">Stock en $</label>
+                  <label class="form-label">Stock en Unidades</label>
                   <input type="number" step="0.01" class="form-control" v-model="materialAEditar.stock">
                 </div>
               </div>
