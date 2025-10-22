@@ -55,7 +55,7 @@
                   <th>Nombre</th>
                   <th>Color</th>
                   <th>Descripción</th>
-                  <th>Precio<br>en<br>$</th>
+                  <th>Precio<br>$</th>
                   <th>Moldes</th>
                   <th>M2<br>por<br>Molde</th>
                   <th>M2<br>totales</th>

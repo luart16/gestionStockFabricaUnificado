@@ -81,8 +81,8 @@
         <th>Nombre</th>
         <th>Color</th>
         <th>Descripción</th>
-        <th>Precio<br>en $</th>
-        <th>Stock<br>en<br>M2</th>
+        <th>Precio<br>$</th>
+        <th>Stock<br>M2</th>
       </tr>
     </thead>
     <tbody>

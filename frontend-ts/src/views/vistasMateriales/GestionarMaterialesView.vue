@@ -45,8 +45,8 @@
                 <th>Nombre de Material</th>
                 <th>Color</th>
                 <th>Descripción</th>
-                <th>Precio <br/>en $</th>
-                <th>Stock <br/>en Unidades</th>
+                <th>Precio en $</th>
+                <th>Stock en Unidades</th>
                 <th v-if="store.Rol == 'administrador'">Acciones</th>
               </tr>
             </thead>
