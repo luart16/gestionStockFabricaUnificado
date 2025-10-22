@@ -66,8 +66,8 @@
       <p class="mb-1"><strong>Nombre:</strong> {{ producto.nombre }}</p>
       <p class="mb-1"><strong>Color:</strong> {{ producto.color }}</p>
       <p class="mb-1"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
-      <p class="mb-1"><strong>Precio:</strong> {{ producto.precio }}</p>
-      <p class="mb-1"><strong>Stock:</strong> {{ producto.stockFinal }}</p>
+      <p class="mb-1"><strong>Precio: $</strong> {{ producto.precio }}</p>
+      <p class="mb-1"><strong>Stock en M2:</strong> {{ producto.stockFinal }}</p>
     </div>
   </div>
 </div>
@@ -81,8 +81,8 @@
         <th>Nombre</th>
         <th>Color</th>
         <th>Descripción</th>
-        <th>Precio</th>
-        <th>Stock</th>
+        <th>Precio<br>en $</th>
+        <th>Stock<br>en<br>M2</th>
       </tr>
     </thead>
     <tbody>

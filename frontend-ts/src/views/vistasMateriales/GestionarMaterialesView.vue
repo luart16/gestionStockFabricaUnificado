@@ -45,8 +45,8 @@
                 <th>Nombre de Material</th>
                 <th>Color</th>
                 <th>Descripción</th>
-                <th>Precio</th>
-                <th>Stock</th>
+                <th>Precio <br/>en $</th>
+                <th>Stock <br/>en Unidades</th>
                 <th v-if="store.Rol == 'administrador'">Acciones</th>
               </tr>
             </thead>
@@ -85,8 +85,8 @@
             <div class="card-body">
               <h5 class="card-title mb-2">{{ material.nombreMaterial }} ({{ material.color }})</h5>
               <p class="card-text mb-1"><strong>Descripción:</strong> {{ material.descripcion }}</p>
-              <p class="card-text mb-1"><strong>Precio:</strong> {{ material.precio }}</p>
-              <p class="card-text mb-1"><strong>Stock:</strong> {{ material.stock }}</p>
+              <p class="card-text mb-1"><strong>Precio en $:</strong> {{ material.precio }}</p>
+              <p class="card-text mb-1"><strong>Stock en Unidades:</strong> {{ material.stock }}</p>
 
               <!-- Mostrar botones solo si es admin -->
               <div v-if="store.Rol == 'administrador'" class="mt-2">
@@ -122,11 +122,11 @@
                   <input type="text" class="form-control" v-model="materialAEditar.descripcion">
                 </div>
                 <div class="mb-3">
-                  <label class="form-label">Precio</label>
+                  <label class="form-label">Precio en $</label>
                   <input type="number" step="0.01" class="form-control" v-model="materialAEditar.precio">
                 </div>
                 <div class="mb-3">
-                  <label class="form-label">Stock</label>
+                  <label class="form-label">Stock en $</label>
                   <input type="number" step="0.01" class="form-control" v-model="materialAEditar.stock">
                 </div>
               </div>

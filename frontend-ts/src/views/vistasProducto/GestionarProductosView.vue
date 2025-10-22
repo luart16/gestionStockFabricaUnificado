@@ -55,7 +55,7 @@
                   <th>Nombre</th>
                   <th>Color</th>
                   <th>Descripción</th>
-                  <th>Precio</th>
+                  <th>Precio<br>en<br>$</th>
                   <th>Moldes</th>
                   <th>M2<br>por<br>Molde</th>
                   <th>M2<br>totales</th>
@@ -109,7 +109,7 @@
               <h5 class="card-title mb-2">{{ producto.nombre }} ({{ producto.tipoProducto }})</h5>
               <p class="card-text mb-1"><strong>Color:</strong> {{ producto.color }}</p>
               <p class="card-text mb-1"><strong>Descripción:</strong> {{ producto.descripcion }}</p>
-              <p class="card-text mb-1"><strong>Precio:</strong> {{ producto.precio }}</p>
+              <p class="card-text mb-1"><strong>Precio: $</strong> {{ producto.precio }}</p>
               <p class="card-text mb-1"><strong>Moldes:</strong> {{ producto.moldes }}</p>
               <p class="card-text mb-1"><strong>M² por Molde:</strong> {{ Number(producto.m2PorMolde || 0).toFixed(2) }}
               </p>
@@ -171,7 +171,7 @@
                 </div>
 
                 <div class="mb-3">
-                  <label class="form-label">Precio</label>
+                  <label class="form-label">Precio en $</label>
                   <input v-model="productoAEditar.precio" type="number" step="0.01" class="form-control">
                 </div>
 
