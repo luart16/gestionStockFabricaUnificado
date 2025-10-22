@@ -6,21 +6,22 @@ export const traerTodosLosMovimientosStock = async (req: Request, res: Response)
     try {
         const { pagina = 1, limite = 10, datoAFiltar = '', tipoMovimiento = '', fechaInicio, fechaFinal } = req.query;
 
-        const inicio = fechaInicio ? new Date(`${fechaInicio}T00:00:00.000Z`) : null;
-        const final = fechaFinal ? new Date(`${fechaFinal}T23:59:59.999Z`): null;
+        // Convertimos fechas sin el sufijo Z para evitar desfase UTC
+        const inicio = fechaInicio ? new Date(`${fechaInicio}T00:00:00`) : null;
+        const final = fechaFinal ? new Date(`${fechaFinal}T23:59:59.999`) : null;
 
         let query: any = {};
 
         // Filtro por rango de fechas (opcional)
         if (inicio || final) {
-            query.fecha = {}
+            query.fecha = {};
             if (inicio) {
                 // Mayor o igual a la fecha inicial
-                query.fecha.$gte = inicio
+                query.fecha.$gte = inicio;
             }
             if (final) {
                 // Menor o igual a la fecha final
-                query.fecha.$lte = final
+                query.fecha.$lte = final;
             }
         }
 
@@ -63,7 +64,5 @@ export const traerTodosLosMovimientosSinPaginacion = async (req: Request, res: R
         res.status(500).json({ error: 'Error al traer todos los movimientos de stock' });
     }
 };
-
-
 
 
